@@ -33,7 +33,7 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    component: () => import('@/views/login/Login'),
     hidden: true
   },
 
@@ -46,13 +46,15 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/welcome',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
+      path: 'welcome',
+      name: 'Welcome',
+      component: () => import('@/views/welcome/Welcome'),
+      meta: { title: 'Welcome', icon: 'dashboard', breadcrumb: false }
+    }],
+    hidden: true
+
   },
 
   {
@@ -154,7 +156,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://gitee.com/RisingWaves/',
+        path: 'http://www.hihoulang.com/',
         meta: { title: 'External Link', icon: 'link' }
       }
     ]

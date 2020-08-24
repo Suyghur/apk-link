@@ -1,19 +1,19 @@
 <template>
-  <div id="channel_id">
-    <TaskSearchDrawer @search="search" />
+  <div id="linking_bag">
+    <TaskSearchDrawer />
     <el-divider />
-    <ChannelSdkTable :list="list" />
+    <LinkingBagTable :list="list" />
   </div>
 </template>
 
 <script>
+import { getLinkingBag } from '@/api/game'
 import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
-import ChannelSdkTable from '@/components/tables/sdk/ChannelSdkTable'
-import { getChannelSdkList } from '@/api/sdk'
+import LinkingBagTable from '@/components/tables/game/LinkingBagTable'
 
 export default {
-  name: 'ChannelSdk',
-  components: { TaskSearchDrawer, ChannelSdkTable },
+  name: 'LinkingBag',
+  components: { LinkingBagTable, TaskSearchDrawer },
   data() {
     return {
       list: null,
@@ -25,9 +25,9 @@ export default {
   },
   methods: {
     fetchData() {
-      getChannelSdkList().then(response => {
+      getLinkingBag().then(response => {
         console.log(response)
-        this.list = response.data.channel_sdk
+        this.list = response.data.linking_bag
         this.listLoading = false
       })
     },

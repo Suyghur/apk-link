@@ -1,19 +1,19 @@
 <template>
-  <div id="channel_id">
-    <TaskSearchDrawer @search="search" />
+  <div id="keystore">
+    <TaskSearchDrawer />
     <el-divider />
-    <ChannelSdkTable :list="list" />
+    <KeystoreTable :list="list" />
   </div>
 </template>
 
 <script>
+import { getKeystoreList } from '@/api/game'
 import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
-import ChannelSdkTable from '@/components/tables/sdk/ChannelSdkTable'
-import { getChannelSdkList } from '@/api/sdk'
+import KeystoreTable from '@/components/tables/game/KeystoreTable'
 
 export default {
-  name: 'ChannelSdk',
-  components: { TaskSearchDrawer, ChannelSdkTable },
+  name: 'KeyStore',
+  components: { KeystoreTable, TaskSearchDrawer },
   data() {
     return {
       list: null,
@@ -25,9 +25,9 @@ export default {
   },
   methods: {
     fetchData() {
-      getChannelSdkList().then(response => {
+      getKeystoreList().then(response => {
         console.log(response)
-        this.list = response.data.channel_sdk
+        this.list = response.data.keystore
         this.listLoading = false
       })
     },

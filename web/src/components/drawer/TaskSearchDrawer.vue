@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-button type="primary" @click="dialog = true">设置条件</el-button>
-    <el-button type="primary">开始筛选</el-button>
+    <el-button type="primary" style="margin-left: 20px" @click="dialog = true">设置条件</el-button>
+    <el-button type="primary" @click="search">开始筛选</el-button>
     <el-drawer
       ref="drawer"
       :before-close="handleClose"
@@ -110,6 +110,10 @@ export default {
       this.loading = false
       this.dialog = false
       clearTimeout(this.timer)
+    },
+    search() {
+      console.log('bbbb')
+      this.$emit('search')
     }
   }
 }

@@ -1,3 +1,10 @@
+const channel = ['后浪（houalng）', '应用宝（yyb）', 'UC九游（uc）', '小米（mi）',
+  '魅族（meizu）', '华为（huawei）', 'Oppo（oppo）', 'Vivo（vivo）']
+
+const plugin = ['广点通', '头条', '快手', '百度cps']
+const game = ['测试游戏1', '测试游戏2', '测试游戏3', '测试游戏4']
+const status = ['未执行', '执行中', '已执行', '执行失败']
+
 /**
  * @param {string} url
  * @returns {Object}
@@ -20,6 +27,14 @@ function param2Obj(url) {
   return obj
 }
 
+const developer = ['麦锦培', '技术1', '技术2', '技术3']
+
 module.exports = {
-  param2Obj
+  param2Obj,
+  plugin,
+  game,
+  channel,
+  developer,
+  status
 }
+

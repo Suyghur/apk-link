@@ -51,9 +51,9 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
+        'published': 'success',
+        'draft': 'gray',
+        'deleted': 'danger'
       }
       return statusMap[status]
     }
@@ -71,6 +71,7 @@ export default {
     fetchData() {
       this.listLoading = true
       getList().then(response => {
+        console.log(response.data)
         this.list = response.data.items
         this.listLoading = false
       })

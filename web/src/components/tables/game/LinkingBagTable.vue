@@ -4,33 +4,33 @@
       :data="list"
       height="800"
       border
+      fit
       highlight-current-row
       element-loading-text="Loading"
     >
-      <el-table-column align="center" label="日期">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.create_time }}</span>
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="任务ID">
         <template slot-scope="scope">
           {{ scope.row.task_id }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="游戏名">
+      <el-table-column align="center" label="游戏">
         <template slot-scope="scope">
           {{ scope.row.game }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="渠道">
+      <el-table-column align="center" label="游戏版本">
         <template slot-scope="scope">
-          {{ scope.row.channel }}
+          {{ scope.row.game_version }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="聚合SDK版本">
         <template slot-scope="scope">
           {{ scope.row.fuse_version }}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="渠道SDK">
+        <template slot-scope="scope">
+          {{ scope.row.channel }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="渠道SDK版本">
@@ -48,32 +48,29 @@
           {{ scope.row.aid }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="状态">
+      <el-table-column align="center" label="最后修改日期">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter" effect="plain" size="medium">{{ scope.row.status
-          }}
+          <i class="el-icon-time" />
+          <span>{{ scope.row.modify_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="分发申请人">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.modify_person" effect="plain" size="medium">{{ scope.row.modify_person }}
           </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="URL" width="500">
+        <template slot-scope="scope">
+          <a href="http://www.hihoulang.com" target="view_window"> {{ scope.row.url }}</a>
         </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
-
 <script>
-
 export default {
-  name: 'TaskTable',
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        未执行: 'warning',
-        执行中: 'gray',
-        已执行: 'success',
-        执行失败: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
+  name: 'LinkingBagTable',
   props: {
     list: {
       type: Array,

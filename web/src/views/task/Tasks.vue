@@ -1,19 +1,19 @@
 <template>
-  <div id="channel_id">
+  <div id="tasks">
     <TaskSearchDrawer @search="search" />
     <el-divider />
-    <ChannelSdkTable :list="list" />
+    <TaskTable :list="list" />
   </div>
 </template>
 
 <script>
 import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
-import ChannelSdkTable from '@/components/tables/sdk/ChannelSdkTable'
-import { getChannelSdkList } from '@/api/sdk'
+import TaskTable from '@/components/tables/TaskTable'
+import { getTaskList } from '@/api/task'
 
 export default {
-  name: 'ChannelSdk',
-  components: { TaskSearchDrawer, ChannelSdkTable },
+  name: 'Tasks',
+  components: { TaskTable, TaskSearchDrawer },
   data() {
     return {
       list: null,
@@ -25,9 +25,10 @@ export default {
   },
   methods: {
     fetchData() {
-      getChannelSdkList().then(response => {
+      this.listLoading = true
+      getTaskList().then(response => {
         console.log(response)
-        this.list = response.data.channel_sdk
+        this.list = response.data.tasks
         this.listLoading = false
       })
     },

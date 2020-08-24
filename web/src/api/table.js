@@ -7,3 +7,11 @@ export function getList(params) {
     params
   })
 }
+
+export function getTasks(params) {
+  return request({
+    url: '/table/tasks',
+    method: 'get',
+    params
+  })
+}

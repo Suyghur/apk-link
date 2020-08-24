@@ -89,7 +89,7 @@ describe('Breadcrumb.vue', () => {
   //   const redirectBreadcrumb = breadcrumbArray.at(2)
   //   expect(redirectBreadcrumb.contains('a')).toBe(false)
   // })
-  it('last breadcrumb', () => {
+  it('last Breadcrumb', () => {
     router.push('/menu/menu1/menu1-2/menu1-2-1')
     const breadcrumbArray = wrapper.findAll('.el-breadcrumb__inner')
     const redirectBreadcrumb = breadcrumbArray.at(3)

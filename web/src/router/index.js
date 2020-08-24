@@ -5,6 +5,9 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import { SdkRouterMap } from '@/router/module/sdk'
+import { ScriptRouterMap } from '@/router/module/script'
+import { BagRouterMap } from '@/router/module/bag'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -57,6 +60,22 @@ export const constantRoutes = [
 
   },
 
+  {
+    path: '/task',
+    component: Layout,
+    redirect: '/task/infos',
+    children: [
+      {
+        path: 'infos',
+        name: 'Infos',
+        component: () => import('@/views/task/Infos'),
+        meta: { title: '打包任务管理', icon: 'el-icon-s-help' }
+      }
+    ]
+  },
+  SdkRouterMap,
+  ScriptRouterMap,
+  BagRouterMap,
   {
     path: '/example',
     component: Layout,

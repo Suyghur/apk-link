@@ -1,4 +1,3 @@
-
 const tokens = {
   admin: {
     token: 'admin-token'
@@ -35,14 +34,20 @@ module.exports = [
       // mock error
       if (!token) {
         return {
-          code: 60204,
-          message: 'Account and password are incorrect.'
+          code: 403,
+          msg: '账号密码验证失败，请检查',
+          data: {
+
+          }
         }
       }
 
       return {
-        code: 20000,
-        data: token
+        code: 200,
+        msg: 'success',
+        data: {
+          token: 'admin-token'
+        }
       }
     }
   },
@@ -58,13 +63,13 @@ module.exports = [
       // mock error
       if (!info) {
         return {
-          code: 50008,
+          code: 403,
           message: 'Login failed, unable to get user details.'
         }
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: info
       }
     }
@@ -76,7 +81,7 @@ module.exports = [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        code: 200,
         data: 'success'
       }
     }

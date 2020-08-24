@@ -5,6 +5,7 @@
       :data="list"
       element-loading-text="Loading"
       border
+      height="800"
       fit
       highlight-current-row
     >

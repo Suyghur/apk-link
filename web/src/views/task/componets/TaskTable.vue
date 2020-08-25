@@ -56,7 +56,7 @@
           <span>{{ scope.row.modify_time }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" width="300">
+      <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.status==='未执行'"
@@ -64,12 +64,18 @@
             @click="handleExecute(scope.row,'执行中')"
           >执行
           </el-button>
-          <el-button
+          <el-popconfirm
             v-if="scope.row.status==='执行中'"
-            size="mini"
-            @click="handleExecute(scope.row,'未执行')"
-          >取消
-          </el-button>
+            confirm-button-text="确定"
+            cancel-button-text="点错了"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定取消该任务吗？"
+            @onConfirm="handleExecute(scope.row,'未执行')"
+          >
+            <el-button slot="reference" size="mini">取消</el-button>
+          </el-popconfirm>
+
           <router-link :to="'/task/detail/'+scope.row.task_id">
             <el-button
               v-if="scope.row.status==='成功'"
@@ -88,9 +94,22 @@
             >编辑
             </el-button>
           </router-link>
-          <el-button size="mini" type="danger" style="margin-left: 5px" @click="handleDelete(scope.$index, scope.row)">
-            删除
-          </el-button>
+          <el-popconfirm
+            v-if="scope.row.status!='成功'"
+            confirm-button-text="确定"
+            cancel-button-text="点错了"
+            icon="el-icon-info"
+            icon-color="red"
+            title="确定删除该任务吗？"
+            @onConfirm="handleDelete(scope.$index, scope.row)"
+          >
+            <el-button slot="reference" size="mini" type="danger" style="margin-left: 5px">
+              删除
+            </el-button>
+          </el-popconfirm>
+          <!--          <el-button size="mini" type="danger" style="margin-left: 5px" @click="handleDelete(scope.$index, scope.row)">-->
+          <!--            删除-->
+          <!--          </el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -130,6 +149,7 @@ export default {
       console.log('idnex : ', index)
     },
     handleDelete(index, row) {
+      this.popconfirm
       this.$notify({
         title: 'Success',
         message: '删除成功',

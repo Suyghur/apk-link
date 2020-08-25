@@ -29,7 +29,6 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
-
 // response interceptor
 service.interceptors.response.use(
   /**
@@ -69,6 +68,7 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.message || 'Error'))
     } else {
+      console.log(res)
       return res
     }
   },

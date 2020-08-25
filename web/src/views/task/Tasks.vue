@@ -1,15 +1,15 @@
 <template>
   <div id="tasks">
-    <TaskPanelHead :list="list" />
+    <TaskPanelHead :options="options" />
     <el-divider />
     <TaskTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskPanelHead from '@/components/head/TaskPanelHead'
-import TaskTable from '@/components/tables/TaskTable'
-import { getTaskList } from '@/api/task'
+import TaskPanelHead from '@/views/task/componets/TaskPanelHead'
+import TaskTable from '@/views/task/componets/TaskTable'
+import { getSelectOptions, getTaskList } from '@/api/task'
 
 export default {
   name: 'Tasks',
@@ -17,19 +17,34 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      options: {
+        gameOptions: [],
+        channelOptions: [],
+        pluginOptions: [],
+        statusOptions: []
+      }
     }
   },
   created() {
     this.fetchData()
+    this.fetchSelectOptions()
   },
   methods: {
     fetchData() {
       this.listLoading = true
       getTaskList().then(response => {
-        console.log(response)
         this.list = response.data.tasks
         this.listLoading = false
+      })
+    },
+
+    fetchSelectOptions() {
+      getSelectOptions().then(response => {
+        this.options.gameOptions = response.data.game_group
+        this.options.channelOptions = response.data.channel
+        this.options.pluginOptions = response.data.plugin
+        this.options.statusOptions = response.data.status
       })
     },
     search() {

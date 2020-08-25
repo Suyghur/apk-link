@@ -2,7 +2,7 @@
   <div class="task-panel-head">
 
     <el-row :gutter="10">
-      <el-col :span="8">
+      <el-col :span="6">
         <el-input
           v-model="queryList.task_id"
           type="text"
@@ -14,7 +14,7 @@
           @keyup.enter.native="handleFilter"
         />
       </el-col>
-      <el-col :span="8">
+      <el-col :span="6">
         <el-select
           v-model="queryList.game_group"
           placeholder="游戏组名"
@@ -23,11 +23,11 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in gameOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
-      <el-col :span="8">
+      <el-col :span="6">
         <el-select
           v-model="queryList.channel"
           placeholder="渠道"
@@ -36,14 +36,14 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in channelOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
     </el-row>
 
     <el-row :gutter="10">
-      <el-col :span="8">
+      <el-col :span="6">
         <el-select
           v-model="queryList.plugin"
           placeholder="插件SDK"
@@ -52,10 +52,10 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in pluginOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.pluginOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="6">
         <el-select
           v-model="queryList.status"
           placeholder="状态"
@@ -64,7 +64,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.statusOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>
@@ -93,16 +93,14 @@
 </template>
 
 <script>
-import { getSelectOptions } from '@/api/task'
-
 export default {
   name: 'TaskPanelHead',
-  // props: {
-  //   list: {
-  //     type: Array,
-  //     default: () => []
-  //   }
-  // },
+  props: {
+    options: {
+      type: Object,
+      default: () => []
+    }
+  },
   data() {
     return {
       queryList: {
@@ -110,29 +108,29 @@ export default {
         game_group: undefined,
         channel: undefined,
         status: undefined
-      },
-      gameOptions: [],
-      channelOptions: [],
-      pluginOptions: [],
-      statusOptions: []
+      }
+      // gameOptions: [],
+      // channelOptions: [],
+      // pluginOptions: [],
+      // statusOptions: []
 
     }
   },
   created() {
-    this.fetchSelectOptions()
+    // this.fetchSelectOptions()
   },
   methods: {
-    fetchSelectOptions() {
-      getSelectOptions().then(response => {
-        console.log(response)
-
-        this.gameOptions = response.data.game_group
-        this.channelOptions = response.data.channel
-        this.pluginOptions = response.data.plugin
-        this.statusOptions = response.data.status
-        this.listLoading = false
-      })
-    },
+    // fetchSelectOptions() {
+    //   getSelectOptions().then(response => {
+    //     console.log(response)
+    //
+    //     this.gameOptions = response.data.game_group
+    //     this.channelOptions = response.data.channel
+    //     this.pluginOptions = response.data.plugin
+    //     this.statusOptions = response.data.status
+    //     this.listLoading = false
+    //   })
+    // },
     handleFilter() {
       console.log(this.queryList.task_id)
     },
@@ -145,7 +143,7 @@ export default {
 
 <style lang="scss" scoped>
   .task-panel-head {
-    padding: 20px;
+    padding: 20px 20px 0;
   }
 
   .el-row {

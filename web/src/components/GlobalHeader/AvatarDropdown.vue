@@ -1,7 +1,11 @@
 <template>
   <a-dropdown v-if="currentUser && currentUser.name" placement="bottomRight">
     <span class="ant-pro-account-avatar">
-      <a-avatar size="small" src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" class="antd-pro-global-header-index-avatar" />
+      <a-avatar
+        size="small"
+        src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
+        class="antd-pro-global-header-index-avatar"
+      />
       <span>{{ currentUser.name }}</span>
     </span>
     <template v-slot:overlay>
@@ -43,13 +47,13 @@ export default {
     }
   },
   methods: {
-    handleToCenter () {
+    handleToCenter() {
       this.$router.push({ path: '/account/center' })
     },
-    handleToSettings () {
+    handleToSettings() {
       this.$router.push({ path: '/account/settings' })
     },
-    handleLogout (e) {
+    handleLogout(e) {
       Modal.confirm({
         title: this.$t('layouts.usermenu.dialog.title'),
         content: this.$t('layouts.usermenu.dialog.content'),
@@ -61,7 +65,8 @@ export default {
             this.$router.push({ name: 'login' })
           })
         },
-        onCancel () {}
+        onCancel() {
+        }
       })
     }
   }
@@ -69,12 +74,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.ant-pro-drop-down {
-  /deep/ .action {
-    margin-right: 8px;
+  .ant-pro-drop-down {
+    /deep/ .action {
+      margin-right: 8px;
+    }
+
+    /deep/ .ant-dropdown-menu-item {
+      min-width: 160px;
+    }
   }
-  /deep/ .ant-dropdown-menu-item {
-    min-width: 160px;
-  }
-}
 </style>

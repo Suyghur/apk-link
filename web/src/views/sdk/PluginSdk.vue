@@ -1,19 +1,19 @@
 <template>
   <div id="plugin_sdk">
-    <TaskSearchDrawer @search="search" />
+    <TaskPanelHead @search="search" />
     <el-divider />
     <PluginSdkTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import PluginSdkTable from '@/components/tables/sdk/PluginSdkTable'
 import { getPluginSdkList } from '@/api/sdk'
 
 export default {
   name: 'PluginSdk',
-  components: { TaskSearchDrawer, PluginSdkTable },
+  components: { TaskPanelHead, PluginSdkTable },
   data() {
     return {
       list: null,

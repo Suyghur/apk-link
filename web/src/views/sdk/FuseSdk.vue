@@ -1,19 +1,19 @@
 <template>
   <div id="fuse_sdk">
-    <TaskSearchDrawer @search="search" />
+    <TaskPanelHead @search="search" />
     <el-divider />
     <FuseSdkTable :list="list" />
   </div>
 
 </template>
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import FuseSdkTable from '@/components/tables/sdk/FuseSdkTable'
 import { getFuseSdkList } from '@/api/sdk'
 
 export default {
   name: 'FuseSdk',
-  components: { TaskSearchDrawer, FuseSdkTable },
+  components: { TaskPanelHead, FuseSdkTable },
 
   data() {
     return {

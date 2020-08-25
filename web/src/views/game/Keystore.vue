@@ -1,6 +1,6 @@
 <template>
   <div id="keystore">
-    <TaskSearchDrawer />
+    <TaskPanelHead />
     <el-divider />
     <KeystoreTable :list="list" />
   </div>
@@ -8,12 +8,12 @@
 
 <script>
 import { getKeystoreList } from '@/api/game'
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import KeystoreTable from '@/components/tables/game/KeystoreTable'
 
 export default {
   name: 'KeyStore',
-  components: { KeystoreTable, TaskSearchDrawer },
+  components: { KeystoreTable, TaskPanelHead },
   data() {
     return {
       list: null,

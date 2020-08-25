@@ -1,6 +1,6 @@
 <template>
   <div id="fuse_script">
-    <TaskSearchDrawer @search="search" />
+    <TaskPanelHead @search="search" />
     <el-divider />
     <FuseScriptTable :list="list" />
   </div>
@@ -9,12 +9,12 @@
 
 <script>
 import FuseScriptTable from '@/components/tables/script/FuseScriptTable'
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import { getFuseScriptList } from '@/api/script'
 
 export default {
   name: 'Fuse',
-  components: { TaskSearchDrawer, FuseScriptTable },
+  components: { TaskPanelHead, FuseScriptTable },
   data() {
     return {
       list: null,

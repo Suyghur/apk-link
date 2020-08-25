@@ -1,5 +1,5 @@
 const Mock = require('mockjs')
-const { developer, plugin, channel, game } = require('./utils')
+const { developer, plugin, channel, gameGroup } = require('./utils')
 
 module.exports = [
   {
@@ -71,7 +71,7 @@ module.exports = [
         data: {
           game_script: Mock.mock({
             'items|4': [{
-              'game|1': game,
+              'game_group|1': gameGroup,
               file_name: '@game _script.zip',
               modify_time: '@datetime',
               'modify_person|1': developer

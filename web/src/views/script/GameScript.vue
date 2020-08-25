@@ -1,19 +1,19 @@
 <template>
   <div id="channel_script">
-    <TaskSearchDrawer />
+    <TaskPanelHead />
     <el-divider />
     <GameScriptTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import { getGameScriptList } from '@/api/script'
 import GameScriptTable from '@/components/tables/script/GameScriptTable'
 
 export default {
   name: 'GameScript',
-  components: { GameScriptTable, TaskSearchDrawer },
+  components: { GameScriptTable, TaskPanelHead },
   data() {
     return {
       list: null,

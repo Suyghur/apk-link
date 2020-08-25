@@ -1,7 +1,8 @@
 const Mock = require('mockjs')
-const { developer, game, plugin, channel } = require('./utils')
+const { developer, gameGroup, plugin, channel } = require('./utils')
 
 module.exports = [
+
   {
     url: '/get_origin_list',
     type: 'get',
@@ -13,7 +14,7 @@ module.exports = [
           origin_bag: Mock.mock({
             'items|4': [{
               icon: '',
-              'game|1': game,
+              'game_group|1': gameGroup,
               game_version: /[1-9]\.[0-9]\.[0-9]/,
               fuse_version: /[1-2]\.[0-9]\.[0-9]/,
               file_name: '@game _xxx_@game_version .apk',
@@ -37,7 +38,7 @@ module.exports = [
           linking_bag: Mock.mock({
             'items|30': [{
               'task_id|1-9999': 1,
-              'game|1': game,
+              'game_group|1': gameGroup,
               'game_version': /[1-9]\.[0-9]\.[0-9]/,
               'fuse_version': /[1-2]\.[0-9]\.[0-9]/,
               'channel|1': channel,
@@ -63,7 +64,7 @@ module.exports = [
         data: {
           keystore: Mock.mock({
             'items|10': [{
-              'game|1': game,
+              'game_group|1': gameGroup,
               'keystore_name|': '@string("lower", 4, 4)_hl.keystore',
               'keystore_password|1': '@string("lower", 4, 4)_hl2020',
               'keystore_alias': 'alias.@keystore_password',

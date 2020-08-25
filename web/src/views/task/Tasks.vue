@@ -1,19 +1,19 @@
 <template>
   <div id="tasks">
-    <TaskSearchDrawer @search="search" />
+    <TaskPanelHead :list="list" />
     <el-divider />
     <TaskTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/head/TaskPanelHead'
 import TaskTable from '@/components/tables/TaskTable'
 import { getTaskList } from '@/api/task'
 
 export default {
   name: 'Tasks',
-  components: { TaskTable, TaskSearchDrawer },
+  components: { TaskTable, TaskPanelHead },
   data() {
     return {
       list: null,

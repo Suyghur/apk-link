@@ -1,19 +1,19 @@
 <template>
   <div id="channel_id">
-    <TaskSearchDrawer @search="search" />
+    <TaskPanelHead @search="search" />
     <el-divider />
     <ChannelSdkTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import ChannelSdkTable from '@/components/tables/sdk/ChannelSdkTable'
 import { getChannelSdkList } from '@/api/sdk'
 
 export default {
   name: 'ChannelSdk',
-  components: { TaskSearchDrawer, ChannelSdkTable },
+  components: { TaskPanelHead, ChannelSdkTable },
   data() {
     return {
       list: null,

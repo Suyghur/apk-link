@@ -7,3 +7,11 @@ export function getTaskList(params) {
     params
   })
 }
+
+export function getSelectOptions(params) {
+  return request({
+    url: '/get_select_options',
+    method: 'get',
+    params
+  })
+}

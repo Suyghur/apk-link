@@ -1,6 +1,6 @@
 <template>
   <div id="linking_bag">
-    <TaskSearchDrawer />
+    <TaskPanelHead />
     <el-divider />
     <LinkingBagTable :list="list" />
   </div>
@@ -8,12 +8,12 @@
 
 <script>
 import { getLinkingBag } from '@/api/game'
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import LinkingBagTable from '@/components/tables/game/LinkingBagTable'
 
 export default {
   name: 'LinkingBag',
-  components: { LinkingBagTable, TaskSearchDrawer },
+  components: { LinkingBagTable, TaskPanelHead },
   data() {
     return {
       list: null,

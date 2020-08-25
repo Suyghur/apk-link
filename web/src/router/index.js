@@ -8,6 +8,7 @@ import Layout from '@/layout'
 import { SdkRouterMap } from '@/router/module/sdk'
 import { ScriptRouterMap } from '@/router/module/script'
 import { GameRouterMap } from '@/router/module/game'
+import { TaskRouterMap } from '@/router/module/task'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -60,19 +61,7 @@ export const constantRoutes = [
 
   },
 
-  {
-    path: '/task',
-    component: Layout,
-    redirect: '/task/infos',
-    children: [
-      {
-        path: 'infos',
-        name: 'Infos',
-        component: () => import('@/views/task/Tasks'),
-        meta: { title: '打包任务管理', icon: 'el-icon-s-help' }
-      }
-    ]
-  },
+  TaskRouterMap,
   SdkRouterMap,
   ScriptRouterMap,
   GameRouterMap,

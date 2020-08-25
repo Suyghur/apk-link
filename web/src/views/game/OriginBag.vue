@@ -1,19 +1,19 @@
 <template>
   <div id="origin_bag">
-    <TaskSearchDrawer />
+    <TaskPanelHead />
     <el-divider />
     <OriginBagTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import OriginBagTable from '@/components/tables/game/OriginBagTable'
 import { getOriginBagList } from '@/api/game'
 
 export default {
   name: 'OriginBag',
-  components: { OriginBagTable, TaskSearchDrawer },
+  components: { OriginBagTable, TaskPanelHead },
   data() {
     return {
       list: null,

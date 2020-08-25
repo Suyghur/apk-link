@@ -1,19 +1,19 @@
 <template>
   <div id="channel_script">
-    <TaskSearchDrawer />
+    <TaskPanelHead />
     <el-divider />
     <PluginSdkTable :list="list" />
   </div>
 </template>
 
 <script>
-import TaskSearchDrawer from '@/components/drawer/TaskSearchDrawer'
+import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import { getPluginScriptList } from '@/api/script'
 import PluginSdkTable from '@/components/tables/sdk/PluginSdkTable'
 
 export default {
   name: 'PluginScript',
-  components: { PluginSdkTable, TaskSearchDrawer },
+  components: { PluginSdkTable, TaskPanelHead },
   data() {
     return {
       list: null,

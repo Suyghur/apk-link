@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-table
+      v-loading="listLoading"
       :data="list"
       height="650"
       border
@@ -135,6 +136,10 @@ export default {
     list: {
       type: Array,
       default: () => []
+    },
+    listLoading: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

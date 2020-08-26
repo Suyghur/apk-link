@@ -1,7 +1,7 @@
 const channel = ['后浪（houalng）', '应用宝（yyb）', 'UC九游（uc）', '小米（mi）',
-  '魅族（meizu）', '华为（huawei）', 'Oppo（oppo）', 'Vivo（vivo）']
+  '魅族（meizu）', '华为（huawei）', 'Oppo（oppo）', 'Vivo（vivo）', '4399（4399）', 'B站（bilibili）']
 
-const plugin = ['广点通', '头条', '快手', '百度cps']
+const plugin = ['广点通', '头条', '快手', '百度cps', 'UC信息流']
 const gameGroup = ['测试游戏1', '测试游戏2', '测试游戏3', '测试游戏4']
 const status = ['未执行', '执行中', '成功', '失败']
 

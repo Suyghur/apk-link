@@ -23,20 +23,20 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.gameOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.gameGroupOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
       <el-col :span="6">
         <el-select
-          v-model="queryList.channel"
+          v-model="queryList.channel_name"
           placeholder="渠道"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.gameOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.channelOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
@@ -45,26 +45,26 @@
     <el-row :gutter="10">
       <el-col :span="6">
         <el-select
-          v-model="queryList.plugin"
+          v-model="queryList.plugin_name"
           placeholder="插件SDK"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.pluginOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.pluginOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
       <el-col :span="6">
         <el-select
-          v-model="queryList.status"
+          v-model="queryList.task_status"
           placeholder="状态"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.statusOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.statusOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>
@@ -80,15 +80,20 @@
       <el-button
         class="filter-item"
         type="primary"
+        icon="el-icon-delete"
+        @click="handleReset"
+      >
+        重置选项
+      </el-button>
+      <el-button
+        class="filter-item"
+        type="primary"
         icon="el-icon-edit"
         @click="handleCreate"
       >
         创建任务
       </el-button>
     </div>
-
-    <!--    <el-button type="primary" style="margin-left: 20px" @click="dialog = true">设置条件</el-button>-->
-    <!--    <el-button type="primary" @click="search">开始筛选</el-button>-->
   </div>
 </template>
 
@@ -96,43 +101,25 @@
 export default {
   name: 'TaskPanelHead',
   props: {
-    options: {
+    queryList: {
+      type: Object,
+      default: null
+    },
+    selectOptions: {
       type: Object,
       default: () => []
     }
   },
-  data() {
-    return {
-      queryList: {
-        task_id: undefined,
-        game_group: undefined,
-        channel: undefined,
-        status: undefined
-      }
-      // gameOptions: [],
-      // channelOptions: [],
-      // pluginOptions: [],
-      // statusOptions: []
-
-    }
-  },
-  created() {
-    // this.fetchSelectOptions()
-  },
   methods: {
-    // fetchSelectOptions() {
-    //   getSelectOptions().then(response => {
-    //     console.log(response)
-    //
-    //     this.gameOptions = response.data.game_group
-    //     this.channelOptions = response.data.channel
-    //     this.pluginOptions = response.data.plugin
-    //     this.statusOptions = response.data.status
-    //     this.listLoading = false
-    //   })
-    // },
     handleFilter() {
-      console.log(this.queryList.task_id)
+      this.$emit('searchTask', this.queryList)
+    },
+    handleReset() {
+      this.queryList.task_id = undefined
+      this.queryList.game_group = undefined
+      this.queryList.channel_name = undefined
+      this.queryList.plugin_name = undefined
+      this.queryList.task_status = undefined
     },
     handleCreate() {
       this.$router.push({ path: '/task/create' })

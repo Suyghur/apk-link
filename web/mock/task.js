@@ -52,9 +52,9 @@ module.exports = [
         msg: 'success',
         data: {
           game_group: gameGroup,
-          channel: channel,
-          status: status,
-          plugin: plugin
+          channel_name: channel,
+          task_status: status,
+          plugin_name: plugin
         }
       }
     }

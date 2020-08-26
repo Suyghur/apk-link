@@ -1,6 +1,5 @@
 <template>
   <div class="task-panel-head">
-
     <el-row :gutter="10">
       <el-col :span="6">
         <el-input
@@ -36,7 +35,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.channelOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.channelNamelOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
@@ -52,7 +51,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.pluginOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.pluginNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
       <el-col :span="6">
@@ -64,7 +63,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.statusOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in selectOptions.taskStatusOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>
@@ -98,17 +97,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'TaskPanelHead',
   props: {
     queryList: {
       type: Object,
       default: null
-    },
-    selectOptions: {
-      type: Object,
-      default: () => []
     }
+  },
+  computed: {
+    ...mapGetters([
+      'selectOptions'
+    ])
   },
   methods: {
     handleFilter() {
@@ -122,7 +124,7 @@ export default {
       this.queryList.task_status = undefined
     },
     handleCreate() {
-      this.$router.push({ path: '/task/create' })
+      this.$emit('createTask')
     }
   }
 }

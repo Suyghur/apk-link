@@ -9,7 +9,6 @@
 <script>
 import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import OriginBagTable from '@/components/tables/game/OriginBagTable'
-import { getOriginBagList } from '@/api/game'
 
 export default {
   name: 'OriginBag',
@@ -25,11 +24,11 @@ export default {
   },
   methods: {
     fetchData() {
-      getOriginBagList().then(response => {
-        console.log(response)
-        this.list = response.data.origin_bag
-        this.listLoading = false
-      })
+      // getOriginBagList().then(response => {
+      //   console.log(response)
+      //   this.list = response.data.origin_bag
+      //   this.listLoading = false
+      // })
     },
     search() {
       this.list = []

@@ -20,7 +20,7 @@ export const TaskRouterMap = {
     },
     {
       path: 'edit/:id(\\d+)',
-      component: () => import('@/views/task/TaskEditor'),
+      component: () => import('@/views/task/TaskEdit'),
       name: 'TaskEditor',
       meta: { title: '编辑任务', noCache: true, activeMenu: '/task/edit/:id(\\d+)' },
       hidden: true

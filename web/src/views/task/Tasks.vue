@@ -1,6 +1,10 @@
 <template>
   <div id="tasks">
-    <TaskPanelHead :select-options="options" :query-list="queryList" @searchTask="fetchTasks" />
+    <TaskPanelHead
+      :query-list="queryList"
+      @searchTask="fetchTasks"
+      @createTask="createTask"
+    />
     <el-divider />
     <TaskTable :list="list" :list-loading="listLoading" />
     <pagination
@@ -18,7 +22,7 @@ import TaskPanelHead from '@/views/task/componets/TaskPanelHead'
 import TaskTable from '@/views/task/componets/TaskTable'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-import { getSelectOptions, getTaskList } from '@/api/task'
+import { getTaskList } from '@/api/task'
 
 export default {
   name: 'Tasks',
@@ -48,6 +52,7 @@ export default {
   created() {
     this.fetchTasks()
     this.fetchSelectOptions()
+    this.$store.dispatch('options/fetchOptions')
   },
   methods: {
     fetchTasks() {
@@ -62,16 +67,15 @@ export default {
     },
 
     fetchSelectOptions() {
-      getSelectOptions().then(response => {
-        this.options.gameGroupOptions = response.data.game_group
-        this.options.channelOptions = response.data.channel
-        this.options.pluginOptions = response.data.plugin
-        this.options.statusOptions = response.data.status
-      })
+      // getSelectOptions().then(response => {
+      //   this.options.gameGroupOptions = response.data.game_group
+      //   this.options.channelOptions = response.data.channel
+      //   this.options.pluginOptions = response.data.plugin
+      //   this.options.statusOptions = response.data.status
+      // })
     },
-    search() {
-      this.list = []
-      this.fetchTasks()
+    createTask() {
+      this.$router.push({ path: '/task/create' })
     }
   }
 }

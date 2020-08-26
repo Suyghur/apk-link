@@ -23,3 +23,27 @@ export function getPluginSdkList(params) {
     params
   })
 }
+
+export function getFuseVersionList(params) {
+  return request({
+    url: '/get_sdk_version_list/fuse',
+    method: 'get',
+    params
+  })
+}
+
+export function getChannelVersionList(params) {
+  return request({
+    url: '/get_sdk_version_list/channel',
+    method: 'get',
+    params
+  })
+}
+
+export function getPluginVersionList(params) {
+  return request({
+    url: '/get_sdk_version_list/plugin',
+    method: 'get',
+    params
+  })
+}

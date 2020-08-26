@@ -1,18 +1,16 @@
 <template>
-  <div id="task-detail">
-    <TaskInfo :disabled="true" />
+  <div id="task-edit">
+    <TaskInfo :disabled="false" />
   </div>
 </template>
 
 <script>
+
 import TaskInfo from '@/views/task/componets/TaskInfo'
 
 export default {
-  name: 'TaskDetail',
+  name: 'TaskEdit',
   components: { TaskInfo }
 }
 </script>
 
-<style scoped>
-
-</style>

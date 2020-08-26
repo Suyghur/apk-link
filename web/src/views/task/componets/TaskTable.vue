@@ -20,7 +20,7 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="游戏组名">
+      <el-table-column align="center" label="游戏组">
         <template slot-scope="scope">
           {{ scope.row.game_group }}
         </template>
@@ -96,7 +96,7 @@
             </el-button>
           </router-link>
           <el-popconfirm
-            v-if="scope.row.status!='成功'"
+            v-if="scope.row.status!=='成功'"
             confirm-button-text="确定"
             cancel-button-text="点错了"
             icon="el-icon-info"

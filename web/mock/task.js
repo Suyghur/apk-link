@@ -2,7 +2,7 @@ const Mock = require('mockjs')
 const { channel, gameGroup, status, plugin } = require('./utils')
 
 const List = []
-const count = 100
+const count = 1000
 
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({

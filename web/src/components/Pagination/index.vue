@@ -97,7 +97,7 @@ export default {
     background: #fff;
     /*padding: 32px 16px;*/
     position: fixed;
-    bottom: 20px;
+    bottom: 10px;
     right: 20px;
 
   }

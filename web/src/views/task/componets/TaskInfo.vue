@@ -147,6 +147,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="游戏icon：" class="task-info-item">
+              <el-image :src="defaultImgSrc" fit="contain" style="width: 150px; height: 150px" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="游戏闪屏：" class="task-info-item">
+              <uploader />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </div>
     <div class="button-group">
@@ -160,6 +172,7 @@
 import { mapGetters } from 'vuex'
 import { getGameGroupInfo, getOriginBagList } from '@/api/game'
 import { getChannelVersionList, getFuseVersionList, getPluginVersionList } from '@/api/sdk'
+import Uploader from '@/components/Uploader'
 
 const defaultForm = {
   gid: '',
@@ -175,6 +188,7 @@ const defaultForm = {
 }
 export default {
   name: 'TaskInfo',
+  components: { Uploader },
   props: {
     disabled: {
       type: Boolean,
@@ -188,6 +202,7 @@ export default {
       fuseVersionOptions: [],
       channelVersionOptions: [],
       pluginVersionOptions: [],
+      defaultImgSrc: 'https://sdkfile.hihoulang.com/logo.png',
       loading: false,
       rules: {
         game_group: [{ required: true, message: '请选择游戏组', trigger: 'change' }],

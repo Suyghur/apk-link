@@ -8,7 +8,7 @@ import (
 
 func main() {
 	initialize.Mysql()
-
+	initialize.DBTables()
 	//结束前关闭数据块链接
 	defer global.GVA_DB.Close()
 	core.RunServer()

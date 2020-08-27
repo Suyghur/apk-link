@@ -12,9 +12,11 @@ import (
 )
 
 type CustomClaims struct {
-	UUID        uuid.UUID
-	ID          uint
-	NickName    string
-	AuthorityId string
+	UUID     uuid.UUID
+	ID       uint
+	NickName string
+	Username string
+	//AuthorityId string
+	BufferTime int64
 	jwt.StandardClaims
 }

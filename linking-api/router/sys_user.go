@@ -25,6 +25,7 @@ func InitUserRouter(r *gin.RouterGroup) {
 	//}
 	userRouter := r.Group("user")
 	{
+		userRouter.POST("login",v1.Login)
 		userRouter.GET("test", v1.Test)
 	}
 }

@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
+
 	"linking-api/global"
 	"linking-api/initialize"
 	"time"
@@ -27,15 +28,21 @@ func RunServer() {
 	r.Static("/form-generator", "./resource/page")
 
 	address := fmt.Sprintf(":%d", global.GVA_CONFIG.System.Addr)
+
 	s := initServer(address, r)
 	//保障文本顺序输出
 	time.Sleep(10 * time.Millisecond)
 	global.GVA_LOG.Debug("linking-api run success on ", address)
 
 	fmt.Printf(`欢迎使用 linking-api`)
+
 	global.GVA_LOG.Error(s.ListenAndServe())
+
+	//windows环境用这个方法启动
+	//r.Run(address)
 }
 
+//非Windows环境解开
 func initServer(address string, r *gin.Engine) server {
 	s := endless.NewServer(address, r)
 	s.ReadHeaderTimeout = 10 * time.Millisecond

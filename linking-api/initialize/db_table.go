@@ -14,6 +14,8 @@ import (
 func DBTables() {
 	db := global.GVA_DB
 	db.AutoMigrate(
+		model.JwtBlacklist{},
 		model.SysUser{},
 	)
+	global.GVA_LOG.Debug("register table success")
 }

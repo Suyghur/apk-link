@@ -171,7 +171,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="10">
             <el-form-item label-width="200px" label="签名文件：" prop="keystore_name" class="task-info-item">
@@ -186,28 +185,23 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!--          <el-col :span="10">-->
-          <!--            <el-form-item label-width="200px" label="GID：" class="task-info-item">-->
-          <!--              <el-input-->
-          <!--                v-model="taskForm.gid"-->
-          <!--                type="textarea"-->
-          <!--                style="width: auto;"-->
-          <!--                class="filter-item"-->
-          <!--              />-->
-          <!--            </el-form-item>-->
-          <!--          </el-col>-->
         </el-row>
+        <param-panel
+          :game-name="taskForm.game_group"
+          :channel-name="taskForm.channel_name"
+          :plugin-name="taskForm.plugin_name"
+        />
+        <el-divider content-position="left">分发参数</el-divider>
         <el-row>
-          <el-col :span="24">
-            <el-form-item label-width="200px" label="AID：" class="task-info-item">
-              <el-transfer
-                v-model="taskForm.aids"
-                filterable
-                filter-placeholder="请输入AID"
-                :data="aidOptions"
-              />
-            </el-form-item>
-          </el-col>
+          <el-form-item label-width="200px" label="AID：">
+            <el-transfer
+              v-model="taskForm.aids"
+              :disable="disabled"
+              filterable
+              filter-placeholder="请输入AID"
+              :data="aidOptions"
+            />
+          </el-form-item>
         </el-row>
       </el-form>
     </div>
@@ -223,6 +217,7 @@ import { mapGetters } from 'vuex'
 import { getAidList, getGameGroupInfo, getGameKeystore, getOriginBagList } from '@/api/game'
 import { getChannelVersionList, getFuseVersionList, getPluginVersionList } from '@/api/sdk'
 import ImgUploader from '@/components/ImgUploader'
+import ParamPanel from '@/views/task/componets/param/ParamPanel'
 
 const defaultForm = {
   gid: '',
@@ -244,11 +239,11 @@ const defaultForm = {
 }
 export default {
   name: 'TaskInfo',
-  components: { ImgUploader },
+  components: { ParamPanel, ImgUploader },
   props: {
     disabled: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data() {
@@ -470,6 +465,8 @@ export default {
 
     .button-group {
       text-align: center;
+      margin-bottom: 20px;
+      /*position: fixed;*/
     }
   }
 

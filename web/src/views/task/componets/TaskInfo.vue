@@ -150,12 +150,62 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label-width="200px" label="游戏icon：" class="task-info-item">
-              <el-image :src="defaultImgSrc" fit="contain" style="width: 150px; height: 150px" />
+              <img-uploader v-model="taskForm.icon_url" :disabled="disabled" />
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label-width="200px" label="游戏闪屏：" class="task-info-item">
-              <uploader />
+              <img-uploader v-model="taskForm.splash_url" :disabled="disabled" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="游戏logo：" class="task-info-item">
+              <img-uploader v-model="taskForm.logo_url" :disabled="disabled" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="游戏登录页背景：" class="task-info-item">
+              <img-uploader v-model="taskForm.bg_url" :disabled="disabled" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="签名文件：" prop="keystore_name" class="task-info-item">
+              <el-select
+                v-model="taskForm.keystore_name"
+                filterable
+                clearable
+                :disabled="disabled"
+                placeholder="请选择"
+              >
+                <el-option v-for="item in gameKeystoreOptions" :key="item" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!--          <el-col :span="10">-->
+          <!--            <el-form-item label-width="200px" label="GID：" class="task-info-item">-->
+          <!--              <el-input-->
+          <!--                v-model="taskForm.gid"-->
+          <!--                type="textarea"-->
+          <!--                style="width: auto;"-->
+          <!--                class="filter-item"-->
+          <!--              />-->
+          <!--            </el-form-item>-->
+          <!--          </el-col>-->
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label-width="200px" label="AID：" class="task-info-item">
+              <el-transfer
+                v-model="taskForm.aids"
+                filterable
+                filter-placeholder="请输入AID"
+                :data="aidOptions"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -170,9 +220,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getGameGroupInfo, getOriginBagList } from '@/api/game'
+import { getAidList, getGameGroupInfo, getGameKeystore, getOriginBagList } from '@/api/game'
 import { getChannelVersionList, getFuseVersionList, getPluginVersionList } from '@/api/sdk'
-import Uploader from '@/components/Uploader'
+import ImgUploader from '@/components/ImgUploader'
 
 const defaultForm = {
   gid: '',
@@ -184,11 +234,17 @@ const defaultForm = {
   channel_name: '',
   channel_version: '',
   plugin_name: '',
-  plugin_version: ''
+  plugin_version: '',
+  icon_url: '',
+  splash_url: '',
+  logo_url: '',
+  bg_url: '',
+  keystore_name: '',
+  aids: []
 }
 export default {
   name: 'TaskInfo',
-  components: { Uploader },
+  components: { ImgUploader },
   props: {
     disabled: {
       type: Boolean,
@@ -202,6 +258,8 @@ export default {
       fuseVersionOptions: [],
       channelVersionOptions: [],
       pluginVersionOptions: [],
+      gameKeystoreOptions: [],
+      aidOptions: [],
       defaultImgSrc: 'https://sdkfile.hihoulang.com/logo.png',
       loading: false,
       rules: {
@@ -211,9 +269,8 @@ export default {
         game_version_name: [{ required: true, message: '请输入游戏版本名', trigger: 'blur' }],
         game_version_code: [{ required: true, message: '请输入游戏版本号', trigger: 'blur' }],
         channel_name: [{ required: true, message: '请选择渠道SDK', trigger: 'change' }],
-        channel_version: [{ required: true, message: '请选择渠道SDK版本', trigger: 'change' }]
-        // plugin_name: [{ required: true, message: '请选择游戏组', trigger: 'change' }],
-        // plugin_version: [{ required: true, message: '请选择游戏组', trigger: 'change' }]
+        channel_version: [{ required: true, message: '请选择渠道SDK版本', trigger: 'change' }],
+        keystore_name: [{ required: true, message: '请选择签名文件', trigger: 'change' }]
       }
     }
   },
@@ -229,8 +286,9 @@ export default {
 
   methods: {
     fetchGameGroupInfo(gameGroup) {
-      this.taskForm.origin_bag = ''
       this.fetchOriginBagList(gameGroup)
+      this.fetchGameKeystoreList(gameGroup)
+      this.fetchAidList(gameGroup)
       return new Promise((resolve, reject) => {
         getGameGroupInfo({ game_group: gameGroup }).then(response => {
           if (!response) {
@@ -244,6 +302,7 @@ export default {
       })
     },
     fetchOriginBagList(gameGroup) {
+      this.taskForm.origin_bag = ''
       this.originBagOptions = []
       return new Promise((resolve, reject) => {
         getOriginBagList({ game_group: gameGroup }).then(response => {
@@ -257,7 +316,47 @@ export default {
         })
       })
     },
-
+    fetchGameKeystoreList(gameGroup) {
+      this.taskForm.keystore_name = ''
+      this.gameKeystoreOptions = []
+      if (gameGroup !== '') {
+        return new Promise((resolve, reject) => {
+          getGameKeystore({ game_group: gameGroup }).then(response => {
+            if (!response) {
+              return reject('数据加载异常')
+            }
+            this.gameKeystoreOptions = response.data.keystore
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      }
+    },
+    fetchAidList(gameGroup) {
+      this.taskForm.aids = []
+      this.aidOptions = []
+      if (gameGroup !== '') {
+        return new Promise((resolve, reject) => {
+          getAidList({ game_group: gameGroup }).then(response => {
+            if (!response) {
+              return reject('数据加载异常')
+            }
+            const data = []
+            response.data.aids.forEach((aid) => {
+              data.push({
+                label: aid,
+                key: aid
+              })
+            })
+            this.aidOptions = data
+            resolve(response)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      }
+    },
     fetchFuseVersionList() {
       this.fuseVersionOptions = []
       this.taskForm.fuse_version = ''
@@ -291,7 +390,6 @@ export default {
         })
       }
     },
-
     fetchPluginVersionList(pluginName) {
       this.pluginVersionOptions = []
       this.taskForm.plugin_version = ''
@@ -311,6 +409,16 @@ export default {
     },
     submit() {
       this.$refs.taskForm.validate(valid => {
+        if (this.taskForm.aids.length <= 0) {
+          this.$notify({
+            title: '失败',
+            message: '创建打包任务失败，aid不能为空，请检查',
+            type: 'error',
+            duration: 3000
+          })
+          // this.loading = false
+          return false
+        }
         if (valid) {
           this.loading = true
           this.$notify({
@@ -319,10 +427,11 @@ export default {
             type: 'success',
             duration: 3000
           })
+          console.log(this.taskForm)
           this.loading = false
           this.$router.replace({ path: '/task/infos' })
+          return true
         } else {
-          console.log('error submit!!')
           this.$notify({
             title: '失败',
             message: '创建打包任务失败，存在部分参数未填写，请检查',
@@ -337,6 +446,7 @@ export default {
     cancel() {
       this.$router.replace({ path: '/task/infos' })
     }
+
   }
 }
 </script>

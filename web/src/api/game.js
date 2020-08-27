@@ -18,7 +18,7 @@ export function getLinkingBag(params) {
 
 export function getKeystoreList(params) {
   return request({
-    url: '/get_keystore_list',
+    url: '/get_game_keystore',
     method: 'get',
     params
   })
@@ -32,10 +32,18 @@ export function getGameGroupInfo(params) {
   })
 }
 
-// export function getGameGroupInfo(params) {
-//   return request({
-//     url: '/get_game_group_info',
-//     method: 'get',
-//     params
-//   })
-// }
+export function getGameKeystore(params) {
+  return request({
+    url: '/get_game_keystore',
+    method: 'get',
+    params
+  })
+}
+
+export function getAidList(params) {
+  return request({
+    url: '/get_aid_list',
+    method: 'get',
+    params
+  })
+}

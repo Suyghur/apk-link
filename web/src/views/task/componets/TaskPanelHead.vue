@@ -92,21 +92,12 @@
       >
         创建任务
       </el-button>
-      <el-button
-        class="filter-item"
-        type="primary"
-        icon="el-icon-edit"
-        @click="testOSS"
-      >
-        测试
-      </el-button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { testOSS } from '@/utils/aliyun-oss'
 
 export default {
   name: 'TaskPanelHead',
@@ -134,9 +125,6 @@ export default {
     },
     handleCreate() {
       this.$emit('createTask')
-    },
-    testOSS() {
-      testOSS()
     }
   }
 }

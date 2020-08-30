@@ -24,11 +24,13 @@ func InitSdkRouter(r *gin.RouterGroup) {
 		{
 			channelRouter.POST("list", v1.ListChannelSdk)
 			channelRouter.POST("search", v1.SearchChannelSdk)
+			channelRouter.POST("modify", v1.ModifyChannelSdk)
 		}
 		pluginRouter := sdkRouter.Group("plugin")
 		{
 			pluginRouter.POST("list", v1.ListPluginSdk)
 			pluginRouter.POST("search", v1.SearchPluginSdk)
+			pluginRouter.POST("modify",v1.ModifyPluginSdk)
 		}
 		//sdkRouter.POST("fuse/list", v1.ListFuseSdk)
 		//sdkRouter.POST("channel/list")

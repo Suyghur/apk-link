@@ -8,5 +8,5 @@ package model
 
 type SysChannelSdk struct {
 	SysSdk
-	ChannelName string `json:"channel_name" gorm:"comment:'渠道名'"`
+	ChannelName string `json:"channel_name" gorm:"not null;comment:'渠道名'"`
 }

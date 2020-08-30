@@ -21,6 +21,7 @@ func DBTables() {
 		model.SysChannelSdk{},
 		model.SysPluginSdk{},
 		model.SysTask{},
+		model.SysOriginBag{},
 	)
 	global.GVA_LOG.Debug("register table success")
 }

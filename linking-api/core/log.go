@@ -27,7 +27,7 @@ const (
 )
 
 var (
-	defaultFormatter = `%{time:2020/01/01 - 12:04:05.000} %{longfile} %{color:bold}▶ [%{level:.6s}] %{message}%{color:reset}`
+	defaultFormatter = `%{time:2006/01/02 - 15:04:05.000} %{longfile} %{color:bold}▶ [%{level:.6s}] %{message}%{color:reset}`
 )
 
 func init() {

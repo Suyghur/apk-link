@@ -29,7 +29,10 @@ func Routers() *gin.Engine {
 	//方便统一添加路由组前缀 多服务器上线使用
 	apiGroup := r.Group("v1")
 	router.InitUserRouter(apiGroup) //注册用户路由
+	router.InitTaskRouter(apiGroup)
 	router.InitSdkRouter(apiGroup)
+	router.InitKeystoreRouter(apiGroup)
+	router.InitScriptRouter(apiGroup)
 	global.GVA_LOG.Info("router register success")
 	return r
 }

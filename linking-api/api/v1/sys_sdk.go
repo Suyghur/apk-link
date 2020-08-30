@@ -39,6 +39,10 @@ func SearchChannelSdk(c *gin.Context) {
 	}, c)
 }
 
+func ModifyChannelSdk(c *gin.Context) {
+
+}
+
 func ListPluginSdk(c *gin.Context) {
 	response.OkWithData(gin.H{"list": "list"}, c)
 }
@@ -49,4 +53,8 @@ func SearchPluginSdk(c *gin.Context) {
 		"search":  "search",
 		"version": version,
 	}, c)
+}
+
+func ModifyPluginSdk(c *gin.Context) {
+
 }

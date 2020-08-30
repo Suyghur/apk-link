@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
-
 	"linking-api/global"
 	"linking-api/initialize"
 	"time"

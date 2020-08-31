@@ -9,6 +9,7 @@ type Server struct {
 	System System `mapstructure:"system" json:"system" yaml:"system"`
 	Mysql  Mysql  `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	Redis  Redis  `mapstructure:"redis" json:"redis" yaml:"redis"`
+	Aliyun Aliyun `mapstructure:"aliyun" json:"aliyun" yaml:"aliyun"`
 	Log    Log    `mapstructure:"log" json:"log" yaml:"log"`
 	JWT    JWT    `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
 }
@@ -35,6 +36,15 @@ type Redis struct {
 	Addr     string `mapstructure:"addr" json:"addr" yaml:"addr"`
 	Password string `mapstructure:"password" json:"password" yaml:"password"`
 	DB       int    `mapstructure:"db" json:"db" yaml:"db"`
+}
+
+type Aliyun struct {
+	AccessKeyId     string `mapstructure:"access-key-id" json:"access_key_id" yaml:"access-key-id"`
+	AccessKeySecret string `mapstructure:"access-key-secret" json:"access_key_secret" yaml:"access-key-secret"`
+	Bucket          string `mapstructure:"bucket" json:"bucket" yaml:"bucket"`
+	Region          string `mapstructure:"region" json:"region" yanl:"region"`
+	Endpoint        string `mapstructure:"endpoint" json:"endpoint" yaml:"endpoint"`
+	CName           bool   `mapstructure:"cname" json:"cname" yaml:"cname"`
 }
 
 type Log struct {

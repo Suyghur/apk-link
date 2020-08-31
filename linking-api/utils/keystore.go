@@ -9,7 +9,6 @@ package utils
 import (
 	"io/ioutil"
 	"linking-api/global"
-	"os"
 	"os/exec"
 	"strconv"
 	"time"
@@ -64,9 +63,11 @@ func CreateKeystore(GroupName string) (keystore Keystore, err error) {
 
 func GetKeystoreFingerprints(keystore *Keystore) (fingerprints Fingerprints, err error) {
 	//keytool -list -v -keystore yxz_hl.keystore
-	workspace, _ := os.Getwd()
+	//workspace, _ := os.Getwd()
+
 	cmd := exec.Command("keytool", "-list", "-v", "-keystore",
-		workspace+"/assets/keystore/"+keystore.KeystoreName,
+		//workspace+"/assets/keystore/"+keystore.KeystoreName,
+		keystore.KeystoreName,
 		"-storepass", keystore.KeystorePassword)
 
 	stdout, err := cmd.StdoutPipe()

@@ -8,8 +8,8 @@ system:
 # mysql configuration
 mysql:
   username: root
-  password: 'kel317-+'
-  #  password: '123456'
+  #  password: 'kel317-+'
+  password: '123456'
   path: '127.0.0.1:3306'
   db-name: 'linking_db'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
@@ -22,6 +22,15 @@ redis:
   addr: '127.0.0.1:6379'
   password: ''
   db: 0
+
+# aliyun-oss configuration
+aliyun:
+  access-key-id: 'LTAI4GLCwofVysdJqYgFF5sQ'
+  access-key-secret: 'XP8nyjdTL55DIwMv7dB7IdMaY3I0Bo'
+  bucket: 'sdkfile'
+  region: 'oss-cn-beijing'
+  endpoint: 'sdkfile.hihoulang.com'
+  cname: true
 
 # log configuration
 log:

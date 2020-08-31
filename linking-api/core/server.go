@@ -7,8 +7,8 @@ package core
 
 import (
 	"fmt"
-	//"github.com/fvbock/endless"
-	//"github.com/gin-gonic/gin"
+	"github.com/fvbock/endless"
+	"github.com/gin-gonic/gin"
 	"linking-api/global"
 	"linking-api/initialize"
 	"time"
@@ -28,24 +28,24 @@ func RunServer() {
 
 	address := fmt.Sprintf(":%d", global.GVA_CONFIG.System.Addr)
 
-	//s := initServer(address, r)
+	s := initServer(address, r)
 	//保障文本顺序输出
 	time.Sleep(10 * time.Millisecond)
 	global.GVA_LOG.Debug("linking-api run success on ", address)
 
 	fmt.Printf(`欢迎使用 linking-api`)
 
-	//global.GVA_LOG.Error(s.ListenAndServe())
+	global.GVA_LOG.Error(s.ListenAndServe())
 
 	//windows环境用这个方法启动
-	r.Run(address)
+	//r.Run(address)
 }
 
 //非Windows环境解开
-//func initServer(address string, r *gin.Engine) server {
-//	s := endless.NewServer(address, r)
-//	s.ReadHeaderTimeout = 10 * time.Millisecond
-//	s.WriteTimeout = 10 * time.Second
-//	s.MaxHeaderBytes = 1 << 20
-//	return s
-//}
+func initServer(address string, r *gin.Engine) server {
+	s := endless.NewServer(address, r)
+	s.ReadHeaderTimeout = 10 * time.Millisecond
+	s.WriteTimeout = 10 * time.Second
+	s.MaxHeaderBytes = 1 << 20
+	return s
+}

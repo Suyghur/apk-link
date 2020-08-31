@@ -17,5 +17,6 @@ func InitKeystoreRouter(r *gin.RouterGroup) {
 		keystoreRouter.POST("list", v1.ListKeystore)
 		keystoreRouter.POST("search", v1.SearchKeystore)
 		keystoreRouter.POST("modify", v1.ModifyKeystore)
+		keystoreRouter.POST("create",v1.CreateKeystore)
 	}
 }

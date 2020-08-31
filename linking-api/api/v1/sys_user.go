@@ -27,23 +27,23 @@ func Test(c *gin.Context) {
 }
 
 func Register(c *gin.Context) {
-	var R request.RegisterStruct
-	_ = c.ShouldBindJSON(&R)
+	var reqStruct request.RegisterStruct
+	_ = c.ShouldBindJSON(&reqStruct)
 
 	UserVerify := utils.Rules{
 		"username": {utils.NotEmpty()},
 		"password": {utils.NotEmpty()},
 		"nickname": {utils.NotEmpty()},
 	}
-	UserVerifyErr := utils.Verify(R, UserVerify)
+	UserVerifyErr := utils.Verify(reqStruct, UserVerify)
 	if UserVerifyErr != nil {
 		response.FailWithMessage(UserVerifyErr.Error(), c)
 		return
 	}
 	user := &model.SysUser{
-		Username: R.Username,
-		Password: R.Password,
-		Nickname: R.Nickname,
+		Username: reqStruct.Username,
+		Password: reqStruct.Password,
+		Nickname: reqStruct.Nickname,
 	}
 	err, userReturn := service.Register(*user)
 	if err != nil {
@@ -54,18 +54,18 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var L request.LoginStruct
-	_ = c.ShouldBindJSON(&L)
+	var reqStruct request.LoginStruct
+	_ = c.ShouldBindJSON(&reqStruct)
 	UserVerify := utils.Rules{
 		"Username": {utils.NotEmpty()},
 		"Password": {utils.NotEmpty()},
 	}
-	UserVerifyErr := utils.Verify(L, UserVerify)
+	UserVerifyErr := utils.Verify(reqStruct, UserVerify)
 	if UserVerifyErr != nil {
 		response.FailWithMessage(UserVerifyErr.Error(), c)
 		return
 	}
-	U := &model.SysUser{Username: L.Username, Password: L.Password}
+	U := &model.SysUser{Username: reqStruct.Username, Password: reqStruct.Password}
 	if err, user := service.Login(U); err != nil {
 		response.FailWithMessage(fmt.Sprintf("用户名密码错误或%v", err), c)
 	} else {

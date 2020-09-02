@@ -30,14 +30,14 @@ func Register(c *gin.Context) {
 	var reqStruct request.RegisterStruct
 	_ = c.ShouldBindJSON(&reqStruct)
 
-	UserVerify := utils.Rules{
+	userVerify := utils.Rules{
 		"username": {utils.NotEmpty()},
 		"password": {utils.NotEmpty()},
 		"nickname": {utils.NotEmpty()},
 	}
-	UserVerifyErr := utils.Verify(reqStruct, UserVerify)
-	if UserVerifyErr != nil {
-		response.FailWithMessage(UserVerifyErr.Error(), c)
+	userVerifyErr := utils.Verify(reqStruct, userVerify)
+	if userVerifyErr != nil {
+		response.FailWithMessage(userVerifyErr.Error(), c)
 		return
 	}
 	user := &model.SysUser{
@@ -56,13 +56,13 @@ func Register(c *gin.Context) {
 func Login(c *gin.Context) {
 	var reqStruct request.LoginStruct
 	_ = c.ShouldBindJSON(&reqStruct)
-	UserVerify := utils.Rules{
+	userVerify := utils.Rules{
 		"Username": {utils.NotEmpty()},
 		"Password": {utils.NotEmpty()},
 	}
-	UserVerifyErr := utils.Verify(reqStruct, UserVerify)
-	if UserVerifyErr != nil {
-		response.FailWithMessage(UserVerifyErr.Error(), c)
+	userVerifyErr := utils.Verify(reqStruct, userVerify)
+	if userVerifyErr != nil {
+		response.FailWithMessage(userVerifyErr.Error(), c)
 		return
 	}
 	U := &model.SysUser{Username: reqStruct.Username, Password: reqStruct.Password}

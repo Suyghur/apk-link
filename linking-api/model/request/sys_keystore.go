@@ -6,10 +6,8 @@
 
 package request
 
-import "github.com/jinzhu/gorm"
-
 type KeystoreStruct struct {
-	gorm.Model
+	//gorm.Model
 	GameGroup             string `json:"game_group" gorm:"not null;comment:'游戏组'"`
 	KeystoreName          string `json:"keystore_name" gorm:"not null;comment:'签名文件名'"`
 	KeystorePassword      string `json:"keystore_password" gorm:"not null;comment:'签名文件密码'"`

@@ -47,11 +47,10 @@ func ModifyKeystore(c *gin.Context) {
 
 func CreateKeystore(c *gin.Context) {
 	//TODO 生成签名
-	//var
-	err, keystoreReutrn := service.CreateKeystore("测试游戏组")
+	err, keystoreReturn := service.CreateKeystore("测试游戏组")
 	if err != nil {
-		response.FailWithDetail(response.ERROR, fmt.Sprintf("%v", err), resp.SysKeystoreResponse{Keystore: keystoreReutrn}, c)
+		response.FailWithDetail(response.ERROR, fmt.Sprintf("%v", err), resp.SysKeystoreResponse{Keystore: keystoreReturn}, c)
 	} else {
-		response.OkWithDetailed("创建签名文件成功", resp.SysKeystoreResponse{Keystore: keystoreReutrn}, c)
+		response.OkWithDetailed("创建签名文件成功", resp.SysKeystoreResponse{Keystore: keystoreReturn}, c)
 	}
 }

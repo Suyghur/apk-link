@@ -7,7 +7,11 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"linking-api/global/response"
+	resp "linking-api/model/response"
+	"linking-api/service"
 )
 
 func ListKeystore(c *gin.Context) {
@@ -44,4 +48,10 @@ func ModifyKeystore(c *gin.Context) {
 func CreateKeystore(c *gin.Context) {
 	//TODO 生成签名
 	//var
+	err, keystoreReutrn := service.CreateKeystore("测试游戏组")
+	if err != nil {
+		response.FailWithDetail(response.ERROR, fmt.Sprintf("%v", err), resp.SysKeystoreResponse{Keystore: keystoreReutrn}, c)
+	} else {
+		response.OkWithDetailed("创建签名文件成功", resp.SysKeystoreResponse{Keystore: keystoreReutrn}, c)
+	}
 }

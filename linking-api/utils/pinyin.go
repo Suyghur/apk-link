@@ -12,7 +12,7 @@ import (
 	"unicode"
 )
 
-func getLowerPinYinInitials(val string) (result string) {
+func GetLowerPinYinInitials(val string) (result string) {
 	pyVal := pinyin.Convert(val)
 	for _, r := range pyVal {
 		if unicode.IsUpper(r) {
@@ -22,7 +22,7 @@ func getLowerPinYinInitials(val string) (result string) {
 	return strings.ToLower(result)
 }
 
-func getUpperPinYinInitials(val string) (result string) {
+func GetUpperPinYinInitials(val string) (result string) {
 	pyVal := pinyin.Convert(val)
 	for _, r := range pyVal {
 		if unicode.IsUpper(r) {
@@ -32,6 +32,6 @@ func getUpperPinYinInitials(val string) (result string) {
 	return strings.ToUpper(result)
 }
 
-func getPinYin(val string) string {
+func GetPinYin(val string) string {
 	return pinyin.Convert(val)
 }

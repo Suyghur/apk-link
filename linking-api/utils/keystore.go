@@ -11,6 +11,7 @@ import (
 	"linking-api/global"
 	"os/exec"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -26,8 +27,9 @@ type Fingerprints struct {
 	FingerprintsSHA256 string
 }
 
+//生成签名文件Keystore
 func CreateKeystore(GroupName string) (keystore Keystore, err error) {
-	pyGroupName := getLowerPinYinInitials(GroupName)
+	pyGroupName := GetLowerPinYinInitials(GroupName)
 	keystore.KeystoreName = pyGroupName + "_" + "hl.keystore"
 	keystore.KeystorePassword = pyGroupName + GetRandomLowerStr(4) + "_hl" + strconv.Itoa(time.Now().Year())
 	keystore.KeystoreAlias = "alias." + pyGroupName + "_hl" + strconv.Itoa(time.Now().Year())
@@ -51,24 +53,11 @@ func CreateKeystore(GroupName string) (keystore Keystore, err error) {
 		return keystore, err
 	}
 	return keystore, nil
-	//global.GVA_LOG.Debug(err.Error())
-	//pos := strings.Index(result, "MD5:  ")
-	//pos2 := strings.Index(result[pos:], "\n")
-	//fmt.Println(pos)
-	//fmt.Println(pos2)
-	//pos = pos + 6
-	//pos2 = pos2 - 6
-	//fmt.Println(result[(pos):(pos + pos2)])
 }
 
+//获取Keystore中的指纹证书
 func GetKeystoreFingerprints(keystore *Keystore) (fingerprints Fingerprints, err error) {
-	//keytool -list -v -keystore yxz_hl.keystore
-	//workspace, _ := os.Getwd()
-
-	cmd := exec.Command("keytool", "-list", "-v", "-keystore",
-		//workspace+"/assets/keystore/"+keystore.KeystoreName,
-		keystore.KeystoreName,
-		"-storepass", keystore.KeystorePassword)
+	cmd := exec.Command("keytool", "-list", "-v", "-keystore", keystore.KeystoreName, "-storepass", keystore.KeystorePassword)
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -86,7 +75,20 @@ func GetKeystoreFingerprints(keystore *Keystore) (fingerprints Fingerprints, err
 		return fingerprints, err
 	} else {
 		result := string(optBytes)
-		global.GVA_LOG.Debug(result)
+		//截取md5
+		md5Pos := strings.Index(result, "MD5:  ") + 6
+		md5Pos2 := strings.Index(result[md5Pos:], "\n") - 6
+		fingerprints.FingerprintsMD5 = result[md5Pos:(md5Pos + md5Pos2)]
+
+		//截取sha1
+		sha1Pos := strings.Index(result, "SHA1: ") + 6
+		sha1Pos2 := strings.Index(result[sha1Pos:], "\n") - 6
+		fingerprints.FingerprintsSHA1 = result[sha1Pos:(sha1Pos + sha1Pos2)]
+
+		//截取sha256
+		sha256Pos := strings.Index(result, "SHA256: ") + 8
+		sha256Pos2 := strings.Index(result[sha256Pos:], "\n") - 8
+		fingerprints.FingerprintsSHA256 = result[sha256Pos:(sha256Pos + sha256Pos2)]
 	}
 
 	return fingerprints, nil

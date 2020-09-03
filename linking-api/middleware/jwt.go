@@ -13,7 +13,7 @@ import (
 	"linking-api/global"
 	"linking-api/global/response"
 	"linking-api/model"
-	"linking-api/model/request"
+	"linking-api/model/bean/request"
 	"linking-api/service"
 	"time"
 )

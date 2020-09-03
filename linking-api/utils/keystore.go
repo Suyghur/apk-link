@@ -34,6 +34,7 @@ func CreateKeystore(GroupName string) (keystore Keystore, err error) {
 	keystore.KeystorePassword = pyGroupName + GetRandomLowerStr(4) + "_hl" + strconv.Itoa(time.Now().Year())
 	keystore.KeystoreAlias = "alias." + pyGroupName + "_hl" + strconv.Itoa(time.Now().Year())
 	keystore.KeystoreAliasPassword = keystore.KeystorePassword
+	global.GVA_LOG.Debug("keytool -genkey -alias " + keystore.KeystoreAlias + " -keyalg RSA -validity 20000 -keystore " + keystore.KeystoreName + " -storepass " + keystore.KeystorePassword + " -keypass " + keystore.KeystoreAliasPassword + " -dname CN=hl, OU=hl, O=hl, L=hl, ST=hl, C=hl")
 	cmd := exec.Command("keytool", "-genkey", "-alias", keystore.KeystoreAlias,
 		"-keyalg", "RSA", "-validity", "20000", "-keystore", keystore.KeystoreName,
 		"-storepass", keystore.KeystorePassword, "-keypass", keystore.KeystoreAliasPassword,

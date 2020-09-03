@@ -14,12 +14,19 @@ import (
 func InitScriptRouter(r *gin.RouterGroup) {
 	scriptRouter := r.Group("script")
 	{
-		gameScriptRouter := scriptRouter.Group("game")
-		{
-			gameScriptRouter.POST("list", v1.ListGameScript)
-			gameScriptRouter.POST("search", v1.SearchGameScript)
-			gameScriptRouter.POST("modify", v1.ModifyGameScript)
-		}
+		scriptRouter.POST("list", v1.ListScript)
+		//scriptRouter.POST("search", v1.SearchScript)
+		scriptRouter.POST("modify", v1.ModifyScript)
+		scriptRouter.POST("create", v1.CreateScript)
+
+		//scriptRouter.POST("create", v1.ModifyScript)
+		//gameScriptRouter := scriptRouter.Group("game")
+		//{
+		//	gameScriptRouter.POST("list", v1.ListScript)
+		//	gameScriptRouter.POST("search", v1.SearchScript)
+		//	gameScriptRouter.POST("modify", v1.ModifyGameScript)
+		//	gameScriptRouter.POST("")
+		//}
 	}
 
 }

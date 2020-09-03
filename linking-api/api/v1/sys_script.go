@@ -9,50 +9,101 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"linking-api/global"
 	"linking-api/global/response"
 	"linking-api/model"
-	"linking-api/model/request"
-	resp "linking-api/model/response"
+	"linking-api/model/bean/request"
+	resp "linking-api/model/bean/response"
 	"linking-api/service"
 	"linking-api/utils"
 )
 
-func ListGameScript(c *gin.Context) {
-
-}
-
-func SearchGameScript(c *gin.Context) {
-
-}
-
-func ModifyGameScript(c *gin.Context) {
-
-}
-
-func CreateGameScript(c *gin.Context) {
-	var reqStruct request.CreateScriptStruct
-	_ := c.ShouldBindJSON(&reqStruct)
-	verifyRules := utils.Rules{
-		"game_group":       {utils.NotEmpty()},
-		"script_file_name": {utils.NotEmpty()},
-		"script_file_url":  {utils.NotEmpty()},
-		"script_file_md5":  {utils.NotEmpty()},
+func ListScript(c *gin.Context) {
+	var bean request.ReqListScriptBean
+	_ = c.ShouldBindJSON(&bean)
+	err, list, total := service.ListScript(bean)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(resp.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     bean.Page,
+			PageSize: bean.PageSize,
+		}, c)
 	}
-	verifyErr := utils.Verify(reqStruct, verifyRules)
-	if verifyErr != nil {
+}
+
+//func SearchScript(c *gin.Context) {
+//	//var gameGroup = c.Query("game_group")
+//	var bean model.SysScript
+//	_ = c.ShouldBindJSON(&bean)
+//	verifyRules := utils.Rules{
+//		"GameGroup": {utils.NotEmpty()},
+//	}
+//	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+//		global.GVA_LOG.Error(verifyErr.Error())
+//		response.FailWithMessage(fmt.Sprintf("查询失败，%v", verifyErr), c)
+//		return
+//	}
+//	err, scriptReturn := service.SearchScript(bean.GameGroup)
+//	if err != nil {
+//		global.GVA_LOG.Error(err.Error())
+//		response.FailWithMessage(fmt.Sprintf("查询失败，%v", err), c)
+//	} else {
+//		response.OkWithData(gin.H{"script": scriptReturn}, c)
+//	}
+//
+//}
+
+func ModifyScript(c *gin.Context) {
+	var bean request.ReqScriptBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"GameGroup":      {utils.NotEmpty()},
+		"ScriptFileName": {utils.NotEmpty()},
+		"ScriptFileUrl":  {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-
 	script := &model.SysScript{
-		GameGroup:      reqStruct.GameGroup,
-		ScriptFileName: reqStruct.ScriptFileName,
-		ScriptFileUrl:  reqStruct.ScriptFileUrl,
-		ScriptFileMD5:  reqStruct.ScriptFileMD5,
+		GameGroup:      bean.GameGroup,
+		ScriptFileName: bean.ScriptFileName,
+		ScriptFileUrl:  bean.ScriptFileUrl,
 	}
-	err, scriptReturn := service.CreateScript(*script)
-	if err !=nil{
-		response.FailWithDetail(response.ERROR, fmt.Sprintf("%v", err), resp.SysUserResponse{User: userReturn}, c)
+	err := service.ModifyScript(*script)
+	if err != nil {
+		global.GVA_LOG.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithMessage("修改游戏脚本成功", c)
+	}
+}
 
+func CreateScript(c *gin.Context) {
+	var bean request.ReqScriptBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"GameGroup":      {utils.NotEmpty()},
+		"ScriptFileName": {utils.NotEmpty()},
+		"ScriptFileUrl":  {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	script := &model.SysScript{
+		GameGroup:      bean.GameGroup,
+		ScriptFileName: bean.ScriptFileName,
+		ScriptFileUrl:  bean.ScriptFileUrl,
+	}
+	err := service.CreateScript(*script)
+	if err != nil {
+		global.GVA_LOG.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithMessage("创建游戏脚本成功", c)
 	}
 }

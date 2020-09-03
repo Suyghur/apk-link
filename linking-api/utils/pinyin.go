@@ -18,6 +18,9 @@ func GetLowerPinYinInitials(val string) (result string) {
 		if unicode.IsUpper(r) {
 			result = result + string(r)
 		}
+		if unicode.IsDigit(r) {
+			result = result + string(r)
+		}
 	}
 	return strings.ToLower(result)
 }

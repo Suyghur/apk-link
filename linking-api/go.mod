@@ -6,6 +6,7 @@ require (
 	github.com/Suyghur/pinyin v0.0.0-20180208003132-d1557e083be4
 	github.com/aliyun/aliyun-oss-go-sdk v2.1.4+incompatible
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394 // indirect
+	github.com/baiyubin/aliyun-sts-go-sdk v0.0.0-20180326062324-cfa1a18b161f // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/fsnotify/fsnotify v1.4.9

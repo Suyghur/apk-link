@@ -10,21 +10,43 @@ import (
 	"errors"
 	"linking-api/global"
 	"linking-api/model"
-	"linking-api/model/request"
+	"linking-api/model/bean/request"
 	"linking-api/utils"
+	"linking-api/utils/aliyun"
+	"os"
 )
 
-func ListKeystore(info request.PageInfo) (err error, list interface{}, total int) {
-	limit := info.PageSize
-	offset := info.PageSize * (info.Page - 1)
+func ListKeystore(bean request.ReqListKeystoreBean) (err error, list interface{}, total int) {
+	limit := bean.PageSize
+	offset := bean.PageSize * (bean.Page - 1)
+	//创建db
 	db := global.GVA_DB.Model(&model.SysKeystore{})
-	var keystoreList []model.SysKeystore
+	var keystores []model.SysKeystore
+	if bean.GameGroup != "" {
+		db = db.Where("game_group = ?", bean.GameGroup)
+	}
+	if bean.KeystoreName != "" {
+		db = db.Where("keystore_name = ?", bean.KeystoreName)
+	}
 	err = db.Count(&total).Error
-	err = db.Limit(limit).Offset(offset).Preload("keystore_name").Find(&keystoreList).Error
-	return err, keystoreList, total
+	err = db.Limit(limit).Offset(offset).Find(&keystores).Error
+	return err, keystores, total
 }
 
-func CreateKeystore(gameGroup string) (err error, keystoreInter model.SysKeystore) {
+//func SearchKeystore(bean request.ReqKeystoreBean) (err error, script model.SysScript) {
+//	//创建db
+//	db := global.GVA_DB.Model(&model.SysKeystore{})
+//	if bean.GameGroup != "" {
+//		db = db.Where("game_group = ?", bean.GameGroup)
+//	}
+//	if bean.KeystoreName != "" {
+//		db = db.Where("keystore_name = ?", bean.GameGroup)
+//	}
+//	err = global.GVA_DB.Where("game_group = ?", bean.GameGroup).First(&script).Error
+//	return
+//}
+
+func CreateKeystore(gameGroup string) (err error) {
 	var keystore model.SysKeystore
 	pyGroupName := utils.GetLowerPinYinInitials(gameGroup)
 	keystoreName := pyGroupName + "_" + "hl.keystore"
@@ -32,16 +54,24 @@ func CreateKeystore(gameGroup string) (err error, keystoreInter model.SysKeystor
 	isExit := !global.GVA_DB.Where("keystore_name = ?", keystoreName).First(&keystore).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
-		return errors.New("该游戏已存在签名文件"), keystoreInter
+		return errors.New("该游戏已存在签名文件")
 	} else {
 		newKeystore, err := utils.CreateKeystore(gameGroup)
 		if err != nil {
-			return err, keystoreInter
+			return err
 		}
 		fingerprints, err := utils.GetKeystoreFingerprints(&newKeystore)
 		if err != nil {
-			return err, keystoreInter
+			return err
 		}
+		//TODO 上传
+		aliyun.Upload("linking/keystore/"+keystoreName, keystoreName)
+		//TODO 删除
+		err = os.Remove(keystoreName)
+		if err != nil {
+			return err
+		}
+		keystore.GameGroup = gameGroup
 		keystore.KeystoreName = newKeystore.KeystoreName
 		keystore.KeystorePassword = newKeystore.KeystorePassword
 		keystore.KeystoreAlias = newKeystore.KeystoreAlias
@@ -49,8 +79,10 @@ func CreateKeystore(gameGroup string) (err error, keystoreInter model.SysKeystor
 		keystore.FingerprintsMD5 = fingerprints.FingerprintsMD5
 		keystore.FingerprintsSHA1 = fingerprints.FingerprintsSHA1
 		keystore.FingerprintsSHA256 = fingerprints.FingerprintsSHA256
+		keystore.KeystoreFileUrl = global.GVA_CONFIG.Aliyun.Endpoint + "/linking/keystore/" + keystoreName
 		err = global.GVA_DB.Create(&keystore).Error
+
 	}
-	return err, keystore
+	return err
 
 }

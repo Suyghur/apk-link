@@ -75,7 +75,7 @@ func ListChannelSdk(bean request.ReqListChannelSdkBean) (err error, list interfa
 func CreateChannelSdk(bean model.SysChannelSdk) (err error) {
 	var channelSdk model.SysChannelSdk
 	//根据版本去判断是否存在
-	isExit := !global.GVA_DB.Where("channel_name = ?", bean.ChannelName).Where("sdk_version = ?", bean.SdkVersion).First(&channelSdk).RecordNotFound()
+	isExit := !global.GVA_DB.Where("channel_name = ? AND sdk_version = ?", bean.ChannelName, bean.SdkVersion).First(&channelSdk).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
 		return errors.New("该版本渠道SDK已存在")
@@ -88,10 +88,10 @@ func CreateChannelSdk(bean model.SysChannelSdk) (err error) {
 func ModifyChannelSdk(bean model.SysChannelSdk) (err error) {
 	var channelSdk model.SysChannelSdk
 	//根据版本去判断是否存在
-	isExit := !global.GVA_DB.Where("channel_name = ?", bean.ChannelName).Where("sdk_version = ?", bean.SdkVersion).First(&channelSdk).RecordNotFound()
+	isExit := !global.GVA_DB.Where("channel_name = ? AND sdk_version = ?", bean.ChannelName, bean.SdkVersion).First(&channelSdk).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
-		err = global.GVA_DB.Where("channel_name = ?", bean.ChannelName).Where("sdk_version = ?", bean.SdkVersion).First(&channelSdk).Updates(map[string]interface{}{
+		err = global.GVA_DB.Where("channel_name = ? AND sdk_version = ?", bean.ChannelName, bean.SdkVersion).First(&channelSdk).Updates(map[string]interface{}{
 			"channel_name":  bean.ChannelName,
 			"sdk_name":      bean.SdkName,
 			"sdk_version":   bean.SdkVersion,
@@ -121,7 +121,7 @@ func ListPluginSdk(bean request.ReqListPluginSdkBean) (err error, list interface
 func CreatePluginSdk(bean model.SysPluginSdk) (err error) {
 	var pluginSdk model.SysPluginSdk
 	//根据版本去判断是否存在
-	isExit := !global.GVA_DB.Where("plugin_name = ?", bean.PluginName).Where("sdk_version = ?", bean.SdkVersion).First(&pluginSdk).RecordNotFound()
+	isExit := !global.GVA_DB.Where("plugin_name = ? AND sdk_version = ?", bean.PluginName, bean.SdkVersion).First(&pluginSdk).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
 		return errors.New("该版本插件SDK已存在")
@@ -134,10 +134,10 @@ func CreatePluginSdk(bean model.SysPluginSdk) (err error) {
 func ModifyPluginSdk(bean model.SysPluginSdk) (err error) {
 	var pluginSdk model.SysPluginSdk
 	//根据版本去判断是否存在
-	isExit := !global.GVA_DB.Where("plugin_name = ?", bean.PluginName).Where("sdk_version = ?", bean.SdkVersion).First(&pluginSdk).RecordNotFound()
+	isExit := !global.GVA_DB.Where("plugin_name = ? AND sdk_version = ?", bean.PluginName, bean.SdkVersion).First(&pluginSdk).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
-		err = global.GVA_DB.Where("plugin_name = ?", bean.PluginName).Where("sdk_version = ?", bean.SdkVersion).First(&pluginSdk).Updates(map[string]interface{}{
+		err = global.GVA_DB.Where("plugin_name = ? AND sdk_version = ?", bean.PluginName, bean.SdkVersion).First(&pluginSdk).Updates(map[string]interface{}{
 			"plugin_name":   bean.PluginName,
 			"sdk_name":      bean.SdkName,
 			"sdk_version":   bean.SdkVersion,

@@ -15,8 +15,8 @@ func InitTaskRouter(r *gin.RouterGroup) {
 	taskRouter := r.Group("task")
 	{
 		taskRouter.POST("list", v1.ListTask)
-		taskRouter.POST("search", v1.SearchTask)
-		taskRouter.POST("modify", v1.SearchTask)
-		taskRouter.POST("exec", v1.ExecTask)
+		taskRouter.POST("create", v1.CreateTask)
+		taskRouter.POST("modify", v1.ModifyTask)
+		taskRouter.POST("modify_status", v1.ModifyTaskStatus)
 	}
 }

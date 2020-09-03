@@ -1,0 +1,112 @@
+/*
+@Time : 2020/9/3
+@Author : #Suyghur,
+@File : sys_origin
+*/
+
+package v1
+
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"linking-api/global"
+	"linking-api/global/response"
+	"linking-api/model"
+	"linking-api/model/bean/request"
+	resp "linking-api/model/bean/response"
+	"linking-api/service"
+	"linking-api/utils"
+)
+
+func ListOrigin(c *gin.Context) {
+	var bean request.ReqListOriginBean
+	_ = c.ShouldBindJSON(&bean)
+	err, list, total := service.ListOrigin(bean)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(resp.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     bean.Page,
+			PageSize: bean.PageSize,
+		}, c)
+	}
+}
+
+func CreateOrigin(c *gin.Context) {
+	var bean request.ReqOriginBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"GameGroup":       {utils.NotEmpty()},
+		"Gid":             {utils.NotEmpty()},
+		"IsFuseSdk":       {utils.NotEmpty()},
+		"SdkVersion":      {utils.NotEmpty()},
+		"GameVersionCode": {utils.NotEmpty()},
+		"GameVersionName": {utils.NotEmpty()},
+		"KeystoreName":    {utils.NotEmpty()},
+		"ApkUrl":          {utils.NotEmpty()},
+	}
+
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	origin := &model.SysOrigin{
+		GameGroup:       bean.GameGroup,
+		Gid:             bean.Gid,
+		IsFuseSdk:       bean.IsFuseSdk,
+		SdkVersion:      bean.SdkVersion,
+		GameVersionCode: bean.GameVersionCode,
+		GameVersionName: bean.GameVersionName,
+		GameOrientation: bean.GameOrientation,
+		KeystoreName:    bean.KeystoreName,
+		IconUrl:         bean.IconUrl,
+		ApkUrl:          bean.ApkUrl,
+	}
+	err := service.CreateOrigin(*origin)
+	if err != nil {
+		global.GVA_LOG.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithMessage("创建游戏母包成功", c)
+	}
+}
+
+func ModifyOrigin(c *gin.Context) {
+	var bean request.ReqOriginBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"GameGroup":       {utils.NotEmpty()},
+		"Gid":             {utils.NotEmpty()},
+		"IsFuseSdk":       {utils.NotEmpty()},
+		"SdkVersion":      {utils.NotEmpty()},
+		"GameVersionCode": {utils.NotEmpty()},
+		"GameVersionName": {utils.NotEmpty()},
+		"KeystoreName":    {utils.NotEmpty()},
+		"ApkUrl":          {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	origin := &model.SysOrigin{
+		GameGroup:       bean.GameGroup,
+		Gid:             bean.Gid,
+		IsFuseSdk:       bean.IsFuseSdk,
+		SdkVersion:      bean.SdkVersion,
+		GameVersionCode: bean.GameVersionCode,
+		GameVersionName: bean.GameVersionName,
+		GameOrientation: bean.GameOrientation,
+		KeystoreName:    bean.KeystoreName,
+		IconUrl:         bean.IconUrl,
+		ApkUrl:          bean.ApkUrl,
+	}
+	err := service.ModifyOrigin(*origin)
+	if err != nil {
+		global.GVA_LOG.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithMessage("修改游戏母包成功", c)
+	}
+}

@@ -33,6 +33,7 @@ func Routers() *gin.Engine {
 	router.InitSdkRouter(apiGroup)
 	router.InitKeystoreRouter(apiGroup)
 	router.InitScriptRouter(apiGroup)
+	router.InitOriginRouter(apiGroup)
 	global.GVA_LOG.Info("router register success")
 	return r
 }

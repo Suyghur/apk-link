@@ -36,3 +36,9 @@ func Login(u *model.SysUser) (err error, userInter *model.SysUser) {
 	err = global.GVA_DB.Where("username = ? AND password = ?", u.Username, u.Password).First(&user).Error
 	return err, &user
 }
+
+func Info(username string) (err error, userInter *model.SysUser) {
+	var user model.SysUser
+	err = global.GVA_DB.Where("username = ?", username).First(&user).Error
+	return err, &user
+}

@@ -22,12 +22,31 @@ import (
 	"time"
 )
 
-func Test(c *gin.Context) {
-	response.OkWithData(gin.H{"test": "test"}, c)
+func Info(c *gin.Context) {
+	var bean request.UserInfoBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"Username": {utils.NotEmpty()},
+	}
+	verifyErr := utils.Verify(bean, verifyRules)
+	if verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, userReturn := service.Info(bean.Username)
+	if err != nil {
+		response.FailWithMessage("获取用户信息失败", c)
+	} else {
+		response.OkWithDetailed("获取用户信息成功", gin.H{
+			"username": userReturn.Username,
+			"uuid":     userReturn.UUID,
+			"nickname": userReturn.Nickname,
+		}, c)
+	}
 }
 
 func Register(c *gin.Context) {
-	var reqStruct request.RegisterStruct
+	var reqStruct request.RegisterBean
 	_ = c.ShouldBindJSON(&reqStruct)
 
 	userVerify := utils.Rules{
@@ -54,7 +73,7 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var reqStruct request.LoginStruct
+	var reqStruct request.LoginBean
 	_ = c.ShouldBindJSON(&reqStruct)
 	userVerify := utils.Rules{
 		"Username": {utils.NotEmpty()},

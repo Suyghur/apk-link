@@ -8,13 +8,13 @@ package request
 
 import uuid "github.com/satori/go.uuid"
 
-type RegisterStruct struct {
+type RegisterBean struct {
 	Username string `json:"username"`
 	Password string `json:"password" gorm:"default:'abc123456'"`
 	Nickname string `json:"nickname" gorm:"default:'HoulangUser'"`
 }
 
-type LoginStruct struct {
+type LoginBean struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -23,8 +23,6 @@ type SetUserAuth struct {
 	UUID uuid.UUID `json:"uuid"`
 }
 
-type TestStruct struct {
+type UserInfoBean struct {
 	Username string `json:"username"`
-	Password string `json:"password" gorm:"default:'abc123456'"`
-	Nickname string `json:"nickname" gorm:"default:'HoulangUser'"`
 }

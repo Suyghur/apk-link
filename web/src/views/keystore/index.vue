@@ -1,6 +1,10 @@
 <template>
   <div id="keystore">
-    <KeystorePanelHead />
+    <KeystorePanelHead
+      :query-map="queryMap"
+      @searchKeystore="searchKeystore"
+      @createKeystore="createKeystore"
+    />
     <el-divider />
     <KeystoreTable :list="list" />
   </div>
@@ -8,8 +12,8 @@
 
 <script>
 import KeystoreTable from '@/components/tables/game/KeystoreTable'
-import KeystorePanelHead from '@/views/game/components/KeystorePanelHead'
 import { searchKeystore } from '@/api/keystore'
+import KeystorePanelHead from '@/views/keystore/components/KeystorePanelHead'
 
 export default {
   name: 'KeyStore',
@@ -36,9 +40,12 @@ export default {
         this.listLoading = false
       })
     },
+    createKeystore() {
+
+    },
     search() {
       this.list = []
-      this.fetchKeystoreList()
+      this.searchKeystore()
     }
   }
 }

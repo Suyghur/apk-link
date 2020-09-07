@@ -20,11 +20,8 @@
 <script>
 import TaskPanelHead from '@/views/task/componets/TaskPanelHead'
 import TaskTable from '@/views/task/componets/TaskTable'
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-
+import Pagination from '@/components/Pagination'
 import { getTaskList } from '@/api/task'
-// import { getOptions } from '@/api/options'
-// import {getOptions} from "@/api/options";
 
 export default {
   name: 'Tasks',

@@ -259,28 +259,25 @@
           :plugin-name="taskForm.plugin_name"
         />
         <el-divider content-position="left">分发参数</el-divider>
-        <el-row v-show="isCreate">
-          <el-form-item label-width="200px" label="AID：">
-            <el-transfer
-              v-model="tempAids"
-              :disable="disabled"
-              filterable
-              filter-placeholder="请输入AID"
-              :data="aidOptions"
-            />
-          </el-form-item>
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label-width="200px" prop="aids" label="AID：">
+              <!--            <el-transfer-->
+              <!--              v-model="tempAids"-->
+              <!--              :disable="disabled"-->
+              <!--              filterable-->
+              <!--              filter-placeholder="请输入AID"-->
+              <!--              :data="aidOptions"-->
+              <!--            />-->
+              <el-input
+                v-model="taskForm.aids"
+                type="textarea"
+                :rows="3"
+                placeholder="请输入Aid，多个Aid以字母逗号','分隔"
+              />
+            </el-form-item>
+          </el-col>
         </el-row>
-        <!--        <el-row v-show="!isCreate">-->
-        <!--          <el-form-item label-width="200px" label="AID：">-->
-        <!--            <el-transfer-->
-        <!--              v-model="tempAids"-->
-        <!--              :disable="disabled"-->
-        <!--              filterable-->
-        <!--              filter-placeholder="请输入AID"-->
-        <!--              :data="aidOptions"-->
-        <!--            />-->
-        <!--          </el-form-item>-->
-        <!--        </el-row>-->
       </el-form>
     </div>
     <div class="button-group">
@@ -295,7 +292,7 @@ import { mapGetters } from 'vuex'
 import { getGid } from '@/api/game'
 import ImgUploader from '@/components/ImgUploader'
 import ParamPanel from '@/views/task/componets/param/ParamPanel'
-import { getAids, getChannelSdks, getFuseSdks, getGameKeystores, getOriginBags, getPluginSdks } from '@/api/options'
+import { getChannelSdks, getFuseSdks, getGameKeystores, getOriginBags, getPluginSdks } from '@/api/options'
 import { createTask, modifyTask } from '@/api/task'
 
 const defaultForm = {
@@ -368,8 +365,6 @@ export default {
       channelVersionOptions: [],
       pluginVersionOptions: [],
       gameKeystoreOptions: [],
-      aidOptions: [],
-      tempAids: [],
       originInfoMap: {},
       keystoreInfoMap: {},
       fuseSdkInfoMap: {},
@@ -385,7 +380,9 @@ export default {
         game_version_code: [{ required: true, message: '请输入游戏版本号', trigger: 'blur' }],
         channel_name: [{ required: true, message: '请选择渠道SDK', trigger: 'change' }],
         channel_sdk_version: [{ required: true, message: '请选择渠道SDK版本', trigger: 'change' }],
-        keystore_name: [{ required: true, message: '请选择签名文件', trigger: 'change' }]
+        keystore_name: [{ required: true, message: '请选择签名文件', trigger: 'change' }],
+        aids: [{ required: true, message: '请输入Aid', trigger: 'blur' }]
+
       }
     }
   },
@@ -486,36 +483,6 @@ export default {
       this.taskForm.keystore_alias = this.keystoreInfoMap[item].keystore_alias
       this.taskForm.keystore_alias_password = this.keystoreInfoMap[item].keystore_alias_password
       this.taskForm.keystore_file_url = this.keystoreInfoMap[item].keystore_file_url
-    },
-    fetchAids(gid) {
-      this.taskForm.aids = []
-      this.aidOptions = []
-      if (gid !== '') {
-        return new Promise((resolve, reject) => {
-          getAids({ gid: this.taskForm.gid }).then(response => {
-            if (!response) {
-              return reject('数据加载异常')
-            }
-            const data = []
-            response.data.aids.forEach((item) => {
-              data.push({
-                label: item.ad_aid,
-                key: item.ad_aid
-              })
-            })
-            this.aidOptions = data
-            resolve(response)
-          }).catch(error => {
-            reject(error)
-          })
-        })
-      }
-    },
-    handleAids(aids) {
-      if (aids) {
-        this.tempAids = aids.split(',')
-        console.log('tempAids : ', this.tempAids)
-      }
     },
     fetchFuseVersionOptions() {
       this.fuseVersionOptions = []

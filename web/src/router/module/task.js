@@ -6,9 +6,9 @@ export const TaskRouterMap = {
   redirect: '/task/infos',
   children: [
     {
-      path: 'infos',
+      path: 'index',
       name: 'TaskInfos',
-      component: () => import('@/views/task/Tasks'),
+      component: () => import('@/views/task'),
       meta: { title: '打包任务管理', icon: 'el-icon-s-help' }
     },
     {

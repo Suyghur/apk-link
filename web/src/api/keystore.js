@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function searchKeystore(params) {
+export function searchKeystore(data) {
   return request({
     url: '/keystore/searchKeystore',
-    method: 'get',
-    params
+    method: 'post',
+    data
   })
 }

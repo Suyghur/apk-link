@@ -7,8 +7,11 @@ Vue.use(Router)
 import Layout from '@/layout'
 import { SdkRouterMap } from '@/router/module/sdk'
 import { ScriptRouterMap } from '@/router/module/script'
-import { GameRouterMap } from '@/router/module/game'
 import { TaskRouterMap } from '@/router/module/task'
+import { KeystoreRouterMap } from '@/router/module/keystore'
+import { OriginRouterMap } from '@/router/module/origin'
+import { LinkingRouterMap } from '@/router/module/linking'
+import { ConfigRouterMap } from '@/router/module/config'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -54,7 +57,7 @@ export const constantRoutes = [
     children: [{
       path: 'welcome',
       name: 'Welcome',
-      component: () => import('@/views/welcome/Welcome'),
+      component: () => import('@/views/welcome'),
       meta: { title: 'Welcome', icon: 'dashboard', breadcrumb: false }
     }],
     hidden: true
@@ -62,114 +65,12 @@ export const constantRoutes = [
   },
 
   TaskRouterMap,
+  LinkingRouterMap,
+  OriginRouterMap,
+  KeystoreRouterMap,
   SdkRouterMap,
   ScriptRouterMap,
-  GameRouterMap,
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: 'Table', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-  //
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
-  //
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       name: 'Menu2',
-  //       meta: { title: 'menu2' }
-  //     }
-  //   ]
-  // },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'http://www.hihoulang.com/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
+  ConfigRouterMap,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

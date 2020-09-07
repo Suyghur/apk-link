@@ -1,19 +1,18 @@
 <template>
-  <div id="linking_bag">
+  <div id="origin_bag">
     <TaskPanelHead />
     <el-divider />
-    <LinkingBagTable :list="list" />
+    <OriginBagTable :list="list" />
   </div>
 </template>
 
 <script>
-import { getLinkingBag } from '@/api/game'
 import TaskPanelHead from '@/components/drawer/TaskPanelHead'
-import LinkingBagTable from '@/components/tables/game/LinkingBagTable'
+import OriginBagTable from '@/components/tables/game/OriginBagTable'
 
 export default {
-  name: 'LinkingBag',
-  components: { LinkingBagTable, TaskPanelHead },
+  name: 'Origin',
+  components: { OriginBagTable, TaskPanelHead },
   data() {
     return {
       list: null,
@@ -25,11 +24,11 @@ export default {
   },
   methods: {
     fetchData() {
-      getLinkingBag().then(response => {
-        console.log(response)
-        this.list = response.data.linking_bag
-        this.listLoading = false
-      })
+      // getOriginBagList().then(response => {
+      //   console.log(response)
+      //   this.list = response.data.origin_bag
+      //   this.listLoading = false
+      // })
     },
     search() {
       this.list = []

@@ -18,10 +18,11 @@ import (
 	"linking-api/utils"
 )
 
-func ListTask(c *gin.Context) {
+func SearchTasks(c *gin.Context) {
 	var bean request.ReqListTaskBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.ListTask(bean)
+
+	err, list, total := service.SearchTasks(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
@@ -34,18 +35,53 @@ func ListTask(c *gin.Context) {
 	}
 }
 
+func DeleteTask(c *gin.Context) {
+	var bean request.ReqTaskInfoBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"TaskId": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err := service.DeleteTask(bean.TaskId)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("删除任务失败，%v", err), c)
+	} else {
+		response.OkWithMessage("删除任务成功", c)
+	}
+}
+
+func GetTaskInfo(c *gin.Context) {
+	var bean request.ReqTaskInfoBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"TaskId": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, taskInfo := service.GetTaskInfo(bean.TaskId)
+	if err != nil {
+		global.GVA_LOG.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithData(gin.H{"task_info": taskInfo}, c)
+	}
+}
+
 func CreateTask(c *gin.Context) {
-	var bean request.ReqTaskBean
+	var bean request.ReqCreateTaskBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
 		"GameGroup":         {utils.NotEmpty()},
-		"Aids":              {utils.NotEmpty()},
 		"GamePackageName":   {utils.NotEmpty()},
 		"GameName":          {utils.NotEmpty()},
 		"GameVersionCode":   {utils.NotEmpty()},
 		"GameVersionName":   {utils.NotEmpty()},
 		"GameFileName":      {utils.NotEmpty()},
-		"FuseSdkVersion":    {utils.NotEmpty()},
 		"ChannelName":       {utils.NotEmpty()},
 		"ChannelSdkVersion": {utils.NotEmpty()},
 		"KeystoreName":      {utils.NotEmpty()},
@@ -55,7 +91,6 @@ func CreateTask(c *gin.Context) {
 		return
 	}
 	task := &model.SysTask{
-		TaskId:                bean.TaskId,
 		IsFuseSdk:             bean.IsFuseSdk,
 		IsWhiteBag:            bean.IsWhiteBag,
 		IsPluginSdk:           bean.IsFuseSdk,
@@ -68,13 +103,11 @@ func CreateTask(c *gin.Context) {
 		GameName:              bean.GameName,
 		GameVersionCode:       bean.GameVersionCode,
 		GameVersionName:       bean.GameVersionName,
-		GameOrientation:       bean.GameOrientation,
 		GameIconUrl:           bean.GameIconUrl,
 		GameLogoUrl:           bean.GameLogoUrl,
 		GameSplashUrl:         bean.GameSplashUrl,
 		GameLoginBgUrl:        bean.GameLoginBgUrl,
 		GameFileName:          bean.GameFileName,
-		GameFileUrl:           bean.GameFileUrl,
 		FuseSdkFileName:       bean.FuseSdkFileName,
 		FuseSdkVersion:        bean.FuseSdkVersion,
 		FuseSdkFileUrl:        bean.FuseSdkFileUrl,
@@ -86,12 +119,11 @@ func CreateTask(c *gin.Context) {
 		PluginSdkFileName:     bean.PluginSdkFileName,
 		PluginSdkVersion:      bean.PluginSdkVersion,
 		PluginSdkFileUrl:      bean.PluginSdkFileUrl,
-		ScriptFileName:        bean.ScriptFileName,
-		ScriptFileUrl:         bean.ScriptFileUrl,
 		KeystoreName:          bean.KeystoreName,
 		KeystorePassword:      bean.KeystorePassword,
 		KeystoreAlias:         bean.KeystoreAlias,
 		KeystoreAliasPassword: bean.KeystoreAliasPassword,
+		KeystoreFileUrl:       bean.KeystoreFileUrl,
 		Ext:                   bean.Ext,
 	}
 	err := service.CreateTask(*task)
@@ -108,13 +140,11 @@ func ModifyTask(c *gin.Context) {
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
 		"GameGroup":         {utils.NotEmpty()},
-		"Aids":              {utils.NotEmpty()},
 		"GamePackageName":   {utils.NotEmpty()},
 		"GameName":          {utils.NotEmpty()},
 		"GameVersionCode":   {utils.NotEmpty()},
 		"GameVersionName":   {utils.NotEmpty()},
 		"GameFileName":      {utils.NotEmpty()},
-		"FuseSdkVersion":    {utils.NotEmpty()},
 		"ChannelName":       {utils.NotEmpty()},
 		"ChannelSdkVersion": {utils.NotEmpty()},
 		"KeystoreName":      {utils.NotEmpty()},
@@ -138,6 +168,8 @@ func ModifyTask(c *gin.Context) {
 		GameVersionCode:       bean.GameVersionCode,
 		GameVersionName:       bean.GameVersionName,
 		GameOrientation:       bean.GameOrientation,
+		StatusCode:            1000,
+		StatusMsg:             "未执行",
 		GameIconUrl:           bean.GameIconUrl,
 		GameLogoUrl:           bean.GameLogoUrl,
 		GameSplashUrl:         bean.GameSplashUrl,
@@ -182,7 +214,21 @@ func ModifyTaskStatus(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	err := service.ModifyTaskStatus(bean.TaskId, bean.Status)
+	statusMsg := "未执行"
+	switch bean.StatusCode {
+	case 1000:
+		statusMsg = "未执行"
+		break
+	case 1001:
+		statusMsg = "执行中"
+		break
+	case 1002:
+		statusMsg = "成功"
+		break
+	case 1003:
+		statusMsg = "失败"
+	}
+	err := service.ModifyTaskStatus(bean.TaskId, bean.StatusCode, statusMsg)
 	if err != nil {
 		global.GVA_LOG.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)

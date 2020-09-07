@@ -9,14 +9,16 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	v1 "linking-api/api/v1"
+	"linking-api/middleware"
 )
 
 func InitOriginRouter(r *gin.RouterGroup) {
-	originRouter := r.Group("origin")
+	originRouter := r.Group("origin").Use(middleware.JWTAuth())
 	{
-		originRouter.POST("list", v1.ListOrigin)
-		originRouter.POST("create", v1.CreateOrigin)
-		originRouter.POST("modify", v1.ModifyOrigin)
+		originRouter.POST("getOrigins", v1.GetOrigins)
+		originRouter.POST("searchOrigin", v1.SearchOrigin)
+		originRouter.POST("createOrigin", v1.CreateOrigin)
+		originRouter.POST("modifyOrigin", v1.ModifyOrigin)
 	}
 
 }

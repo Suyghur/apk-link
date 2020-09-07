@@ -22,29 +22,6 @@ import (
 	"time"
 )
 
-func Info(c *gin.Context) {
-	var bean request.UserInfoBean
-	_ = c.ShouldBindJSON(&bean)
-	verifyRules := utils.Rules{
-		"Username": {utils.NotEmpty()},
-	}
-	verifyErr := utils.Verify(bean, verifyRules)
-	if verifyErr != nil {
-		response.FailWithMessage(verifyErr.Error(), c)
-		return
-	}
-	err, userReturn := service.Info(bean.Username)
-	if err != nil {
-		response.FailWithMessage("获取用户信息失败", c)
-	} else {
-		response.OkWithDetailed("获取用户信息成功", gin.H{
-			"username": userReturn.Username,
-			"uuid":     userReturn.UUID,
-			"nickname": userReturn.Nickname,
-		}, c)
-	}
-}
-
 func Register(c *gin.Context) {
 	var reqStruct request.RegisterBean
 	_ = c.ShouldBindJSON(&reqStruct)
@@ -156,5 +133,53 @@ func tokenNext(c *gin.Context, user model.SysUser) {
 			Token:     token,
 			ExpiresAt: clams.StandardClaims.ExpiresAt * 1000,
 		}, c)
+	}
+}
+
+func GetUserInfo(c *gin.Context) {
+	var bean request.UserInfoBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"Username": {utils.NotEmpty()},
+	}
+	verifyErr := utils.Verify(bean, verifyRules)
+	if verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, userReturn := service.Info(bean.Username)
+	if err != nil {
+		response.FailWithMessage("获取用户信息失败", c)
+	} else {
+		response.OkWithDetailed("获取用户信息成功", gin.H{
+			"username": userReturn.Username,
+			"uuid":     userReturn.UUID,
+			"nickname": userReturn.Nickname,
+		}, c)
+	}
+}
+
+func ChangePassword(c *gin.Context) {
+	var bean request.ChangePasswordBean
+	_ = c.ShouldBindJSON(&bean)
+	userVerify := utils.Rules{
+		"Username":    {utils.NotEmpty()},
+		"Password":    {utils.NotEmpty()},
+		"NewPassword": {utils.NotEmpty()},
+	}
+	verifyErr := utils.Verify(bean, userVerify)
+	if verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	user := &model.SysUser{
+		Username: bean.Username,
+		Password: bean.Password,
+	}
+
+	if err, _ := service.ChangePassword(user, bean.NewPassword); err != nil {
+		response.FailWithMessage("修改失败，请检查用户名密码", c)
+	} else {
+		response.OkWithMessage("修改成功", c)
 	}
 }

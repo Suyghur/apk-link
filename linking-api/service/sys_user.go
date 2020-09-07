@@ -42,3 +42,10 @@ func Info(username string) (err error, userInter *model.SysUser) {
 	err = global.GVA_DB.Where("username = ?", username).First(&user).Error
 	return err, &user
 }
+
+func ChangePassword(u *model.SysUser, newPassword string) (err error, userInter *model.SysUser) {
+	var user model.SysUser
+	u.Password = crypto.MD5([]byte(u.Password))
+	err = global.GVA_DB.Where("username = ? AND password = ?", u.Username, u.Password).First(&user).Update("password", crypto.MD5([]byte(newPassword))).Error
+	return err, u
+}

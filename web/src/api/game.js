@@ -1,12 +1,12 @@
 import request from '@/utils/request'
 
-export function getOriginBagList(params) {
-  return request({
-    url: '/get_origin_bag_list',
-    method: 'get',
-    params
-  })
-}
+// export function getOriginBagList(params) {
+//   return request({
+//     url: '/get_origin_bag_list',
+//     method: 'get',
+//     params
+//   })
+// }
 
 export function getLinkingBag(params) {
   return request({
@@ -24,21 +24,21 @@ export function getKeystoreList(params) {
   })
 }
 
-export function getGameGroupInfo(params) {
+export function getGid(data) {
   return request({
-    url: '/get_game_group_info',
-    method: 'get',
-    params
+    url: '/game/getGid',
+    method: 'post',
+    data
   })
 }
 
-export function getGameKeystore(params) {
-  return request({
-    url: '/get_game_keystore',
-    method: 'get',
-    params
-  })
-}
+// export function getGameKeystore(data) {
+//   return request({
+//     url: '/keystore/getKeystores',
+//     method: 'post',
+//     params
+//   })
+// }
 
 export function getAidList(params) {
   return request({

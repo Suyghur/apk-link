@@ -1,6 +1,6 @@
 <template>
   <div id="task-create">
-    <TaskInfo :disabled="false" />
+    <TaskInfo :disabled="false" :editable="true" :is-create="true" />
   </div>
 </template>
 

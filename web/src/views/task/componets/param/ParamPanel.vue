@@ -19,12 +19,6 @@
         </div>
       </el-form-item>
     </el-row>
-    <!--    <el-divider content-position="left">扩展参数</el-divider>-->
-    <!--    <el-row>-->
-    <!--      <el-form-item class="task-info-item" label-width="200px" label="参数1：">-->
-    <!--        <ext-param />-->
-    <!--      </el-form-item>-->
-    <!--    </el-row>-->
   </div>
 </template>
 

@@ -9,6 +9,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	v1 "linking-api/api/v1"
+	"linking-api/middleware"
 )
 
 func InitUserRouter(r *gin.RouterGroup) {
@@ -23,10 +24,9 @@ func InitUserRouter(r *gin.RouterGroup) {
 	//	UserRouter.POST("setUserAuthority", v1.SetUserAuthority) // 设置用户权限
 	//	UserRouter.DELETE("deleteUser", v1.DeleteUser)           // 删除用户
 	//}
-	userRouter := r.Group("user")
+	userRouter := r.Group("user").Use(middleware.JWTAuth())
 	{
-		userRouter.POST("login", v1.Login)
-		userRouter.POST("register", v1.Register)
-		userRouter.POST("info", v1.Info)
+		userRouter.POST("changePassword", v1.ChangePassword)
+		userRouter.POST("getUserInfo", v1.GetUserInfo)
 	}
 }

@@ -11,7 +11,7 @@
       v-show="total>0"
       :total="total"
       :page.sync="queryList.page"
-      :limit.sync="queryList.limit"
+      :limit.sync="queryList.page_size"
       @pagination="fetchTasks"
     />
   </div>
@@ -23,6 +23,8 @@ import TaskTable from '@/views/task/componets/TaskTable'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 import { getTaskList } from '@/api/task'
+// import { getOptions } from '@/api/options'
+// import {getOptions} from "@/api/options";
 
 export default {
   name: 'Tasks',
@@ -34,45 +36,29 @@ export default {
       total: 0,
       queryList: {
         page: 1,
-        limit: 20,
+        page_size: 20,
         task_id: undefined,
         game_group: undefined,
         channel_name: undefined,
         plugin_name: undefined,
-        task_status: undefined
-      },
-      options: {
-        gameGroupOptions: [],
-        channelOptions: [],
-        pluginOptions: [],
-        statusOptions: []
+        status_code: -1
       }
     }
   },
   created() {
     this.fetchTasks()
-    this.fetchSelectOptions()
     this.$store.dispatch('options/fetchOptions')
   },
   methods: {
     fetchTasks() {
       this.listLoading = true
       getTaskList(this.queryList).then(response => {
-        this.list = response.data.tasks
+        this.list = response.data.list
         this.total = response.data.total
         setTimeout(() => {
           this.listLoading = false
-        }, 1.5 * 1000)
+        }, 1000)
       })
-    },
-
-    fetchSelectOptions() {
-      // getSelectOptions().then(response => {
-      //   this.options.gameGroupOptions = response.data.game_group
-      //   this.options.channelOptions = response.data.channel
-      //   this.options.pluginOptions = response.data.plugin
-      //   this.options.statusOptions = response.data.status
-      // })
     },
     createTask() {
       this.$router.push({ path: '/task/create' })

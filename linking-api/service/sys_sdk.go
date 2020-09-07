@@ -11,7 +11,13 @@ import (
 	"linking-api/global"
 	"linking-api/model"
 	"linking-api/model/bean/request"
+	"linking-api/model/bean/response"
 )
+
+func GetFuseSdks() (err error, sdks []response.SdksResponse) {
+	err = global.GVA_DB.Model(&model.SysFuseSdk{}).Select("sdk_version , sdk_file_name , sdk_file_url").Scan(&sdks).Error
+	return err, sdks
+}
 
 func ListFuseSdk(bean request.ReqListFuseSdkBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
@@ -58,6 +64,11 @@ func ModifyFuseSdk(bean model.SysFuseSdk) (err error) {
 	return err
 }
 
+func GetChannelSdks(channelName string) (err error, sdks []response.SdksResponse) {
+	err = global.GVA_DB.Model(&model.SysChannelSdk{}).Select("sdk_version , sdk_file_name , sdk_file_url").Where("channel_name = ?", channelName).Scan(&sdks).Error
+	return err, sdks
+}
+
 func ListChannelSdk(bean request.ReqListChannelSdkBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
@@ -102,6 +113,12 @@ func ModifyChannelSdk(bean model.SysChannelSdk) (err error) {
 		return errors.New("该版本插件SDK不存在")
 	}
 	return err
+}
+
+func GetPluginSdks(pluginName string) (err error, sdks []response.SdksResponse) {
+	global.GVA_LOG.Debug(pluginName)
+	err = global.GVA_DB.Model(&model.SysPluginSdk{}).Select("sdk_version , sdk_file_name , sdk_file_url").Where("plugin_name = ?", pluginName).Scan(&sdks).Error
+	return err, sdks
 }
 
 func ListPluginSdk(bean request.ReqListPluginSdkBean) (err error, list interface{}, total int) {

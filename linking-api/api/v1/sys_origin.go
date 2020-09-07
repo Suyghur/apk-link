@@ -18,10 +18,29 @@ import (
 	"linking-api/utils"
 )
 
-func ListOrigin(c *gin.Context) {
-	var bean request.ReqListOriginBean
+func GetOrigins(c *gin.Context) {
+	var bean request.ReqGetOriginListBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.ListOrigin(bean)
+	verifyRules := utils.Rules{
+		"GameGroup": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		global.GVA_LOG.Error(verifyErr.Error())
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, origins := service.GetOrigins(bean.GameGroup)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(gin.H{"origins": origins}, c)
+	}
+}
+
+func SearchOrigin(c *gin.Context) {
+	var bean request.ReqSearchOriginBean
+	_ = c.ShouldBindJSON(&bean)
+	err, list, total := service.SearchOrigin(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
@@ -42,6 +61,7 @@ func CreateOrigin(c *gin.Context) {
 		"Gid":             {utils.NotEmpty()},
 		"IsFuseSdk":       {utils.NotEmpty()},
 		"SdkVersion":      {utils.NotEmpty()},
+		"GameFileName":    {utils.NotEmpty()},
 		"GameVersionCode": {utils.NotEmpty()},
 		"GameVersionName": {utils.NotEmpty()},
 		"KeystoreName":    {utils.NotEmpty()},
@@ -57,6 +77,7 @@ func CreateOrigin(c *gin.Context) {
 		Gid:             bean.Gid,
 		IsFuseSdk:       bean.IsFuseSdk,
 		SdkVersion:      bean.SdkVersion,
+		GameFileName:    bean.GameFileName,
 		GameVersionCode: bean.GameVersionCode,
 		GameVersionName: bean.GameVersionName,
 		GameOrientation: bean.GameOrientation,

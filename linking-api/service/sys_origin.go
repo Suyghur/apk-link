@@ -11,9 +11,15 @@ import (
 	"linking-api/global"
 	"linking-api/model"
 	"linking-api/model/bean/request"
+	"linking-api/model/bean/response"
 )
 
-func ListOrigin(bean request.ReqListOriginBean) (err error, list interface{}, total int) {
+func GetOrigins(gameGroup string) (err error, origins []response.OriginsResponse) {
+	err = global.GVA_DB.Model(&model.SysOrigin{}).Select("game_file_name , is_fuse_sdk , game_orientation , apk_url").Where("game_group = ?", gameGroup).Scan(&origins).Error
+	return err, origins
+}
+
+func SearchOrigin(bean request.ReqSearchOriginBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db

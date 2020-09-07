@@ -20,7 +20,12 @@ type ReqOriginBean struct {
 	ApkUrl          string `json:"apk_url" gorm:"not null;comment:'APK的URL'"`
 }
 
-type ReqListOriginBean struct {
-	ReqOriginBean
+type ReqSearchOriginBean struct {
+	GameGroup  string `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
+	SdkVersion string `json:"sdk_version" gorm:"not null;index:idx_sdk_version;comment:'聚合SDK版本'"`
 	PageInfo
+}
+
+type ReqGetOriginListBean struct {
+	GameGroup string `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
 }

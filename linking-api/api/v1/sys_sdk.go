@@ -18,6 +18,15 @@ import (
 	"linking-api/utils"
 )
 
+func GetFuseSdks(c *gin.Context) {
+
+	err, fuseSdks := service.GetFuseSdks()
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(gin.H{"fuse_sdks": fuseSdks}, c)
+	}
+}
 func ListFuseSdk(c *gin.Context) {
 	var bean request.ReqListFuseSdkBean
 	_ = c.ShouldBindJSON(&bean)
@@ -87,6 +96,24 @@ func CreateFuseSdk(c *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建聚合SDK成功", c)
+	}
+}
+
+func GetChannelSdks(c *gin.Context) {
+	var bean request.ReqChannelSdksBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"ChannelName": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, channelSdks := service.GetChannelSdks(bean.ChannelName)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(gin.H{"channel_sdks": channelSdks}, c)
 	}
 }
 
@@ -163,6 +190,24 @@ func ModifyChannelSdk(c *gin.Context) {
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改渠道SDK成功", c)
+	}
+}
+
+func GetPluginSdks(c *gin.Context) {
+	var bean request.ReqPluginSdksBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"PluginName": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, pluginSdks := service.GetPluginSdks(bean.PluginName)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(gin.H{"plugin_sdks": pluginSdks}, c)
 	}
 }
 

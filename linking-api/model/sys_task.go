@@ -18,7 +18,7 @@ type SysTask struct {
 	IsPluginSdk     int        `json:"is_plugin_sdk" gorm:"default:'0';comment:'是否媒体包'"`
 	GameGroup       string     `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
 	Gid             string     `json:"gid" gorm:"not null;comment:'游戏组ID'"`
-	Aids            string     `json:"aids" gorm:"not null;comment:'子包AID'"`
+	Aids            string   `json:"aids" gorm:"not null;comment:'子包AID'"`
 	ChannelParams   string     `json:"channel_params" gorm:"comment:'渠道参数'"`
 	PluginParams    string     `json:"plugin_params" gorm:"comment:'插件参数'"`
 	GamePackageName string     `json:"game_package_name" gorm:"not null;comment:'游戏包名'"`
@@ -30,7 +30,8 @@ type SysTask struct {
 	GameLogoUrl     string     `json:"game_logo_url" gorm:"游戏LOGO链接"`
 	GameSplashUrl   string     `json:"game_splash_url" gorm:"游戏闪屏链接"`
 	GameLoginBgUrl  string     `json:"game_login_bg_url" gorm:"游戏登录背景链接"`
-	Status          int        `json:"status" gorm:"default:'0';index:idx_status;gorm:'打包状态'"`
+	StatusCode      int        `json:"status_code" gorm:"default:'1000';index:idx_status_code;gorm:'打包状态'"`
+	StatusMsg       string     `json:"status_msg" gorm:"default:'未执行';index:idx_status_msg;gorm:'打包状态信息'"`
 	//母包信息
 	GameFileName string `json:"game_file_name" gorm:"not null;comment:'母包名'"`
 	GameFileUrl  string `json:"game_file_url" gorm:"not null;comment:'母包链接'"`
@@ -56,5 +57,6 @@ type SysTask struct {
 	KeystorePassword      string `json:"keystore_password" gorm:"not null;comment:'签名文件密码'"`
 	KeystoreAlias         string `json:"keystore_alias" gorm:"not null;comment:'签名文件别名'"`
 	KeystoreAliasPassword string `json:"keystore_alias_password" gorm:"not null;comment:'签名文件别名密码'"`
+	KeystoreFileUrl       string `json:"keystore_file_url" gorm:"not null;comment:'签名文件链接'"`
 	Ext                   string `json:"ext" gorm:"comment:'扩展字段'"`
 }

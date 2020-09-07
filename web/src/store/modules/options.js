@@ -1,40 +1,36 @@
 import { getToken } from '@/utils/auth'
-import { getSelectOptions } from '@/api/task'
+import { getOptions } from '@/api/options'
 // import {getGameGroupInfo} from "@/api/game";
 
 const getDefaultSelectOptions = () => {
   return {
-    selectOptions: {
+    options: {
       gameGroupOptions: [],
-      channelNamelOptions: [],
+      channelNameOptions: [],
       pluginNameOptions: [],
-      taskStatusOptions: []
+      taskStatusOptions: ['未执行', '执行中', '成功', '失败']
     }
-    // gameGroupInfos: {}
   }
 }
 
 const state = getDefaultSelectOptions()
 
 const mutations = {
-  SET_SELECT_OPTIONS: (state, selectOptions) => {
-    state.selectOptions.gameGroupOptions = selectOptions.game_group
-    state.selectOptions.channelNamelOptions = selectOptions.channel_name
-    state.selectOptions.pluginNameOptions = selectOptions.plugin_name
-    state.selectOptions.taskStatusOptions = selectOptions.task_status
+  SET_OPTIONS: (state, options) => {
+    state.options.gameGroupOptions = options.game_options
+    state.options.channelNameOptions = options.channel_options
+    state.options.pluginNameOptions = options.plugin_options
+    state.options.taskStatusOptions = ['未执行', '执行中', '成功', '失败']
   }
-  // SET_GAME_GROUP_INFOS: (state, gameGroupInfo) => {
-  //   state.gameGroupInfo = gameGroupInfo
-  // }
 }
 const actions = {
   fetchOptions({ commit }) {
     return new Promise((resolve, reject) => {
-      getSelectOptions(getToken()).then(response => {
+      getOptions(getToken()).then(response => {
         if (!response) {
           return reject('数据加载异常')
         }
-        commit('SET_SELECT_OPTIONS', response.data)
+        commit('SET_OPTIONS', response.data.options)
         resolve(response)
       }).catch(error => {
         reject(error)

@@ -25,6 +25,11 @@ type ReqChannelSdkBean struct {
 	ReqSdkBean
 	ChannelName string `json:"channel_name" gorm:"not null;comment:'渠道名'"`
 }
+
+type ReqChannelSdksBean struct {
+	ChannelName string `json:"channel_name" gorm:"not null;comment:'渠道名'"`
+}
+
 type ReqListChannelSdkBean struct {
 	ReqChannelSdkBean
 	PageInfo
@@ -34,6 +39,11 @@ type ReqPluginSdkBean struct {
 	ReqSdkBean
 	PluginName string `json:"plugin_name" gorm:"not null;comment:'插件名'"`
 }
+
+type ReqPluginSdksBean struct {
+	PluginName string `json:"plugin_name" gorm:"not null;comment:'插件名'"`
+}
+
 type ReqListPluginSdkBean struct {
 	ReqPluginSdkBean
 	PageInfo

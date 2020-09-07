@@ -22,7 +22,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.gameGroupOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
@@ -35,7 +35,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.channelNamelOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.channelNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 
@@ -51,19 +51,19 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.pluginNameOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.pluginNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
       <el-col :span="6">
         <el-select
-          v-model="queryList.task_status"
+          v-model="queryList.status"
           placeholder="状态"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in selectOptions.taskStatusOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.taskStatusOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>
@@ -109,11 +109,12 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'selectOptions'
+      'options'
     ])
   },
   methods: {
     handleFilter() {
+      this.queryList.task_id = parseInt(this.queryList.task_id)
       this.$emit('searchTask', this.queryList)
     },
     handleReset() {

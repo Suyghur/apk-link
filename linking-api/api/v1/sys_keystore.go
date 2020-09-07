@@ -17,10 +17,10 @@ import (
 	"linking-api/utils"
 )
 
-func ListKeystore(c *gin.Context) {
+func SearchKeystore(c *gin.Context) {
 	var bean request.ReqListKeystoreBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.ListKeystore(bean)
+	err, list, total := service.SearchKeystore(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
@@ -38,7 +38,7 @@ func ListKeystore(c *gin.Context) {
 	//	response.FailWithMessage(PageVerifyErr.Error(), c)
 	//	return
 	//}
-	//err, list, total := service.ListKeystore(pageInfo)
+	//err, list, total := service.SearchKeystore(pageInfo)
 }
 
 //func SearchKeystore(c *gin.Context) {
@@ -60,6 +60,25 @@ func ListKeystore(c *gin.Context) {
 //	//}
 //
 //}
+
+func GetKeystores(c *gin.Context) {
+	var bean request.ReqKeystoreBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"GameGroup": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		global.GVA_LOG.Error(verifyErr.Error())
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, keystores := service.GetKeystores(bean.GameGroup)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(gin.H{"keystores": keystores}, c)
+	}
+}
 
 func CreateKeystore(c *gin.Context) {
 	//TODO 生成签名

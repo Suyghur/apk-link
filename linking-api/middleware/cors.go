@@ -8,7 +8,6 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"linking-api/global"
 	"net/http"
 )
 
@@ -18,14 +17,13 @@ func Cors() gin.HandlerFunc {
 		method := context.Request.Method
 		context.Header("Access-Control-Allow-Origin", "*")
 		//跨域允许的的自定义头部
-		context.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token,Authorization,x-token,Token")
+		context.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token,Authorization,X-Token,Token")
 		context.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 		context.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
 		context.Header("Access-Control-Allow-Credentials", "true")
 
 		//放行所有options方法
 		if method == "OPTIONS" {
-			global.GVA_LOG.Debug("options")
 			context.AbortWithStatus(http.StatusNoContent)
 		}
 

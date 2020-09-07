@@ -11,12 +11,13 @@ import (
 	"linking-api/global"
 	"linking-api/model"
 	"linking-api/model/bean/request"
+	"linking-api/model/bean/response"
 	"linking-api/utils"
 	"linking-api/utils/aliyun"
 	"os"
 )
 
-func ListKeystore(bean request.ReqListKeystoreBean) (err error, list interface{}, total int) {
+func SearchKeystore(bean request.ReqListKeystoreBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
@@ -33,18 +34,11 @@ func ListKeystore(bean request.ReqListKeystoreBean) (err error, list interface{}
 	return err, keystores, total
 }
 
-//func SearchKeystore(bean request.ReqKeystoreBean) (err error, script model.SysScript) {
-//	//创建db
-//	db := global.GVA_DB.Model(&model.SysKeystore{})
-//	if bean.GameGroup != "" {
-//		db = db.Where("game_group = ?", bean.GameGroup)
-//	}
-//	if bean.KeystoreName != "" {
-//		db = db.Where("keystore_name = ?", bean.GameGroup)
-//	}
-//	err = global.GVA_DB.Where("game_group = ?", bean.GameGroup).First(&script).Error
-//	return
-//}
+func GetKeystores(gameGroup string) (err error, keystores []response.KeystoresResponse) {
+	err = global.GVA_DB.Model(&model.SysKeystore{}).Select("keystore_name , keystore_password , keystore_alias , keystore_alias_password , keystore_file_url").Where("game_group = ?", gameGroup).Scan(&keystores).Error
+	return err, keystores
+
+}
 
 func CreateKeystore(gameGroup string) (err error) {
 	var keystore model.SysKeystore

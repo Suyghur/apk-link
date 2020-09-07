@@ -9,7 +9,7 @@
       :http-request="handleUpload"
       :disabled="disabled"
     >
-      <img v-if="url" :src="url" class="img-uploader">
+      <img v-if="resultUrl" :src="resultUrl" class="img-uploader">
       <i v-else class="el-icon-plus img-uploader-icon" />
     </el-upload>
   </div>
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      url: ''
+      url: this.resultUrl
     }
   },
   watch: {
@@ -44,7 +44,6 @@ export default {
     }
   },
   methods: {
-
     handleSuccess(res, file) {
       this.url = URL.createObjectURL(file.raw)
     },
@@ -64,7 +63,7 @@ export default {
     handleUpload(option) {
       console.log(option)
       put2oss(option.file).then(res => {
-        this.url = res.url
+        this.resultUrl = res.url
       })
     }
   }

@@ -28,6 +28,7 @@ func RunServer() {
 
 	address := fmt.Sprintf(":%d", global.GVA_CONFIG.System.Addr)
 
+	address = "0.0.0.0" + address
 	s := initServer(address, r)
 	//保障文本顺序输出
 	time.Sleep(10 * time.Millisecond)

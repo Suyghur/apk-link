@@ -1,31 +1,36 @@
 <template>
   <div id="keystore">
-    <TaskPanelHead />
+    <KeystorePanelHead />
     <el-divider />
     <KeystoreTable :list="list" />
   </div>
 </template>
 
 <script>
-import { getKeystoreList } from '@/api/game'
-import TaskPanelHead from '@/components/drawer/TaskPanelHead'
 import KeystoreTable from '@/components/tables/game/KeystoreTable'
+import KeystorePanelHead from '@/views/game/components/KeystorePanelHead'
+import { searchKeystore } from '@/api/keystore'
 
 export default {
   name: 'KeyStore',
-  components: { KeystoreTable, TaskPanelHead },
+  components: { KeystorePanelHead, KeystoreTable },
   data() {
     return {
       list: null,
-      listLoading: true
+      listLoading: true,
+      queryMap: {
+        page: 1,
+        page_size: 20,
+        game_group: undefined
+      }
     }
   },
   created() {
-    this.fetchData()
+    this.searchKeystore()
   },
   methods: {
-    fetchData() {
-      getKeystoreList().then(response => {
+    searchKeystore() {
+      searchKeystore().then(response => {
         console.log(response)
         this.list = response.data.keystore
         this.listLoading = false
@@ -33,7 +38,7 @@ export default {
     },
     search() {
       this.list = []
-      this.fetchData()
+      this.fetchKeystoreList()
     }
   }
 }

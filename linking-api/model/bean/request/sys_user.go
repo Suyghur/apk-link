@@ -26,3 +26,9 @@ type SetUserAuth struct {
 type UserInfoBean struct {
 	Username string `json:"username"`
 }
+
+type ChangePasswordBean struct {
+	Username    string `json:"username"`
+	Password    string `json:"password"`
+	NewPassword string `json:"new_password"`
+}

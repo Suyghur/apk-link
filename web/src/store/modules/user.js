@@ -6,7 +6,7 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     username: '',
-    name: '',
+    nickname: '',
     avatar: ''
   }
 }
@@ -20,8 +20,8 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_NICKNAME: (state, nickname) => {
+    state.nickname = nickname
   },
   SET_USER: (state, username) => {
     state.username = username
@@ -59,7 +59,7 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-        commit('SET_NAME', data.nickname)
+        commit('SET_NICKNAME', data.nickname)
         commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
         resolve(data)
       }).catch(error => {

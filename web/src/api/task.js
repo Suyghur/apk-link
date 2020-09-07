@@ -1,17 +1,49 @@
 import request from '@/utils/request'
 
-export function getTaskList(params) {
+export function getTaskList(data) {
   return request({
-    url: '/get_task_list',
-    method: 'get',
-    params
+    url: '/task/searchTasks',
+    method: 'post',
+    data
   })
 }
 
-export function getSelectOptions(params) {
+export function createTask(data) {
   return request({
-    url: '/get_select_options',
-    method: 'get',
-    params
+    url: '/task/createTask',
+    method: 'post',
+    data
+  })
+}
+
+export function modifyTask(data) {
+  return request({
+    url: '/task/modifyTask',
+    method: 'post',
+    data
+  })
+}
+
+export function getTaskInfo(data) {
+  return request({
+    url: '/task/getTaskInfo',
+    method: 'post',
+    data
+  })
+}
+
+export function modifyStatus(data) {
+  return request({
+    url: '/task/modifyStatus',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteTask(data) {
+  return request({
+    url: '/task/deleteTask',
+    method: 'post',
+    data
   })
 }

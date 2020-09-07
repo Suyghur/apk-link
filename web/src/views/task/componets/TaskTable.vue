@@ -27,46 +27,46 @@
       </el-table-column>
       <el-table-column align="center" label="渠道">
         <template slot-scope="scope">
-          {{ scope.row.channel }}
+          {{ scope.row.channel_name }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="聚合SDK版本">
         <template slot-scope="scope">
-          {{ scope.row.fuse_version }}
+          {{ scope.row.fuse_sdk_version }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="渠道SDK版本">
         <template slot-scope="scope">
-          {{ scope.row.channel_version }}
+          {{ scope.row.channel_sdk_version }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="插件SDK">
         <template slot-scope="scope">
-          {{ scope.row.plugin }}
+          {{ scope.row.plugin_name }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="状态" width="100">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter" effect="plain" size="medium">{{ scope.row.status }}
+          <el-tag :type="scope.row.status_msg | statusFilter" effect="plain" size="medium">{{ scope.row.status_msg }}
           </el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" label="最后修改日期" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.modify_time }}</span>
+          <span>{{ scope.row.UpdatedAt }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="250">
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.status==='未执行'"
+            v-if="scope.row.status_msg==='未执行'"
             size="mini"
             @click="handleExecute(scope.row,'执行中')"
           >执行
           </el-button>
           <el-popconfirm
-            v-if="scope.row.status==='执行中'"
+            v-if="scope.row.status_msg==='执行中'"
             confirm-button-text="确定"
             cancel-button-text="点错了"
             icon="el-icon-info"
@@ -79,24 +79,23 @@
 
           <router-link :to="'/task/detail/'+scope.row.task_id">
             <el-button
-              v-if="scope.row.status==='成功'"
+              v-if="scope.row.status_msg==='成功'"
               size="mini"
               style="margin-left: 5px"
-              @click="handleEdit(scope.$index, scope.row)"
-            >查看
+            >
+              查看
             </el-button>
           </router-link>
           <router-link :to="'/task/edit/'+scope.row.task_id">
             <el-button
-              v-if="scope.row.status==='未执行'"
+              v-if="scope.row.status_msg==='未执行'"
               size="mini"
               style="margin-left: 5px"
-              @click="handleEdit(scope.$index, scope.row)"
             >编辑
             </el-button>
           </router-link>
           <el-popconfirm
-            v-if="scope.row.status!=='成功'"
+            v-if="scope.row.status_msg!=='成功'"
             confirm-button-text="确定"
             cancel-button-text="点错了"
             icon="el-icon-info"
@@ -108,9 +107,6 @@
               删除
             </el-button>
           </el-popconfirm>
-          <!--          <el-button size="mini" type="danger" style="margin-left: 5px" @click="handleDelete(scope.$index, scope.row)">-->
-          <!--            删除-->
-          <!--          </el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -119,17 +115,19 @@
 
 <script>
 
+import { deleteTask, modifyStatus } from '@/api/task'
+
 export default {
   name: 'TaskTable',
   filters: {
-    statusFilter(status) {
+    statusFilter(status_msg) {
       const statusMap = {
         未执行: 'warning',
         执行中: 'gray',
         成功: 'success',
         失败: 'danger'
       }
-      return statusMap[status]
+      return statusMap[status_msg]
     }
   },
   props: {
@@ -144,24 +142,50 @@ export default {
   },
   methods: {
     handleExecute(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
+      let status_code
+      switch (status) {
+        case '执行中':
+          status_code = 1001
+          break
+        case '未执行':
+          status_code = 1000
+          break
+      }
+      return new Promise((resolve, reject) => {
+        modifyStatus({ task_id: parseInt(row.task_id), status_code: status_code }).then(response => {
+          if (!response) {
+            return reject('数据加载异常')
+          }
+          this.$message({
+            message: response.msg,
+            type: 'success'
+          })
+          row.status_msg = status
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
       })
-      row.status = status
-    },
-    handleEdit(index, row) {
-      console.log('idnex : ', index)
     },
     handleDelete(index, row) {
-      this.popconfirm
-      this.$notify({
-        title: 'Success',
-        message: '删除成功',
-        type: 'success',
-        duration: 2000
+      return new Promise((resolve, reject) => {
+        deleteTask({ task_id: parseInt(row.task_id) }).then(response => {
+          if (!response) {
+            return reject('数据加载异常')
+          }
+          this.popconfirm
+          this.$notify({
+            title: 'Success',
+            message: response.msg,
+            type: 'success',
+            duration: 1000
+          })
+          this.list.splice(index, 1)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
       })
-      this.list.splice(index, 1)
     }
   }
 }

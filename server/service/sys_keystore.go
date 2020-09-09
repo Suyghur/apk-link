@@ -17,7 +17,7 @@ import (
 	"os"
 )
 
-func SearchKeystore(bean request.ReqListKeystoreBean) (err error, list interface{}, total int) {
+func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db

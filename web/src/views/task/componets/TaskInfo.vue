@@ -262,13 +262,6 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label-width="200px" prop="aids" label="AID：">
-              <!--            <el-transfer-->
-              <!--              v-model="tempAids"-->
-              <!--              :disable="disabled"-->
-              <!--              filterable-->
-              <!--              filter-placeholder="请输入AID"-->
-              <!--              :data="aidOptions"-->
-              <!--            />-->
               <el-input
                 v-model="taskForm.aids"
                 type="textarea"
@@ -637,7 +630,6 @@ export default {
     cancel() {
       this.$router.replace({ path: '/task/infos' })
     }
-
   }
 }
 </script>

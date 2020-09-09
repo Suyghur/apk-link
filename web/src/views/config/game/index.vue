@@ -1,51 +1,60 @@
 <template>
-  <div id="keystore">
-    <KeystorePanelHead
+  <div id="game">
+    <GamePanelHead
       :query-map="queryMap"
-      @searchKeystore="searchKeystore"
-      @createKeystore="createKeystore"
+      @searchGame="searchGame"
+      @createGame="createGame"
     />
     <el-divider />
-    <KeystoreTable :list="list" />
+    <GameTable :list="list" :list-loading="listLoading" />
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryMap.page"
+      :limit.sync="queryMap.page_size"
+      @pagination="createGame"
+    />
   </div>
 </template>
 
 <script>
-import KeystoreTable from '@/components/tables/game/KeystoreTable'
-import { searchKeystore } from '@/api/keystore'
-import KeystorePanelHead from '@/views/keystore/components/KeystorePanelHead'
+
+import Pagination from '@/components/Pagination/index'
+import GamePanelHead from '@/views/config/game/components/GamePanelHead'
+import GameTable from '@/views/config/game/components/GameTable'
+import { searchGame } from '@/api/game'
 
 export default {
-  name: 'KeyStore',
-  components: { KeystorePanelHead, KeystoreTable },
+  name: 'Game',
+  components: { GamePanelHead, GameTable, Pagination },
   data() {
     return {
       list: null,
       listLoading: true,
+      total: 0,
       queryMap: {
         page: 1,
         page_size: 20,
-        game_group: undefined
+        gid: undefined
       }
     }
   },
   created() {
-    this.searchKeystore()
+    this.searchGame()
   },
   methods: {
-    searchKeystore() {
-      searchKeystore().then(response => {
-        console.log(response)
-        this.list = response.data.keystore
-        this.listLoading = false
+    searchGame() {
+      this.listLoading = true
+      searchGame(this.queryMap).then(response => {
+        this.list = response.data.list
+        this.total = response.data.total
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1000)
       })
     },
-    createKeystore() {
+    createGame() {
 
-    },
-    search() {
-      this.list = []
-      this.searchKeystore()
     }
   }
 }

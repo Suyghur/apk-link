@@ -1,51 +1,60 @@
 <template>
-  <div id="keystore">
-    <KeystorePanelHead
+  <div id="game">
+    <ChannelPanelHead
       :query-map="queryMap"
-      @searchKeystore="searchKeystore"
-      @createKeystore="createKeystore"
+      @searchChannel="searchChannel"
+      @createChannel="createChannel"
     />
     <el-divider />
-    <KeystoreTable :list="list" />
+    <ChannelTable :list="list" :list-loading="listLoading" />
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryMap.page"
+      :limit.sync="queryMap.page_size"
+      @pagination="createChannel"
+    />
   </div>
 </template>
 
 <script>
-import KeystoreTable from '@/components/tables/game/KeystoreTable'
-import { searchKeystore } from '@/api/keystore'
-import KeystorePanelHead from '@/views/keystore/components/KeystorePanelHead'
+
+import Pagination from '@/components/Pagination/index'
+import ChannelPanelHead from '@/views/config/channel/components/ChannelPanelHead'
+import ChannelTable from '@/views/config/channel/components/ChannelTable'
+import { searchChannel } from '@/api/channel'
 
 export default {
-  name: 'KeyStore',
-  components: { KeystorePanelHead, KeystoreTable },
+  name: 'Channel',
+  components: { ChannelPanelHead, ChannelTable, Pagination },
   data() {
     return {
       list: null,
       listLoading: true,
+      total: 0,
       queryMap: {
         page: 1,
         page_size: 20,
-        game_group: undefined
+        channel_alias: undefined
       }
     }
   },
   created() {
-    this.searchKeystore()
+    this.searchChannel()
   },
   methods: {
-    searchKeystore() {
-      searchKeystore().then(response => {
-        console.log(response)
-        this.list = response.data.keystore
-        this.listLoading = false
+    searchChannel() {
+      this.listLoading = true
+      searchChannel(this.queryMap).then(response => {
+        this.list = response.data.list
+        this.total = response.data.total
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1000)
       })
     },
-    createKeystore() {
+    createChannel() {
 
-    },
-    search() {
-      this.list = []
-      this.searchKeystore()
     }
   }
 }

@@ -13,7 +13,7 @@ import (
 	"server/model/bean/request"
 )
 
-func ListScript(bean request.ReqListScriptBean) (err error, list interface{}, total int) {
+func SearchScript(bean request.ReqListScriptBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db

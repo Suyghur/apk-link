@@ -3,14 +3,14 @@
     <el-row :gutter="10">
       <el-col :span="6">
         <el-select
-          v-model="queryMap.game_group"
-          placeholder="游戏组名"
+          v-model="queryMap.plugin_name"
+          placeholder="插件名"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.pluginNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>
@@ -21,7 +21,7 @@
         icon="el-icon-search"
         @click="handleFilter"
       >
-        搜索签名文件
+        搜索插件SDK
       </el-button>
       <el-button
         class="filter-item"
@@ -35,9 +35,9 @@
         class="filter-item"
         type="primary"
         icon="el-icon-edit"
-        @click="createKeystore"
+        @click="createPluginSdk"
       >
-        创建签名文件
+        创建插件SDK
       </el-button>
     </div>
   </div>
@@ -47,15 +47,12 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'KeystorePanelHead',
+  name: 'PluginSdkPanelHead',
   props: {
     queryMap: {
       type: Object,
       default: null
     }
-  },
-  data() {
-    return {}
   },
   computed: {
     ...mapGetters([
@@ -65,13 +62,13 @@ export default {
 
   methods: {
     handleFilter() {
-      this.$emit('searchKeystore', this.queryMap)
+      this.$emit('searchPluginSdk', this.queryMap)
     },
     handleReset() {
-      this.queryMap.game_group = ''
+      this.queryMap.plugin_name = ''
     },
-    createKeystore() {
-      this.$emit('createKeystore')
+    createPluginSdk() {
+      this.$emit('createPluginSdk')
     }
   }
 }

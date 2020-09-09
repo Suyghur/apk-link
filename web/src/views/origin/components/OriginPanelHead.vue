@@ -21,7 +21,7 @@
         icon="el-icon-search"
         @click="handleFilter"
       >
-        搜索签名文件
+        搜索母包记录
       </el-button>
       <el-button
         class="filter-item"
@@ -37,7 +37,7 @@
         icon="el-icon-edit"
         @click="createKeystore"
       >
-        创建签名文件
+        创建母包记录
       </el-button>
     </div>
   </div>
@@ -47,7 +47,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'KeystorePanelHead',
+  name: 'OriginPanelHead',
   props: {
     queryMap: {
       type: Object,
@@ -65,13 +65,13 @@ export default {
 
   methods: {
     handleFilter() {
-      this.$emit('searchKeystore', this.queryMap)
+      this.$emit('searchOrigin', this.queryMap)
     },
     handleReset() {
       this.queryMap.game_group = ''
     },
     createKeystore() {
-      this.$emit('createKeystore')
+      this.$emit('createOrigin')
     }
   }
 }

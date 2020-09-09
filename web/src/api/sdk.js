@@ -1,26 +1,26 @@
 import request from '@/utils/request'
 
-export function getFuseSdkList(params) {
+export function searchFuseSdk(data) {
   return request({
-    url: '/get_sdk_list/fuse',
-    method: 'get',
-    params
+    url: '/sdk/fuse/searchFuseSdk',
+    method: 'post',
+    data
   })
 }
 
-export function getChannelSdkList(params) {
+export function searchChannelSdk(data) {
   return request({
-    url: '/get_sdk_list/channel',
-    method: 'get',
-    params
+    url: '/sdk/channel/searchChannelSdk',
+    method: 'post',
+    data
   })
 }
 
-export function getPluginSdkList(params) {
+export function searchPluginSdk(data) {
   return request({
-    url: '/get_sdk_list/plugin',
-    method: 'get',
-    params
+    url: '/sdk/plugin/searchPluginSdk',
+    method: 'post',
+    data
   })
 }
 

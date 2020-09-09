@@ -18,6 +18,6 @@ func InitPluginRouter(r *gin.RouterGroup) {
 		pluginRouter.POST("createPlugin", v1.CreatePlugin)
 		pluginRouter.POST("delPlugin", v1.DelPlugin)
 		pluginRouter.POST("modifyPlugin", v1.ModifyPlugin)
-		pluginRouter.POST("listPlugin", v1.ListPlugin)
+		pluginRouter.POST("searchPlugin", v1.SearchPlugin)
 	}
 }

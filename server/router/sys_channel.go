@@ -18,6 +18,6 @@ func InitChannelRouter(r *gin.RouterGroup) {
 		channelRouter.POST("createChannel", v1.CreateChannel)
 		channelRouter.POST("delChannel", v1.DelChannel)
 		channelRouter.POST("modifyChannel", v1.ModifyChannel)
-		channelRouter.POST("listChannel", v1.ListChannel)
+		channelRouter.POST("searchChannel", v1.SearchChannel)
 	}
 }

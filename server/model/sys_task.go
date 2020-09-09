@@ -18,7 +18,7 @@ type SysTask struct {
 	IsPluginSdk     int        `json:"is_plugin_sdk" gorm:"default:'0';comment:'是否媒体包'"`
 	GameGroup       string     `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
 	Gid             string     `json:"gid" gorm:"not null;comment:'游戏组ID'"`
-	Aids            string   `json:"aids" gorm:"not null;comment:'子包AID'"`
+	Aids            string     `json:"aids" gorm:"not null;comment:'子包AID'"`
 	ChannelParams   string     `json:"channel_params" gorm:"comment:'渠道参数'"`
 	PluginParams    string     `json:"plugin_params" gorm:"comment:'插件参数'"`
 	GamePackageName string     `json:"game_package_name" gorm:"not null;comment:'游戏包名'"`

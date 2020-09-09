@@ -44,7 +44,6 @@ export default {
   },
   created() {
     this.fetchTasks()
-    this.$store.dispatch('options/fetchOptions')
   },
   methods: {
     fetchTasks() {

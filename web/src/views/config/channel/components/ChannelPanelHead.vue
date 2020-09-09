@@ -2,16 +2,15 @@
   <div class="keystore-panel-head">
     <el-row :gutter="10">
       <el-col :span="6">
-        <el-select
-          v-model="queryMap.game_group"
-          placeholder="游戏组名"
-          clearable
-          style="width: auto"
+        <el-input
+          v-model="queryMap.channel_alias"
+          type="text"
+          placeholder="渠道别名"
+          style="width: auto;"
           class="filter-item"
-          filterable
-        >
-          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
-        </el-select>
+          clearable
+          @keyup.enter.native="handleFilter"
+        />
       </el-col>
     </el-row>
     <div class="button_group">
@@ -21,7 +20,7 @@
         icon="el-icon-search"
         @click="handleFilter"
       >
-        搜索签名文件
+        搜索渠道
       </el-button>
       <el-button
         class="filter-item"
@@ -29,49 +28,39 @@
         icon="el-icon-delete"
         @click="handleReset"
       >
-        重置搜索选项
+        重置搜索
       </el-button>
       <el-button
         class="filter-item"
         type="primary"
         icon="el-icon-edit"
-        @click="createKeystore"
+        @click="createChannel"
       >
-        创建签名文件
+        创建渠道
       </el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
-  name: 'KeystorePanelHead',
+  name: 'ChannelPanelHead',
   props: {
     queryMap: {
       type: Object,
       default: null
     }
   },
-  data() {
-    return {}
-  },
-  computed: {
-    ...mapGetters([
-      'options'
-    ])
-  },
-
   methods: {
     handleFilter() {
-      this.$emit('searchKeystore', this.queryMap)
+      this.$emit('searchChannel', this.queryMap)
     },
     handleReset() {
-      this.queryMap.game_group = ''
+      this.queryMap.channel_alias = ''
     },
-    createKeystore() {
-      this.$emit('createKeystore')
+    createChannel() {
+      this.$emit('createChannel')
     }
   }
 }
@@ -79,14 +68,6 @@ export default {
 <style lang="scss" scoped>
   .keystore-panel-head {
     padding: 20px 20px 0;
-  }
-
-  .el-row {
-    margin-bottom: 10px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .button_group {

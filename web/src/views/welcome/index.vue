@@ -1,6 +1,6 @@
 <template>
   <div id="welcome">
-    <span class="welcome-tips">{{ nickname }}，欢迎使用Linking分发服务</span>
+    <span class="welcome-tips">{{ nickname }}，欢迎使用Apk-Link分发服务</span>
     <br>
     <span class="welcome-ip">当前登录ip：{{ nickname }}</span>
   </div>
@@ -15,6 +15,9 @@ export default {
     ...mapGetters([
       'nickname'
     ])
+  },
+  created() {
+    this.$store.dispatch('options/fetchOptions')
   }
 }
 </script>

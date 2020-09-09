@@ -20,5 +20,4 @@ func InitOriginRouter(r *gin.RouterGroup) {
 		originRouter.POST("createOrigin", v1.CreateOrigin)
 		originRouter.POST("modifyOrigin", v1.ModifyOrigin)
 	}
-
 }

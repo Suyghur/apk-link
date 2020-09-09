@@ -10,6 +10,7 @@ import (
 	"errors"
 	"server/global"
 	"server/model"
+	"server/model/bean/request"
 )
 
 func CreateChannel(bean model.SysChannel) (err error) {
@@ -25,7 +26,16 @@ func CreateChannel(bean model.SysChannel) (err error) {
 	return err
 }
 
-func ListChannel() (err error, games []string) {
-	err = global.GVA_DB.Model(&model.SysGame{}).Pluck("game_group", &games).Error
-	return err, games
+func SearchChannel(bean request.ReqChannelListBean) (err error, list interface{}, total int) {
+	limit := bean.PageSize
+	offset := bean.PageSize * (bean.Page - 1)
+	//创建db
+	db := global.GVA_DB.Model(&model.SysChannel{})
+	var channels []model.SysChannel
+	if bean.ChannelAlias != "" {
+		db = db.Where("channel_alias = ?", bean.ChannelAlias)
+	}
+	err = db.Count(&total).Error
+	err = db.Limit(limit).Offset(offset).Find(&channels).Error
+	return err, channels, total
 }

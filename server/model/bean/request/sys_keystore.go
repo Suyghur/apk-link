@@ -18,7 +18,7 @@ type ReqKeystoreBean struct {
 	KeystoreFileUrl       string `json:"keystore_file_url" gorm:"not null;comment:'签名文件链接'"`
 }
 
-type ReqListKeystoreBean struct {
+type ReqKeystoreListBean struct {
 	ReqKeystoreBean
 	PageInfo
 }

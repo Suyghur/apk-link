@@ -13,12 +13,26 @@ import (
 	"server/global/response"
 	"server/model"
 	"server/model/bean/request"
+	resp "server/model/bean/response"
 	"server/service"
 	"server/utils"
 )
 
-func ListChannel(c *gin.Context) {
-
+func SearchChannel(c *gin.Context) {
+	var bean request.ReqChannelListBean
+	_ = c.ShouldBindJSON(&bean)
+	err, list, total := service.SearchChannel(bean)
+	if err != nil {
+		global.GVA_LOG.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
+	} else {
+		response.OkWithData(resp.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     bean.Page,
+			PageSize: bean.PageSize,
+		}, c)
+	}
 }
 
 func CreateChannel(c *gin.Context) {

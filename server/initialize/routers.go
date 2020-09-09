@@ -39,6 +39,7 @@ func Routers() *gin.Engine {
 	router.InitGameRouter(apiGroup)
 	router.InitChannelRouter(apiGroup)
 	router.InitPluginRouter(apiGroup)
+	router.InitLinkRouter(apiGroup)
 	global.GVA_LOG.Info("router register success")
 	return r
 }

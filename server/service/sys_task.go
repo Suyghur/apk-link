@@ -160,6 +160,10 @@ func ModifyTaskStatus(taskId uint, statusCode int, statusMsg string) (err error)
 			"status_code": statusCode,
 			"status_msg":  statusMsg,
 		}).Error
+		if err == nil && statusCode == 1001 {
+			//执行中创建Link
+			err = CreateLink(taskId)
+		}
 	} else {
 		return errors.New("没有可修改的任务")
 	}

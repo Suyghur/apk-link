@@ -27,10 +27,10 @@ func GetFuseSdks(c *gin.Context) {
 		response.OkWithData(gin.H{"fuse_sdks": fuseSdks}, c)
 	}
 }
-func ListFuseSdk(c *gin.Context) {
+func SearchFuseSdk(c *gin.Context) {
 	var bean request.ReqListFuseSdkBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.ListFuseSdk(bean)
+	err, list, total := service.SearchFuseSdk(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
@@ -117,10 +117,10 @@ func GetChannelSdks(c *gin.Context) {
 	}
 }
 
-func ListChannelSdk(c *gin.Context) {
+func SearchChannelSdk(c *gin.Context) {
 	var bean request.ReqListChannelSdkBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.ListChannelSdk(bean)
+	err, list, total := service.SearchChannelSdk(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
@@ -211,10 +211,10 @@ func GetPluginSdks(c *gin.Context) {
 	}
 }
 
-func ListPluginSdk(c *gin.Context) {
+func SearchPluginSdk(c *gin.Context) {
 	var bean request.ReqListPluginSdkBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.ListPluginSdk(bean)
+	err, list, total := service.SearchPluginSdk(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Linking',
+  title: 'Apk-Link',
 
   /**
    * @type {boolean} true | false

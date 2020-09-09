@@ -9,7 +9,7 @@ const client = new OSS({
   cname: true
 })
 
-const linkingDir = '/linking/'
+const linkingDir = '/link/'
 
 export async function listBuckets() {
   try {

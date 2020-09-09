@@ -1,14 +1,14 @@
 import Layout from '@/layout/index'
 
 export const LinkingRouterMap = {
-  path: '/linking',
+  path: '/link',
   component: Layout,
   redirect: '/welcome',
   children: [
     {
       path: 'index',
       name: 'Linking',
-      component: () => import('@/views/linking/index'),
+      component: () => import('@/views/link/index'),
       meta: { title: '游戏分发包管理', icon: 'table' }
     }
   ]

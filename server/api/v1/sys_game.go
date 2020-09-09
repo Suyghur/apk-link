@@ -13,21 +13,26 @@ import (
 	"server/global/response"
 	"server/model"
 	"server/model/bean/request"
+	resp "server/model/bean/response"
 	"server/service"
 	"server/utils"
 )
 
-func ListGame(c *gin.Context) {
-	//var bean request.ReqListFuseSdkBean
-	//_ = c.ShouldBindJSON(&bean)
-	err, result := service.ListGame()
+func SearchGame(c *gin.Context) {
+	var bean request.ReqGameListBean
+	_ = c.ShouldBindJSON(&bean)
+	err, list, total := service.SearchGame(bean)
 	if err != nil {
 		global.GVA_LOG.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"list": result}, c)
+		response.OkWithData(resp.PageResult{
+			List:     list,
+			Total:    total,
+			Page:     bean.Page,
+			PageSize: bean.PageSize,
+		}, c)
 	}
-
 }
 
 func CreateGame(c *gin.Context) {

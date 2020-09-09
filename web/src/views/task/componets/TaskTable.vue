@@ -54,7 +54,7 @@
       <el-table-column align="center" label="最后修改日期" width="200">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.UpdatedAt }}</span>
+          <span>{{ utc2local(scope.row.UpdatedAt) }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="250">
@@ -116,6 +116,7 @@
 <script>
 
 import { deleteTask, modifyStatus } from '@/api/task'
+import { utc2local } from '@/utils/time'
 
 export default {
   name: 'TaskTable',
@@ -186,6 +187,9 @@ export default {
           reject(error)
         })
       })
+    },
+    utc2local(dataStr) {
+      return utc2local(dataStr)
     }
   }
 }

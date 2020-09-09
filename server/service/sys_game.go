@@ -10,6 +10,7 @@ import (
 	"errors"
 	"server/global"
 	"server/model"
+	"server/model/bean/request"
 )
 
 func CreateGame(bean model.SysGame) (err error) {
@@ -25,13 +26,21 @@ func CreateGame(bean model.SysGame) (err error) {
 	return err
 }
 
-func ListGame() (err error, games []string) {
-	err = global.GVA_DB.Model(&model.SysGame{}).Pluck("game_group", &games).Error
-	return err, games
+func SearchGame(bean request.ReqGameListBean) (err error, list interface{}, total int) {
+	limit := bean.PageSize
+	offset := bean.PageSize * (bean.Page - 1)
+	//创建db
+	db := global.GVA_DB.Model(&model.SysGame{})
+	var games []model.SysGame
+	if bean.Gid != "" {
+		db = db.Where("gid = ?", bean.Gid)
+	}
+	err = db.Count(&total).Error
+	err = db.Limit(limit).Offset(offset).Find(&games).Error
+	return err, games, total
 }
 
 func GetGid(gameGroup string) (err error, game model.SysGame) {
-	//u.Password = crypto.MD5([]byte(u.Password))
 	err = global.GVA_DB.Where("game_group = ?", gameGroup).First(&game).Error
 	return
 }

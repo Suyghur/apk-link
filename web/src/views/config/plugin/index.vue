@@ -1,51 +1,60 @@
 <template>
-  <div id="keystore">
-    <KeystorePanelHead
+  <div id="game">
+    <PluginPanelHead
       :query-map="queryMap"
-      @searchKeystore="searchKeystore"
-      @createKeystore="createKeystore"
+      @searchPlugin="searchPlugin"
+      @createPlugin="createPlugin"
     />
     <el-divider />
-    <KeystoreTable :list="list" />
+    <PluginTable :list="list" :list-loading="listLoading" />
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryMap.page"
+      :limit.sync="queryMap.page_size"
+      @pagination="createPlugin"
+    />
   </div>
 </template>
 
 <script>
-import KeystoreTable from '@/components/tables/game/KeystoreTable'
-import { searchKeystore } from '@/api/keystore'
-import KeystorePanelHead from '@/views/keystore/components/KeystorePanelHead'
+
+import Pagination from '@/components/Pagination/index'
+import { searchPlugin } from '@/api/plugin'
+import PluginPanelHead from '@/views/config/plugin/components/PluginPanelHead'
+import PluginTable from '@/views/config/plugin/components/PluginTable'
 
 export default {
-  name: 'KeyStore',
-  components: { KeystorePanelHead, KeystoreTable },
+  name: 'Plugin',
+  components: { PluginPanelHead, PluginTable, Pagination },
   data() {
     return {
       list: null,
       listLoading: true,
+      total: 0,
       queryMap: {
         page: 1,
         page_size: 20,
-        game_group: undefined
+        plugin_alias: undefined
       }
     }
   },
   created() {
-    this.searchKeystore()
+    this.searchPlugin()
   },
   methods: {
-    searchKeystore() {
-      searchKeystore().then(response => {
-        console.log(response)
-        this.list = response.data.keystore
-        this.listLoading = false
+    searchPlugin() {
+      this.listLoading = true
+      searchPlugin(this.queryMap).then(response => {
+        this.list = response.data.list
+        this.total = response.data.total
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1000)
       })
     },
-    createKeystore() {
+    createPlugin() {
 
-    },
-    search() {
-      this.list = []
-      this.searchKeystore()
     }
   }
 }

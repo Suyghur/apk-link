@@ -19,7 +19,7 @@ func GetFuseSdks() (err error, sdks []response.SdksResponse) {
 	return err, sdks
 }
 
-func ListFuseSdk(bean request.ReqListFuseSdkBean) (err error, list interface{}, total int) {
+func SearchFuseSdk(bean request.ReqListFuseSdkBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
@@ -69,7 +69,7 @@ func GetChannelSdks(channelName string) (err error, sdks []response.SdksResponse
 	return err, sdks
 }
 
-func ListChannelSdk(bean request.ReqListChannelSdkBean) (err error, list interface{}, total int) {
+func SearchChannelSdk(bean request.ReqListChannelSdkBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
@@ -121,7 +121,7 @@ func GetPluginSdks(pluginName string) (err error, sdks []response.SdksResponse) 
 	return err, sdks
 }
 
-func ListPluginSdk(bean request.ReqListPluginSdkBean) (err error, list interface{}, total int) {
+func SearchPluginSdk(bean request.ReqListPluginSdkBean) (err error, list interface{}, total int) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db

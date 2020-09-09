@@ -10,6 +10,7 @@ import (
 	"errors"
 	"server/global"
 	"server/model"
+	"server/model/bean/request"
 )
 
 func CreatePlugin(bean model.SysPlugin) (err error) {
@@ -25,7 +26,16 @@ func CreatePlugin(bean model.SysPlugin) (err error) {
 	return err
 }
 
-func ListPlugin() (err error, games []string) {
-	err = global.GVA_DB.Model(&model.SysGame{}).Pluck("game_group", &games).Error
-	return err, games
+func SearchPlugin(bean request.ReqPluginListBean) (err error, list interface{}, total int) {
+	limit := bean.PageSize
+	offset := bean.PageSize * (bean.Page - 1)
+	//创建db
+	db := global.GVA_DB.Model(&model.SysPlugin{})
+	var plugins []model.SysPlugin
+	if bean.PluginAlias != "" {
+		db = db.Where("plugin_alias = ?", bean.PluginAlias)
+	}
+	err = db.Count(&total).Error
+	err = db.Limit(limit).Offset(offset).Find(&plugins).Error
+	return err, plugins, total
 }

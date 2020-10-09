@@ -138,7 +138,7 @@ func tokenNext(c *gin.Context, user model.SysUser) {
 
 func GetUserInfo(c *gin.Context) {
 	var bean request.UserInfoBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"Username": {utils.NotEmpty()},
 	}

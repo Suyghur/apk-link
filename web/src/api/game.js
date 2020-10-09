@@ -8,19 +8,19 @@ import request from '@/utils/request'
 //   })
 // }
 
-export function searchGame(data) {
+export function searchGame(param) {
   return request({
     url: '/game/searchGame',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 
-export function getGid(data) {
+export function getGid(param) {
   return request({
     url: '/game/getGid',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 

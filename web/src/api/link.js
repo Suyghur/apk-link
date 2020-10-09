@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function searchLink(data) {
+export function searchLink(param) {
   return request({
     url: '/link/searchLink',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }

@@ -9,7 +9,7 @@ export const ScriptRouterMap = {
       path: 'index',
       name: 'GameScript',
       component: () => import('@/views/script'),
-      meta: { title: '游戏脚本管理', icon: 'table' }
+      meta: { title: '游戏脚本管理', icon: 'el-icon-set-up' }
     }
   ]
 }

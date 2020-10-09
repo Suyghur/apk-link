@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function searchChannel(data) {
+export function searchChannel(param) {
   return request({
     url: '/channel/searchChannel',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }

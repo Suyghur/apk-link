@@ -3,7 +3,7 @@
     <el-table
       v-loading="listLoading"
       :data="list"
-      height="650"
+      height="600"
       border
       :fit="true"
       style="width: 100%"

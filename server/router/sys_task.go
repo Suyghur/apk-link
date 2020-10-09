@@ -15,11 +15,11 @@ import (
 func InitTaskRouter(r *gin.RouterGroup) {
 	taskRouter := r.Group("task").Use(middleware.JWTAuth())
 	{
-		taskRouter.POST("searchTasks", v1.SearchTasks)
-		taskRouter.POST("getTaskInfo", v1.GetTaskInfo)
+		taskRouter.GET("searchTasks", v1.SearchTasks)
+		taskRouter.GET("getTaskInfo", v1.GetTaskInfo)
 		taskRouter.POST("createTask", v1.CreateTask)
-		taskRouter.POST("modifyTask", v1.ModifyTask)
-		taskRouter.POST("deleteTask", v1.DeleteTask)
-		taskRouter.POST("modifyStatus", v1.ModifyTaskStatus)
+		taskRouter.PUT("modifyTask", v1.ModifyTask)
+		taskRouter.DELETE("deleteTask", v1.DeleteTask)
+		taskRouter.PUT("modifyStatus", v1.ModifyTaskStatus)
 	}
 }

@@ -62,7 +62,7 @@ func ReportLink(c *gin.Context) {
 
 func SearchLink(c *gin.Context) {
 	var bean request.ReqLinkListBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchLink(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)

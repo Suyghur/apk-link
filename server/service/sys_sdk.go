@@ -116,7 +116,6 @@ func ModifyChannelSdk(bean model.SysChannelSdk) (err error) {
 }
 
 func GetPluginSdks(pluginName string) (err error, sdks []response.SdksResponse) {
-	global.GVA_LOG.Debug(pluginName)
 	err = global.GVA_DB.Model(&model.SysPluginSdk{}).Select("sdk_version , sdk_file_name , sdk_file_url").Where("plugin_name = ?", pluginName).Scan(&sdks).Error
 	return err, sdks
 }

@@ -20,7 +20,7 @@ import (
 
 func SearchPlugin(c *gin.Context) {
 	var bean request.ReqPluginListBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchPlugin(bean)
 	if err != nil {
 		global.GVA_LOG.Error(err.Error())
@@ -63,6 +63,6 @@ func ModifyPlugin(c *gin.Context) {
 
 }
 
-func DelPlugin(c *gin.Context) {
+func DeletePlugin(c *gin.Context) {
 
 }

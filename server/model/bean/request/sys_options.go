@@ -7,5 +7,5 @@
 package request
 
 type ReqAidsBean struct {
-	Gid string `json:"gid"`
+	Gid string `json:"gid" form:"gid"`
 }

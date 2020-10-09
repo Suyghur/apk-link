@@ -16,9 +16,9 @@ func InitGameRouter(r *gin.RouterGroup) {
 	gameRouter := r.Group("game").Use(middleware.JWTAuth())
 	{
 		gameRouter.POST("createGame", v1.CreateGame)
-		gameRouter.POST("deleteGame", v1.DelGame)
-		gameRouter.POST("modifyGame", v1.ModifyGame)
-		gameRouter.POST("searchGame", v1.SearchGame)
-		gameRouter.POST("getGid", v1.GetGid)
+		gameRouter.DELETE("deleteGame", v1.DelGame)
+		gameRouter.PUT("modifyGame", v1.ModifyGame)
+		gameRouter.GET("searchGame", v1.SearchGame)
+		gameRouter.GET("getGid", v1.GetGid)
 	}
 }

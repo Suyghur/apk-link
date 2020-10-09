@@ -16,8 +16,8 @@ func InitChannelRouter(r *gin.RouterGroup) {
 	channelRouter := r.Group("channel").Use(middleware.JWTAuth())
 	{
 		channelRouter.POST("createChannel", v1.CreateChannel)
-		channelRouter.POST("delChannel", v1.DelChannel)
-		channelRouter.POST("modifyChannel", v1.ModifyChannel)
-		channelRouter.POST("searchChannel", v1.SearchChannel)
+		channelRouter.DELETE("delChannel", v1.DelChannel)
+		channelRouter.PUT("modifyChannel", v1.ModifyChannel)
+		channelRouter.GET("searchChannel", v1.SearchChannel)
 	}
 }

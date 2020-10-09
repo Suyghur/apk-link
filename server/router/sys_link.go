@@ -14,6 +14,6 @@ import (
 func InitLinkRouter(r *gin.RouterGroup) {
 	linkRouter := r.Group("link")
 	{
-		linkRouter.POST("searchLink", v1.SearchLink)
+		linkRouter.GET("searchLink", v1.SearchLink)
 	}
 }

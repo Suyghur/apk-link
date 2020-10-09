@@ -9,7 +9,7 @@ export const TaskRouterMap = {
       path: 'index',
       name: 'TaskInfos',
       component: () => import('@/views/task'),
-      meta: { title: '打包任务管理', icon: 'el-icon-s-help' }
+      meta: { title: '打包任务管理', icon: 'el-icon-set-up' }
     },
     {
       path: 'create',

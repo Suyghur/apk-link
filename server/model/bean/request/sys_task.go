@@ -72,11 +72,11 @@ type ReqTaskInfoBean struct {
 }
 
 type ReqListTaskBean struct {
-	TaskId      uint   `json:"task_id" gorm:"primary_key"`
-	GameGroup   string `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
-	ChannelName string `json:"channel_name" gorm:"not null;index:idx_channel_name;comment:'渠道名'"`
-	PluginName  string `json:"plugin_name" gorm:"index:idx_plugin_name;comment:'插件名'"`
-	StatusCode  int    `json:"status_code" gorm:"default:'1000';index:idx_status_code;gorm:'打包状态'"`
+	TaskId      uint   `json:"task_id" form:"task_id" gorm:"primary_key"`
+	GameGroup   string `json:"game_group" form:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
+	ChannelName string `json:"channel_name" form:"channel_name" gorm:"not null;index:idx_channel_name;comment:'渠道名'"`
+	PluginName  string `json:"plugin_name" form:"plugin_name" gorm:"index:idx_plugin_name;comment:'插件名'"`
+	StatusCode  int    `json:"status_code" form:"status_code" gorm:"default:'1000';index:idx_status_code;gorm:'打包状态'"`
 	PageInfo
 }
 

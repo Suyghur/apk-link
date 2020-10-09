@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function searchPlugin(data) {
+export function searchPlugin(param) {
   return request({
     url: '/plugin/searchPlugin',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }

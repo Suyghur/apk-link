@@ -20,7 +20,7 @@ import (
 
 func GetOrigins(c *gin.Context) {
 	var bean request.ReqGetOriginListBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"GameGroup": {utils.NotEmpty()},
 	}
@@ -39,7 +39,7 @@ func GetOrigins(c *gin.Context) {
 
 func SearchOrigin(c *gin.Context) {
 	var bean request.ReqSearchOriginBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchOrigin(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)

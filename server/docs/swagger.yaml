@@ -1,0 +1,36 @@
+definitions:
+  response.PageResult:
+    properties:
+      list:
+        type: object
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+info:
+  contact: {}
+  license: {}
+paths:
+  /v1/task/searchTasks:
+    get:
+      parameters:
+      - description: 搜索任务
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/response.PageResult'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":0,"data":{},"msg":"success"}'
+          schema:
+            type: string
+      summary: 搜索任务
+      tags:
+      - task
+swagger: "2.0"

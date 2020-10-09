@@ -15,19 +15,10 @@ import (
 func InitScriptRouter(r *gin.RouterGroup) {
 	scriptRouter := r.Group("script").Use(middleware.JWTAuth())
 	{
-		scriptRouter.POST("searchScript", v1.SearchScript)
+		scriptRouter.GET("searchScript", v1.SearchScript)
 		//scriptRouter.POST("search", v1.SearchScript)
-		scriptRouter.POST("modify", v1.ModifyScript)
-		scriptRouter.POST("create", v1.CreateScript)
-
-		//scriptRouter.POST("create", v1.ModifyScript)
-		//gameScriptRouter := scriptRouter.Group("game")
-		//{
-		//	gameScriptRouter.POST("list", v1.SearchScript)
-		//	gameScriptRouter.POST("search", v1.SearchScript)
-		//	gameScriptRouter.POST("modify", v1.ModifyGameScript)
-		//	gameScriptRouter.POST("")
-		//}
+		scriptRouter.PUT("modifyScript", v1.ModifyScript)
+		scriptRouter.POST("createScript", v1.CreateScript)
 	}
 
 }

@@ -1,4 +1,3 @@
-import { getToken } from '@/utils/auth'
 import { getOptions } from '@/api/options'
 // import {getGameGroupInfo} from "@/api/game";
 
@@ -26,7 +25,7 @@ const mutations = {
 const actions = {
   fetchOptions({ commit }) {
     return new Promise((resolve, reject) => {
-      getOptions(getToken()).then(response => {
+      getOptions().then(response => {
         if (!response) {
           return reject('数据加载异常')
         }
@@ -37,15 +36,6 @@ const actions = {
       })
     })
   }
-  // fetchGameGroupInfo({commit}, gameGroup) {
-  //   return new Promise((resolve, reject) => {
-  //     getGameGroupInfo({game_group: gameGroup}).then(response => {
-  //       if ()
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // }
 }
 export default {
   namespaced: true,

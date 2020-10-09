@@ -20,7 +20,7 @@ import (
 
 func SearchScript(c *gin.Context) {
 	var bean request.ReqListScriptBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchScript(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
@@ -33,7 +33,6 @@ func SearchScript(c *gin.Context) {
 		}, c)
 	}
 }
-
 
 func ModifyScript(c *gin.Context) {
 	var bean request.ReqScriptBean

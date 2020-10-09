@@ -15,8 +15,8 @@ import (
 func InitKeystoreRouter(r *gin.RouterGroup) {
 	keystoreRouter := r.Group("keystore").Use(middleware.JWTAuth())
 	{
-		keystoreRouter.POST("getKeystores", v1.GetKeystores)
-		keystoreRouter.POST("searchKeystore", v1.SearchKeystore)
-		keystoreRouter.POST("create", v1.CreateKeystore)
+		keystoreRouter.GET("getKeystores", v1.GetKeystores)
+		keystoreRouter.GET("searchKeystore", v1.SearchKeystore)
+		keystoreRouter.POST("createKeystore", v1.CreateKeystore)
 	}
 }

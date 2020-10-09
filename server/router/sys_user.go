@@ -26,7 +26,7 @@ func InitUserRouter(r *gin.RouterGroup) {
 	//}
 	userRouter := r.Group("user").Use(middleware.JWTAuth())
 	{
-		userRouter.POST("changePassword", v1.ChangePassword)
-		userRouter.POST("getUserInfo", v1.GetUserInfo)
+		userRouter.PUT("modifyPassword", v1.ChangePassword)
+		userRouter.GET("getUserInfo", v1.GetUserInfo)
 	}
 }

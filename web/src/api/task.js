@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function getTaskList(data) {
+export function getTaskList(param) {
   return request({
     url: '/task/searchTasks',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 
@@ -19,7 +19,7 @@ export function createTask(data) {
 export function modifyTask(data) {
   return request({
     url: '/task/modifyTask',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -35,7 +35,7 @@ export function getTaskInfo(data) {
 export function modifyStatus(data) {
   return request({
     url: '/task/modifyStatus',
-    method: 'post',
+    method: 'put',
     data
   })
 }
@@ -43,7 +43,7 @@ export function modifyStatus(data) {
 export function deleteTask(data) {
   return request({
     url: '/task/deleteTask',
-    method: 'post',
+    method: 'delete',
     data
   })
 }

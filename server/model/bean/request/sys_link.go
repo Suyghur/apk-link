@@ -20,10 +20,10 @@ type ReqLinkBean struct {
 }
 
 type ReqLinkListBean struct {
-	TaskId      uint   `json:"task_id" gorm:"primary_key"`
-	GameGroup   string `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
-	Aid         string `json:"aid" gorm:"not null;comment:'子包AID'"`
-	ChannelName string `json:"channel_name" gorm:"not null;index:idx_channel_name;comment:'渠道名'"`
-	PluginName  string `json:"plugin_name" gorm:"index:idx_plugin_name;comment:'插件名'"`
+	TaskId      uint   `json:"task_id" form:"task_id" gorm:"primary_key"`
+	GameGroup   string `json:"game_group" form:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
+	Aid         string `json:"aid" form:"aid" gorm:"not null;comment:'子包AID'"`
+	ChannelName string `json:"channel_name" form:"channel_name" gorm:"not null;index:idx_channel_name;comment:'渠道名'"`
+	PluginName  string `json:"plugin_name" form:"plugin_name" gorm:"index:idx_plugin_name;comment:'插件名'"`
 	PageInfo
 }

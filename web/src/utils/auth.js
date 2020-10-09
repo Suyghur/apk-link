@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const TokenKey = 'linking_token'
+const TokenKey = 'Apk-Link-Token'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -14,7 +14,7 @@ export function removeToken() {
   return Cookies.remove(TokenKey)
 }
 
-const UsernameKey = 'linking_username'
+const UsernameKey = 'link_username'
 
 export function getUsername() {
   return Cookies.get(UsernameKey)

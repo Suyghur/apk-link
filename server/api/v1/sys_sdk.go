@@ -19,7 +19,6 @@ import (
 )
 
 func GetFuseSdks(c *gin.Context) {
-
 	err, fuseSdks := service.GetFuseSdks()
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
@@ -29,7 +28,7 @@ func GetFuseSdks(c *gin.Context) {
 }
 func SearchFuseSdk(c *gin.Context) {
 	var bean request.ReqListFuseSdkBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchFuseSdk(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
@@ -101,7 +100,7 @@ func CreateFuseSdk(c *gin.Context) {
 
 func GetChannelSdks(c *gin.Context) {
 	var bean request.ReqChannelSdksBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"ChannelName": {utils.NotEmpty()},
 	}
@@ -119,7 +118,7 @@ func GetChannelSdks(c *gin.Context) {
 
 func SearchChannelSdk(c *gin.Context) {
 	var bean request.ReqListChannelSdkBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchChannelSdk(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
@@ -195,7 +194,7 @@ func ModifyChannelSdk(c *gin.Context) {
 
 func GetPluginSdks(c *gin.Context) {
 	var bean request.ReqPluginSdksBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"PluginName": {utils.NotEmpty()},
 	}
@@ -213,7 +212,7 @@ func GetPluginSdks(c *gin.Context) {
 
 func SearchPluginSdk(c *gin.Context) {
 	var bean request.ReqListPluginSdkBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchPluginSdk(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)

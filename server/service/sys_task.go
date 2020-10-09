@@ -152,18 +152,13 @@ func ModifyTask(bean model.SysTask) (err error) {
 
 func ModifyTaskStatus(taskId uint, statusCode int, statusMsg string) (err error) {
 	var task model.SysTask
-	//判断游戏脚本是否存在
 	isExit := !global.GVA_DB.Where("task_id = ?", taskId).First(&task).RecordNotFound()
-	//isExit为true表明读到了，不能新建
+	//isExit为true表明读到了
 	if isExit {
 		err = global.GVA_DB.Where("task_id = ?", taskId).First(&task).Updates(map[string]interface{}{
 			"status_code": statusCode,
 			"status_msg":  statusMsg,
 		}).Error
-		if err == nil && statusCode == 1001 {
-			//执行中创建Link
-			err = CreateLink(taskId)
-		}
 	} else {
 		return errors.New("没有可修改的任务")
 	}

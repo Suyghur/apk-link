@@ -28,7 +28,7 @@ func GetOptions(c *gin.Context) {
 
 func GetAids(c *gin.Context) {
 	var bean request.ReqAidsBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"Gid": {utils.NotEmpty()},
 	}

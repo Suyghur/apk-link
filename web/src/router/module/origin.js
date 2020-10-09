@@ -9,7 +9,7 @@ export const OriginRouterMap = {
       path: 'index',
       name: 'Origin',
       component: () => import('@/views/origin/index'),
-      meta: { title: '游戏母包管理', icon: 'table' }
+      meta: { title: '游戏母包管理', icon: 'el-icon-set-up' }
     }
   ]
 }

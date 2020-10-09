@@ -19,7 +19,7 @@ import (
 
 func SearchKeystore(c *gin.Context) {
 	var bean request.ReqKeystoreListBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchKeystore(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)

@@ -16,8 +16,8 @@ func InitPluginRouter(r *gin.RouterGroup) {
 	pluginRouter := r.Group("plugin").Use(middleware.JWTAuth())
 	{
 		pluginRouter.POST("createPlugin", v1.CreatePlugin)
-		pluginRouter.POST("delPlugin", v1.DelPlugin)
-		pluginRouter.POST("modifyPlugin", v1.ModifyPlugin)
-		pluginRouter.POST("searchPlugin", v1.SearchPlugin)
+		pluginRouter.DELETE("deletePlugin", v1.DeletePlugin)
+		pluginRouter.PUT("modifyPlugin", v1.ModifyPlugin)
+		pluginRouter.GET("searchPlugin", v1.SearchPlugin)
 	}
 }

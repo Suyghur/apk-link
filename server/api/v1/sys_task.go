@@ -1,7 +1,7 @@
 /*
 @Time : 8/31/2020
 @Author : #Suyghur,
-@File : sjys_task
+@File : sys_task
 */
 
 package v1
@@ -18,10 +18,16 @@ import (
 	"server/utils"
 )
 
+//@Tags task
+//@Title SearchTasks
+//@Summary 搜索任务
+//@Produce application/json
+//@Param data body response.PageResult true "搜索任务"
+//@Success 200 {string} string "{"code":0,"data":{},"msg":"success"}"
+//@Router /v1/task/searchTasks [get]
 func SearchTasks(c *gin.Context) {
 	var bean request.ReqListTaskBean
-	_ = c.ShouldBindJSON(&bean)
-
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchTasks(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)

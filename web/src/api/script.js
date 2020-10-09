@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function searchScript(data) {
+export function searchScript(param) {
   return request({
     url: '/script/searchScript',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }

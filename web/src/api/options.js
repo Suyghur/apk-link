@@ -1,49 +1,49 @@
 import request from '@/utils/request'
 
-export function getOptions(data) {
+export function getOptions(param) {
   return request({
     url: '/options/getOptions',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 
-export function getOriginBags(data) {
+export function getOriginBags(param) {
   return request({
     url: '/origin/getOrigins',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 
 export function getFuseSdks() {
   return request({
     url: '/sdk/fuse/getFuseSdks',
-    method: 'post'
+    method: 'get'
   })
 }
 
-export function getChannelSdks(data) {
+export function getChannelSdks(param) {
   return request({
     url: '/sdk/channel/getChannelSdks',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 
-export function getPluginSdks(data) {
+export function getPluginSdks(param) {
   return request({
     url: '/sdk/plugin/getPluginSdks',
     method: 'post',
-    data
+    params: param
   })
 }
 
-export function getGameKeystores(data) {
+export function getGameKeystores(param) {
   return request({
     url: '/keystore/getKeystores',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 

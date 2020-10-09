@@ -17,7 +17,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-
           <el-col :span="10">
             <el-form-item label-width="200px" label="GID：" class="task-info-item">
               <el-input
@@ -375,13 +374,11 @@ export default {
         channel_sdk_version: [{ required: true, message: '请选择渠道SDK版本', trigger: 'change' }],
         keystore_name: [{ required: true, message: '请选择签名文件', trigger: 'change' }],
         aids: [{ required: true, message: '请输入Aid', trigger: 'blur' }]
-
       }
     }
   },
   computed: {
-    ...
-    mapGetters([
+    ...mapGetters([
       'options'
     ])
   },

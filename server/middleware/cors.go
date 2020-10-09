@@ -17,8 +17,8 @@ func Cors() gin.HandlerFunc {
 		method := context.Request.Method
 		context.Header("Access-Control-Allow-Origin", "*")
 		//跨域允许的的自定义头部
-		context.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token,Authorization,X-Token,Token")
-		context.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+		context.Header("Access-Control-Allow-Headers", "Content-Type,AccessToken,X-CSRF-Token,Authorization,Apk-Link-Token,Token")
+		context.Header("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,OPTIONS")
 		context.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
 		context.Header("Access-Control-Allow-Credentials", "true")
 

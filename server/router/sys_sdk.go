@@ -17,28 +17,25 @@ func InitSdkRouter(r *gin.RouterGroup) {
 	{
 		fuseRouter := sdkRouter.Group("fuse").Use(middleware.JWTAuth())
 		{
-			fuseRouter.POST("getFuseSdks", v1.GetFuseSdks)
-			fuseRouter.POST("searchFuseSdk", v1.SearchFuseSdk)
-			fuseRouter.POST("modifyFuseSdk", v1.ModifyFuseSdk)
+			fuseRouter.GET("getFuseSdks", v1.GetFuseSdks)
+			fuseRouter.GET("searchFuseSdk", v1.SearchFuseSdk)
+			fuseRouter.PUT("modifyFuseSdk", v1.ModifyFuseSdk)
 			fuseRouter.POST("createFuseSdk", v1.CreateFuseSdk)
 
 		}
 		channelRouter := sdkRouter.Group("channel").Use(middleware.JWTAuth())
 		{
-			channelRouter.POST("getChannelSdks", v1.GetChannelSdks)
-			channelRouter.POST("searchChannelSdk", v1.SearchChannelSdk)
-			channelRouter.POST("modifyChannelSdk", v1.ModifyChannelSdk)
+			channelRouter.GET("getChannelSdks", v1.GetChannelSdks)
+			channelRouter.GET("searchChannelSdk", v1.SearchChannelSdk)
+			channelRouter.PUT("modifyChannelSdk", v1.ModifyChannelSdk)
 			channelRouter.POST("createChannelSdk", v1.CreateChannelSdk)
 		}
 		pluginRouter := sdkRouter.Group("plugin").Use(middleware.JWTAuth())
 		{
-			pluginRouter.POST("getPluginSdks", v1.GetPluginSdks)
-			pluginRouter.POST("searchPluginSdk", v1.SearchPluginSdk)
-			pluginRouter.POST("modifyPluginSdk", v1.ModifyPluginSdk)
+			pluginRouter.GET("getPluginSdks", v1.GetPluginSdks)
+			pluginRouter.GET("searchPluginSdk", v1.SearchPluginSdk)
+			pluginRouter.PUT("modifyPluginSdk", v1.ModifyPluginSdk)
 			pluginRouter.POST("createPluginSdk", v1.CreatePluginSdk)
 		}
-		//sdkRouter.POST("fuse/list", v1.SearchFuseSdk)
-		//sdkRouter.POST("channel/list")
-		//sdkRouter.POST("plugin/list")
 	}
 }

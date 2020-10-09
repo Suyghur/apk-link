@@ -20,7 +20,7 @@ import (
 
 func SearchChannel(c *gin.Context) {
 	var bean request.ReqChannelListBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchChannel(bean)
 	if err != nil {
 		global.GVA_LOG.Error(err.Error())

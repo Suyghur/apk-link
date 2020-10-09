@@ -2,7 +2,7 @@
   <div id="tasks">
     <TaskPanelHead
       :query-list="queryList"
-      @searchTask="fetchTasks"
+      @searchTask="getTaskList"
       @createTask="createTask"
     />
     <el-divider />
@@ -12,7 +12,7 @@
       :total="total"
       :page.sync="queryList.page"
       :limit.sync="queryList.page_size"
-      @pagination="fetchTasks"
+      @pagination="getTaskList"
     />
   </div>
 </template>
@@ -43,10 +43,10 @@ export default {
     }
   },
   created() {
-    this.fetchTasks()
+    this.getTaskList()
   },
   methods: {
-    fetchTasks() {
+    getTaskList() {
       this.listLoading = true
       getTaskList(this.queryList).then(response => {
         this.list = response.data.list

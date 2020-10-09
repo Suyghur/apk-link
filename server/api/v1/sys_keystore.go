@@ -40,7 +40,7 @@ func GetKeystores(c *gin.Context) {
 		"GameGroup": {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
-		global.GVA_LOG.Error(verifyErr.Error())
+		global.GvaLog.Error(verifyErr.Error())
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
@@ -60,7 +60,7 @@ func CreateKeystore(c *gin.Context) {
 		"GameGroup": {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
-		global.GVA_LOG.Error(verifyErr.Error())
+		global.GvaLog.Error(verifyErr.Error())
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}

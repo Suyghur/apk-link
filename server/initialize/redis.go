@@ -8,11 +8,12 @@ package initialize
 
 import (
 	"github.com/go-redis/redis"
+	"go.uber.org/zap"
 	"server/global"
 )
 
 func Redis() {
-	redisCfg := global.GVA_CONFIG.Redis
+	redisCfg := global.GvaConfig.Redis
 	client := redis.NewClient(&redis.Options{
 		Addr:     redisCfg.Addr,
 		Password: redisCfg.Password,
@@ -20,9 +21,9 @@ func Redis() {
 	})
 	pong, err := client.Ping().Result()
 	if err != nil {
-		global.GVA_LOG.Error(err)
+		global.GvaLog.Error("redis connect ping failed , err : ", zap.Any("err", err))
 	} else {
-		global.GVA_LOG.Info("redis connect ping response:", pong)
-		global.GVA_REDIS = client
+		global.GvaLog.Info("redis connect ping response:", zap.String("pong", pong))
+		global.GvaRedis = client
 	}
 }

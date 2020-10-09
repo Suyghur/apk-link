@@ -8,16 +8,17 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"server/global"
 	"server/model"
 	"server/model/bean/request"
 )
 
-func SearchScript(bean request.ReqListScriptBean) (err error, list interface{}, total int) {
+func SearchScript(bean request.ReqListScriptBean) (err error, list interface{}, total int64) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
-	db := global.GVA_DB.Model(&model.SysScript{})
+	db := global.GvaDb.Model(&model.SysScript{})
 	var scripts []model.SysScript
 	if bean.GameGroup != "" {
 		db = db.Where("game_group = ?", bean.GameGroup)
@@ -34,12 +35,12 @@ func SearchScript(bean request.ReqListScriptBean) (err error, list interface{}, 
 //}
 
 func ModifyScript(bean model.SysScript) (err error) {
-	var script model.SysScript
 	//判断游戏脚本是否存在
-	isExit := !global.GVA_DB.Where("game_group = ?", bean.GameGroup).First(&script).RecordNotFound()
+	isExit := !errors.Is(global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&model.SysScript{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&script).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
-		err = global.GVA_DB.Where("game_group = ?", bean.GameGroup).First(&script).Updates(map[string]interface{}{
+		err = global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&model.SysScript{}).Updates(map[string]interface{}{
 			"game_group":       bean.GameGroup,
 			"script_file_name": bean.ScriptFileName,
 			"script_file_url":  bean.ScriptFileUrl,
@@ -51,14 +52,14 @@ func ModifyScript(bean model.SysScript) (err error) {
 }
 
 func CreateScript(bean model.SysScript) (err error) {
-	var script model.SysScript
 	//判断游戏脚本是否存在
-	isExit := !global.GVA_DB.Where("game_group = ?", bean.GameGroup).First(&script).RecordNotFound()
+	isExit := !errors.Is(global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&model.SysScript{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&script).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
 		return errors.New("该游戏已存在脚本文件")
 	} else {
-		err = global.GVA_DB.Create(&bean).Error
+		err = global.GvaDb.Create(&bean).Error
 	}
 	return err
 }

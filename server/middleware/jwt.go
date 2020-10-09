@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"server/global"
 	"server/global/response"
-	"server/model"
 	"server/model/bean/request"
 	"server/service"
 	"time"
@@ -25,15 +24,12 @@ func JWTAuth() gin.HandlerFunc {
 		//这里前端需要把token存储到cookie或者本地localStorage中
 		//不过需要跟后端协商过期时间 可以约定刷新令牌或者重新登录
 		token := c.Request.Header.Get("Apk-Link-Token")
-		modeToken := model.JwtBlacklist{
-			Jwt: token,
-		}
 		if token == "" {
 			response.Result(response.ERROR, "未登录或非法访问", gin.H{"reload": true}, c)
 			c.Abort()
 			return
 		}
-		if service.IsBlacklist(token, modeToken) {
+		if service.IsBlacklist(token) {
 			response.Result(response.ERROR, "您的帐户异地登陆或令牌失效", gin.H{"reload": true}, c)
 			c.Abort()
 			return
@@ -69,7 +65,7 @@ var (
 
 func NewJWT() *JWT {
 	return &JWT{
-		[]byte(global.GVA_CONFIG.JWT.SigningKey),
+		[]byte(global.GvaConfig.JWT.SigningKey),
 	}
 }
 

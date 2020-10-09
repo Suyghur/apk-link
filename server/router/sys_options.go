@@ -15,7 +15,7 @@ func InitOptionsRouter(r *gin.RouterGroup) {
 	optionsRouter := r.Group("options")
 	{
 		optionsRouter.GET("getOptions", v1.GetOptions)
-		optionsRouter.GET("getAids",v1.GetAids)
+		//optionsRouter.GET("getAids",v1.GetAids)
 		//optionsRouter.POST("channelName")
 		//optionsRouter.POST("pluginName")
 	}

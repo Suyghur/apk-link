@@ -8,17 +8,18 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"server/global"
 	"server/model"
 	"server/model/bean/request"
 	"strings"
 )
 
-func SearchLink(bean request.ReqLinkListBean) (err error, list interface{}, total int) {
+func SearchLink(bean request.ReqLinkListBean) (err error, list interface{}, total int64) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
-	db := global.GVA_DB.Model(&model.SysLink{})
+	db := global.GvaDb.Model(&model.SysLink{})
 	var links []model.SysLink
 	if bean.TaskId > 0 {
 		db = db.Where("task_id = ?", bean.TaskId)
@@ -42,9 +43,9 @@ func SearchLink(bean request.ReqLinkListBean) (err error, list interface{}, tota
 }
 
 func CreateLink(taskId uint) (err error) {
-	var link model.SysLink
 	//判断游戏脚本是否存在
-	isExit := !global.GVA_DB.Where("task_id = ?", taskId).First(&link).RecordNotFound()
+	isExit := !errors.Is(global.GvaDb.Where("task_id = ?", taskId).First(&model.SysLink{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", taskId).First(&link).RecordNotFound()
 	if isExit {
 		return errors.New("该任务已存在")
 	} else {
@@ -59,10 +60,10 @@ func CreateLink(taskId uint) (err error) {
 			PluginName      string
 		}
 		var bean taskBean
-		if err = global.GVA_DB.Model(&model.SysTask{}).Select("game_group , game_name , game_version_code , game_version_name , aids , fuse_sdk_version , channel_name , plugin_name").Where("task_id = ?", taskId).Scan(&bean).Error; err != nil {
+		if err = global.GvaDb.Model(&model.SysTask{}).Select("game_group , game_name , game_version_code , game_version_name , aids , fuse_sdk_version , channel_name , plugin_name").Where("task_id = ?", taskId).Scan(&bean).Error; err != nil {
 			return err
 		} else {
-			tx := global.GVA_DB.Begin()
+			tx := global.GvaDb.Begin()
 			aidsArr := strings.Split(bean.Aids, ",")
 			for _, value := range aidsArr {
 				link := model.SysLink{
@@ -91,10 +92,11 @@ func CreateLink(taskId uint) (err error) {
 func ReportLink(bean model.SysLink) (err error) {
 	var link model.SysLink
 	//判断游戏脚本是否存在
-	isExit := !global.GVA_DB.Where("task_id = ?", bean.TaskId).First(&link).RecordNotFound()
+	isExit := !errors.Is(global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysLink{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", bean.TaskId).First(&link).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
-		err = global.GVA_DB.Where("task_id = ?", bean.TaskId).First(&link).Updates(map[string]interface{}{"link_url": bean.LinkUrl}).Error
+		err = global.GvaDb.Where("task_id = ?", bean.TaskId).First(&link).Updates(map[string]interface{}{"link_url": bean.LinkUrl}).Error
 	} else {
 		return errors.New("没有可上报的任务")
 	}

@@ -25,7 +25,7 @@ func GetOrigins(c *gin.Context) {
 		"GameGroup": {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
-		global.GVA_LOG.Error(verifyErr.Error())
+		global.GvaLog.Error(verifyErr.Error())
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
@@ -87,7 +87,7 @@ func CreateOrigin(c *gin.Context) {
 	}
 	err := service.CreateOrigin(*origin)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建游戏母包成功", c)
@@ -125,7 +125,7 @@ func ModifyOrigin(c *gin.Context) {
 	}
 	err := service.ModifyOrigin(*origin)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改游戏母包成功", c)

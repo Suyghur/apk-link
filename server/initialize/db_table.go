@@ -12,7 +12,7 @@ import (
 )
 
 func DBTables() {
-	db := global.GVA_DB
+	db := global.GvaDb
 	db.AutoMigrate(
 		model.SysKeystore{},
 		model.JwtBlacklist{},
@@ -28,5 +28,5 @@ func DBTables() {
 		model.SysChannel{},
 		model.SysLink{},
 	)
-	global.GVA_LOG.Debug("register table success")
+	global.GvaLog.Debug("register table success")
 }

@@ -23,7 +23,7 @@ func SearchPlugin(c *gin.Context) {
 	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchPlugin(bean)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
 		response.OkWithData(resp.PageResult{
@@ -52,7 +52,7 @@ func CreatePlugin(c *gin.Context) {
 	}
 	err := service.CreatePlugin(*plugin)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建插件成功", c)

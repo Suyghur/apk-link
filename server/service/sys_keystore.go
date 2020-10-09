@@ -8,6 +8,7 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"server/global"
 	"server/model"
 	"server/model/bean/request"
@@ -17,11 +18,11 @@ import (
 	"os"
 )
 
-func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface{}, total int) {
+func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface{}, total int64) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
-	db := global.GVA_DB.Model(&model.SysKeystore{})
+	db := global.GvaDb.Model(&model.SysKeystore{})
 	var keystores []model.SysKeystore
 	if bean.GameGroup != "" {
 		db = db.Where("game_group = ?", bean.GameGroup)
@@ -35,7 +36,7 @@ func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface
 }
 
 func GetKeystores(gameGroup string) (err error, keystores []response.KeystoresResponse) {
-	err = global.GVA_DB.Model(&model.SysKeystore{}).Select("keystore_name , keystore_password , keystore_alias , keystore_alias_password , keystore_file_url").Where("game_group = ?", gameGroup).Scan(&keystores).Error
+	err = global.GvaDb.Model(&model.SysKeystore{}).Select("keystore_name , keystore_password , keystore_alias , keystore_alias_password , keystore_file_url").Where("game_group = ?", gameGroup).Scan(&keystores).Error
 	return err, keystores
 
 }
@@ -45,7 +46,8 @@ func CreateKeystore(gameGroup string) (err error) {
 	pyGroupName := utils.GetLowerPinYinInitials(gameGroup)
 	keystoreName := pyGroupName + "_" + "hl.keystore"
 	//判断签名文件是否已经存在
-	isExit := !global.GVA_DB.Where("keystore_name = ?", keystoreName).First(&keystore).RecordNotFound()
+	isExit := !errors.Is(global.GvaDb.Where("keystore_name = ?", keystoreName).First(&model.SysKeystore{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("keystore_name = ?", keystoreName).First(&keystore).RecordNotFound()
 	//isExit为true表明读到了，不能新建
 	if isExit {
 		return errors.New("该游戏已存在签名文件")
@@ -73,8 +75,8 @@ func CreateKeystore(gameGroup string) (err error) {
 		keystore.FingerprintsMD5 = fingerprints.FingerprintsMD5
 		keystore.FingerprintsSHA1 = fingerprints.FingerprintsSHA1
 		keystore.FingerprintsSHA256 = fingerprints.FingerprintsSHA256
-		keystore.KeystoreFileUrl = global.GVA_CONFIG.Aliyun.Endpoint + "/linking/keystore/" + keystoreName
-		err = global.GVA_DB.Create(&keystore).Error
+		keystore.KeystoreFileUrl = global.GvaConfig.Aliyun.Endpoint + "/linking/keystore/" + keystoreName
+		err = global.GvaDb.Create(&keystore).Error
 
 	}
 	return err

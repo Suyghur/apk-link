@@ -53,7 +53,7 @@ func ModifyScript(c *gin.Context) {
 	}
 	err := service.ModifyScript(*script)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改游戏脚本成功", c)
@@ -79,7 +79,7 @@ func CreateScript(c *gin.Context) {
 	}
 	err := service.CreateScript(*script)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建游戏脚本成功", c)

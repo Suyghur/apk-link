@@ -7,16 +7,13 @@
 package service
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"server/global"
 	"server/model"
 	"server/model/bean/response"
-	"net/http"
 )
 
 func GetOptions() (err error, options response.OptionsResponse) {
-	tx := global.GVA_DB.Begin()
+	tx := global.GvaDb.Begin()
 	err = tx.Model(&model.SysGame{}).Pluck("game_group", &options.GameOptions).Error
 	if err != nil {
 		tx.Rollback()
@@ -36,22 +33,21 @@ func GetOptions() (err error, options response.OptionsResponse) {
 	return err, options
 }
 
-func GetAids(gid string) (err error, aids []response.AidsResponse) {
-
-	resp, err := http.Get("http://192.168.1.169:8000/getGameAidByGid.shtml?gid=" + gid)
-	if err != nil || resp.StatusCode != http.StatusOK {
-		global.GVA_LOG.Error(err.Error())
-		return err, aids
-	}
-	defer resp.Body.Close()
-	s, err := ioutil.ReadAll(resp.Body)
-	type DataBean struct {
-		Data []response.AidsResponse `json:"data"`
-	}
-	var bean DataBean
-	if err = json.Unmarshal(s, &bean); err != nil {
-		return err, aids
-	}
-	global.GVA_LOG.Debug(bean.Data)
-	return err, bean.Data
-}
+//func GetAids(gid string) (err error, aids []response.AidsResponse) {
+//	resp, err := http.Get("http://192.168.1.169:8000/getGameAidByGid.shtml?gid=" + gid)
+//	if err != nil || resp.StatusCode != http.StatusOK {
+//		global.GvaLog.Error(err.Error())
+//		return err, aids
+//	}
+//	defer resp.Body.Close()
+//	s, err := ioutil.ReadAll(resp.Body)
+//	type DataBean struct {
+//		Data []response.AidsResponse `json:"data"`
+//	}
+//	var bean DataBean
+//	if err = json.Unmarshal(s, &bean); err != nil {
+//		return err, aids
+//	}
+//	global.GvaLog.Debug(bean.Data)
+//	return err, bean.Data
+//}

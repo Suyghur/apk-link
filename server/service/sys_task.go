@@ -8,16 +8,17 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"server/global"
 	"server/model"
 	"server/model/bean/request"
 )
 
-func SearchTasks(bean request.ReqListTaskBean) (err error, list interface{}, total int) {
+func SearchTasks(bean request.ReqListTaskBean) (err error, list interface{}, total int64) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
-	db := global.GVA_DB.Model(&model.SysTask{})
+	db := global.GvaDb.Model(&model.SysTask{})
 	var tasks []model.SysTask
 	if bean.TaskId > 0 {
 		db = db.Where("task_id = ?", bean.TaskId)
@@ -40,10 +41,10 @@ func SearchTasks(bean request.ReqListTaskBean) (err error, list interface{}, tot
 }
 
 func GetTaskInfo(taskId uint) (err error, taskInfo model.SysTask) {
-
-	isExit := !global.GVA_DB.Where("task_id = ?", taskId).First(&taskInfo).RecordNotFound()
-	if isExit {
-		err = global.GVA_DB.Where("task_id = ?", taskId).First(&taskInfo).Error
+	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).RecordNotFound()
+	if isExist {
+		err = global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).Error
 	} else {
 		return errors.New("该任务不存在"), taskInfo
 	}
@@ -51,10 +52,10 @@ func GetTaskInfo(taskId uint) (err error, taskInfo model.SysTask) {
 }
 
 func DeleteTask(taskId uint) (err error) {
-	var taskInfo model.SysTask
-	isExit := !global.GVA_DB.Where("task_id = ?", taskId).First(&taskInfo).RecordNotFound()
-	if isExit {
-		err = global.GVA_DB.Where("task_id = ?", taskId).Unscoped().Delete(&taskInfo).Error
+	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", taskId).First(&model.SysTask{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).RecordNotFound()
+	if isExist {
+		err = global.GvaDb.Where("task_id = ?", taskId).Unscoped().Delete(&model.SysTask{}).Error
 	} else {
 		return errors.New("该任务不存在")
 	}
@@ -62,14 +63,14 @@ func DeleteTask(taskId uint) (err error) {
 }
 
 func CreateTask(bean model.SysTask) (err error) {
-	var task model.SysTask
-	//判断游戏脚本是否存在
-	isExit := !global.GVA_DB.Where("task_id = ?", bean.TaskId).First(&task).RecordNotFound()
+	//判断任务是否存在
+	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysTask{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", bean.TaskId).First(&task).RecordNotFound()
 	//isExit为true表明读到了，不能新建
-	if isExit {
+	if isExist {
 		return errors.New("该任务已存在")
 	} else {
-		tx := global.GVA_DB.Begin()
+		tx := global.GvaDb.Begin()
 		if bean.PluginName == "" {
 			bean.IsPluginSdk = 0
 		} else {
@@ -80,7 +81,7 @@ func CreateTask(bean model.SysTask) (err error) {
 			ScriptFileUrl  string
 		}
 		var script scriptBean
-		if err = global.GVA_DB.Model(&model.SysScript{}).Select("script_file_name , script_file_url").Where("game_group = ?", bean.GameGroup).Scan(&script).Error; err != nil {
+		if err = global.GvaDb.Model(&model.SysScript{}).Select("script_file_name , script_file_url").Where("game_group = ?", bean.GameGroup).Scan(&script).Error; err != nil {
 			bean.ScriptFileName = ""
 			bean.ScriptFileUrl = ""
 		} else {
@@ -98,12 +99,12 @@ func CreateTask(bean model.SysTask) (err error) {
 }
 
 func ModifyTask(bean model.SysTask) (err error) {
-	var task model.SysTask
-	//判断游戏脚本是否存在
-	isExit := !global.GVA_DB.Where("task_id = ?", bean.TaskId).First(&task).RecordNotFound()
+	//判断任务是否存在
+	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysTask{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", bean.TaskId).First(&task).RecordNotFound()
 	//isExit为true表明读到了，不能新建
-	if isExit {
-		err = global.GVA_DB.Where("task_id = ?", bean.TaskId).First(&task).Updates(map[string]interface{}{
+	if isExist {
+		err = global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysTask{}).Updates(map[string]interface{}{
 			"is_fuse_sdk":             bean.IsFuseSdk,
 			"is_white_bag":            bean.IsWhiteBag,
 			"is_plugin_sdk":           bean.IsPluginSdk,
@@ -151,11 +152,11 @@ func ModifyTask(bean model.SysTask) (err error) {
 }
 
 func ModifyTaskStatus(taskId uint, statusCode int, statusMsg string) (err error) {
-	var task model.SysTask
-	isExit := !global.GVA_DB.Where("task_id = ?", taskId).First(&task).RecordNotFound()
+	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", taskId).First(&model.SysTask{}).Error, gorm.ErrRecordNotFound)
+	//isExit := !global.GvaDb.Where("task_id = ?", taskId).First(&task).RecordNotFound()
 	//isExit为true表明读到了
-	if isExit {
-		err = global.GVA_DB.Where("task_id = ?", taskId).First(&task).Updates(map[string]interface{}{
+	if isExist {
+		err = global.GvaDb.Where("task_id = ?", taskId).First(&model.SysTask{}).Updates(map[string]interface{}{
 			"status_code": statusCode,
 			"status_msg":  statusMsg,
 		}).Error

@@ -23,7 +23,7 @@ func SearchGame(c *gin.Context) {
 	_ = c.ShouldBindJSON(&bean)
 	err, list, total := service.SearchGame(bean)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
 		response.OkWithData(resp.PageResult{
@@ -52,7 +52,7 @@ func CreateGame(c *gin.Context) {
 	}
 	err := service.CreateGame(*game)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建游戏成功", c)
@@ -83,7 +83,7 @@ func GetGid(c *gin.Context) {
 	//}
 	err, game := service.GetGid(bean.GameGroup)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithData(gin.H{"gid": game.Gid}, c)

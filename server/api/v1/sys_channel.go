@@ -23,7 +23,7 @@ func SearchChannel(c *gin.Context) {
 	_ = c.ShouldBindQuery(&bean)
 	err, list, total := service.SearchChannel(bean)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
 		response.OkWithData(resp.PageResult{
@@ -52,7 +52,7 @@ func CreateChannel(c *gin.Context) {
 	}
 	err := service.CreateChannel(*channel)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建渠道成功", c)

@@ -63,7 +63,7 @@ func ModifyFuseSdk(c *gin.Context) {
 	}
 	err := service.ModifyFuseSdk(*fuseSdk)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改聚合SDK成功", c)
@@ -91,7 +91,7 @@ func CreateFuseSdk(c *gin.Context) {
 	}
 	err := service.CreateFuseSdk(*fuseSdk)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建聚合SDK成功", c)
@@ -155,7 +155,7 @@ func CreateChannelSdk(c *gin.Context) {
 	}
 	err := service.CreateChannelSdk(*channelSdk)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建渠道SDK成功", c)
@@ -185,7 +185,7 @@ func ModifyChannelSdk(c *gin.Context) {
 	}
 	err := service.ModifyChannelSdk(*channelSdk)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改渠道SDK成功", c)
@@ -249,7 +249,7 @@ func ModifyPluginSdk(c *gin.Context) {
 	}
 	err := service.ModifyPluginSdk(*pluginSdk)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改插件SDK成功", c)
@@ -279,7 +279,7 @@ func CreatePluginSdk(c *gin.Context) {
 	}
 	err := service.CreatePluginSdk(*pluginSdk)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建插件SDK成功", c)

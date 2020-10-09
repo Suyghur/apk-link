@@ -8,9 +8,12 @@ import (
 
 func main() {
 	//gin.SetMode(gin.ReleaseMode)
-	initialize.Mysql()
-	initialize.DBTables()
+	initialize.Gorm()
+	if global.GvaConfig.System.NeedInitData {
+
+	}
 	//结束前关闭数据块链接
-	defer global.GVA_DB.Close()
+	db, _ := global.GvaDb.DB()
+	defer db.Close()
 	core.RunServer()
 }

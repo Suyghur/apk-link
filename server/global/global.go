@@ -7,16 +7,17 @@ package global
 
 import (
 	"github.com/go-redis/redis"
-	"github.com/jinzhu/gorm"
-	oplogging "github.com/op/go-logging"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"gorm.io/gorm"
 	"server/config"
 )
 
 var (
-	GVA_DB     *gorm.DB
-	GVA_REDIS  *redis.Client
-	GVA_CONFIG config.Server
-	GVA_VP     *viper.Viper
-	GVA_LOG    *oplogging.Logger
+	GvaDb     *gorm.DB
+	GvaRedis  *redis.Client
+	GvaConfig config.Server
+	GvaVp     *viper.Viper
+	GvaLog    *zap.Logger
+	//GvaLog    *oplogging.Logger
 )

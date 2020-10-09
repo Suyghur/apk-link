@@ -7,6 +7,7 @@
 package utils
 
 import (
+	"go.uber.org/zap"
 	"io/ioutil"
 	"server/global"
 	"os/exec"
@@ -16,21 +17,21 @@ func Command(cmdStr string) {
 	cmd := exec.Command(cmdStr)
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		global.GVA_LOG.Error(err)
+		global.GvaLog.Error("stdout pipe err : ", zap.Any("err", err))
 		return
 	}
 	defer stdout.Close()
 
 	if err := cmd.Start(); err != nil {
-		global.GVA_LOG.Error(err)
+		global.GvaLog.Error("command err : ", zap.Any("err", err))
 		return
 	}
 
 	if opBytes, err := ioutil.ReadAll(stdout); err != nil {
-		global.GVA_LOG.Error(err)
+		global.GvaLog.Error("ioutil err : ", zap.Any("err", err))
 		return
 	} else {
-		global.GVA_LOG.Info(opBytes)
+		global.GvaLog.Info("opBytes", zap.Binary("op_bytes", opBytes))
 	}
 
 }

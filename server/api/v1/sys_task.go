@@ -71,7 +71,7 @@ func GetTaskInfo(c *gin.Context) {
 	}
 	err, taskInfo := service.GetTaskInfo(bean.TaskId)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithData(gin.H{"task_info": taskInfo}, c)
@@ -134,7 +134,7 @@ func CreateTask(c *gin.Context) {
 	}
 	err := service.CreateTask(*task)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建打包任务成功", c)
@@ -203,7 +203,7 @@ func ModifyTask(c *gin.Context) {
 	}
 	err := service.ModifyTask(*task)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改打包任务成功", c)
@@ -236,7 +236,7 @@ func ModifyTaskStatus(c *gin.Context) {
 	}
 	err := service.ModifyTaskStatus(bean.TaskId, bean.StatusCode, statusMsg)
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("修改打包任务状态成功", c)

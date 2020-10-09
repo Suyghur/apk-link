@@ -13,9 +13,9 @@ type SysTask struct {
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	DeletedAt       *time.Time `sql:"index"`
-	IsFuseSdk       int        `json:"is_fuse_sdk" gorm:"default:'0';comment:'是否接入聚合SDK'"`
-	IsWhiteBag      int        `json:"is_white_bag" gorm:"default:'0';comment:'是否白包'"`
-	IsPluginSdk     int        `json:"is_plugin_sdk" gorm:"default:'0';comment:'是否媒体包'"`
+	IsFuseSdk       int        `json:"is_fuse_sdk" gorm:"default:0;comment:'是否接入聚合SDK'"`
+	IsWhiteBag      int        `json:"is_white_bag" gorm:"default:0;comment:'是否白包'"`
+	IsPluginSdk     int        `json:"is_plugin_sdk" gorm:"default:0;comment:'是否媒体包'"`
 	GameGroup       string     `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
 	Gid             string     `json:"gid" gorm:"not null;comment:'游戏组ID'"`
 	Aids            string     `json:"aids" gorm:"not null;comment:'子包AID'"`
@@ -25,12 +25,12 @@ type SysTask struct {
 	GameName        string     `json:"game_name" gorm:"not null;comment:'游戏名'"`
 	GameVersionCode int        `json:"game_version_code" gorm:"not null;comment:'游戏版本名'"`
 	GameVersionName string     `json:"game_version_name" gorm:"not null;comment:'游戏版本名'"`
-	GameOrientation int        `json:"game_orientation" gorm:"default:'0';comment:'游戏方向'"`
+	GameOrientation int        `json:"game_orientation" gorm:"default:0;comment:'游戏方向'"`
 	GameIconUrl     string     `json:"game_icon_url" gorm:"游戏ICON链接"`
 	GameLogoUrl     string     `json:"game_logo_url" gorm:"游戏LOGO链接"`
 	GameSplashUrl   string     `json:"game_splash_url" gorm:"游戏闪屏链接"`
 	GameLoginBgUrl  string     `json:"game_login_bg_url" gorm:"游戏登录背景链接"`
-	StatusCode      int        `json:"status_code" gorm:"default:'1000';index:idx_status_code;gorm:'打包状态'"`
+	StatusCode      int        `json:"status_code" gorm:"default:1000;index:idx_status_code;gorm:'打包状态'"`
 	StatusMsg       string     `json:"status_msg" gorm:"default:'未执行';index:idx_status_msg;gorm:'打包状态信息'"`
 	//母包信息
 	GameFileName string `json:"game_file_name" gorm:"not null;comment:'母包名'"`

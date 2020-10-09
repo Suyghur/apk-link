@@ -34,23 +34,23 @@ func CreateKeystore(GroupName string) (keystore Keystore, err error) {
 	keystore.KeystorePassword = pyGroupName + GetRandomLowerStr(4) + "_hl" + strconv.Itoa(time.Now().Year())
 	keystore.KeystoreAlias = "alias." + pyGroupName + "_hl" + strconv.Itoa(time.Now().Year())
 	keystore.KeystoreAliasPassword = keystore.KeystorePassword
-	global.GVA_LOG.Debug("keytool -genkey -alias " + keystore.KeystoreAlias + " -keyalg RSA -validity 20000 -keystore " + keystore.KeystoreName + " -storepass " + keystore.KeystorePassword + " -keypass " + keystore.KeystoreAliasPassword + " -dname CN=hl, OU=hl, O=hl, L=hl, ST=hl, C=hl")
+	global.GvaLog.Debug("keytool -genkey -alias " + keystore.KeystoreAlias + " -keyalg RSA -validity 20000 -keystore " + keystore.KeystoreName + " -storepass " + keystore.KeystorePassword + " -keypass " + keystore.KeystoreAliasPassword + " -dname CN=hl, OU=hl, O=hl, L=hl, ST=hl, C=hl")
 	cmd := exec.Command("keytool", "-genkey", "-alias", keystore.KeystoreAlias,
 		"-keyalg", "RSA", "-validity", "20000", "-keystore", keystore.KeystoreName,
 		"-storepass", keystore.KeystorePassword, "-keypass", keystore.KeystoreAliasPassword,
 		"-dname", "CN=hl, OU=hl, O=hl, L=hl, ST=hl, C=hl")
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		return
 	}
 	defer stdout.Close()
 	if err = cmd.Start(); err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		return keystore, err
 	}
 	if _, err = ioutil.ReadAll(stdout); err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		return keystore, err
 	}
 	return keystore, nil
@@ -62,17 +62,17 @@ func GetKeystoreFingerprints(keystore *Keystore) (fingerprints Fingerprints, err
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		return
 	}
 	defer stdout.Close()
 	if err = cmd.Start(); err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		return fingerprints, err
 	}
 	var optBytes []byte
 	if optBytes, err = ioutil.ReadAll(stdout); err != nil {
-		global.GVA_LOG.Error(err.Error())
+		global.GvaLog.Error(err.Error())
 		return fingerprints, err
 	} else {
 		result := string(optBytes)

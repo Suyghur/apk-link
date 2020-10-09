@@ -9,10 +9,10 @@ system:
 # mysql configuration
 mysql:
   username: root
-  password: 'kel317-+'
-  #  password: '123456'
+#  password: 'kel317-+'
+  password: '123456'
   path: '127.0.0.1:3306'
-  db-name: 'linking_db'
+  db-name: 'apk_link_db'
   config: 'charset=utf8mb4&parseTime=True&loc=Local'
   max-idle-conns: 50
   max-open-conns: 100

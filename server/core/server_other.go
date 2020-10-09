@@ -1,3 +1,5 @@
+// +build !windows
+
 /*
 @Time : 10/9/20
 @Author : #Suyghur,

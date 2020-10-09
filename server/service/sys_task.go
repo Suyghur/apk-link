@@ -104,11 +104,12 @@ func ModifyTask(bean model.SysTask) (err error) {
 	//isExit为true表明读到了，不能新建
 	if isExist {
 		err = global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysTask{}).Updates(map[string]interface{}{
-			"is_fuse_sdk":             bean.IsFuseSdk,
 			"is_white_bag":            bean.IsWhiteBag,
 			"is_plugin_sdk":           bean.IsPluginSdk,
 			"game_group":              bean.GameGroup,
 			"gid":                     bean.Gid,
+			"cid":                     bean.Cid,
+			"form_id":                 bean.FormId,
 			"aids":                    bean.Aids,
 			"channel_params":          bean.ChannelParams,
 			"plugin_params":           bean.PluginParams,

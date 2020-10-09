@@ -22,13 +22,9 @@ require (
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.3 // indirect
-	github.com/lestrrat/go-envload v0.0.0-20180220120943-6ed08b54a570 // indirect
-	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f
-	github.com/lestrrat/go-strftime v0.0.0-20180220042222-ba3bf9c1d042 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/onsi/ginkgo v1.14.0 // indirect
-	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
 	github.com/pelletier/go-toml v1.8.0 // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/afero v1.3.4 // indirect

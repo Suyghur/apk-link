@@ -101,11 +101,12 @@ func CreateTask(c *gin.Context) {
 		return
 	}
 	task := &model.SysTask{
-		IsFuseSdk:             bean.IsFuseSdk,
 		IsWhiteBag:            bean.IsWhiteBag,
-		IsPluginSdk:           bean.IsFuseSdk,
+		IsPluginSdk:           bean.IsPluginSdk,
 		GameGroup:             bean.GameGroup,
 		Gid:                   bean.Gid,
+		Cid:                   bean.Cid,
+		FormId:                bean.FormId,
 		Aids:                  bean.Aids,
 		ChannelParams:         bean.ChannelParams,
 		PluginParams:          bean.PluginParams,
@@ -165,9 +166,8 @@ func ModifyTask(c *gin.Context) {
 	}
 	task := &model.SysTask{
 		TaskId:                bean.TaskId,
-		IsFuseSdk:             bean.IsFuseSdk,
 		IsWhiteBag:            bean.IsWhiteBag,
-		IsPluginSdk:           bean.IsFuseSdk,
+		IsPluginSdk:           bean.IsPluginSdk,
 		GameGroup:             bean.GameGroup,
 		Gid:                   bean.Gid,
 		Aids:                  bean.Aids,

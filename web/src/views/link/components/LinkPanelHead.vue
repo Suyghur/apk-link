@@ -9,6 +9,7 @@
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.game_group=undefined"
         >
           <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
         </el-select>
@@ -21,6 +22,7 @@
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.channel_name=undefined"
         >
           <el-option v-for="item in options.channelNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
@@ -33,6 +35,7 @@
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.plugin_name=undefined"
         >
           <el-option v-for="item in options.pluginNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
@@ -48,7 +51,7 @@
           style="width: auto;"
           class="filter-item"
           clearable
-          @keyup.enter.native="handleFilter"
+          @clear="queryMap.task_id=undefined"
         />
       </el-col>
       <el-col :span="6">
@@ -59,7 +62,7 @@
           style="width: auto;"
           class="filter-item"
           clearable
-          @keyup.enter.native="handleFilter"
+          @clear="queryMap.aid=undefined"
         />
       </el-col>
     </el-row>
@@ -110,7 +113,7 @@ export default {
       this.$emit('searchLink', this.queryMap)
     },
     handleReset() {
-      this.queryMap.taskId = undefined
+      this.queryMap.task_id = undefined
       this.queryMap.game_group = undefined
       this.queryMap.channel_name = undefined
       this.queryMap.plugin_name = undefined

@@ -384,14 +384,14 @@ export default {
   },
   watch: {
     'taskForm.aids': function(val) {
-      this.handleAids(val)
+      // this.handleAids(val)
     }
   },
   created() {
     this.fetchFuseVersionOptions()
   },
   mounted() {
-    this.handleAids()
+    // this.handleAids()
   },
 
   methods: {
@@ -625,7 +625,7 @@ export default {
       )
     },
     cancel() {
-      this.$router.replace({ path: '/task/infos' })
+      this.$router.replace({ path: '/task/index' })
     }
   }
 }

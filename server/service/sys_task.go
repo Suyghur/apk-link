@@ -14,7 +14,7 @@ import (
 	"server/model/bean/request"
 )
 
-func SearchTasks(bean request.ReqListTaskBean) (err error, list interface{}, total int64) {
+func SearchTasks(bean *request.ReqListTaskBean) (err error, list interface{}, total int64) {
 	limit := bean.PageSize
 	offset := bean.PageSize * (bean.Page - 1)
 	//创建db
@@ -42,7 +42,6 @@ func SearchTasks(bean request.ReqListTaskBean) (err error, list interface{}, tot
 
 func GetTaskInfo(taskId uint) (err error, taskInfo model.SysTask) {
 	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).RecordNotFound()
 	if isExist {
 		err = global.GvaDb.Where("task_id = ?", taskId).First(&taskInfo).Error
 	} else {

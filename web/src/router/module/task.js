@@ -3,7 +3,7 @@ import Layout from '@/layout/index'
 export const TaskRouterMap = {
   path: '/task',
   component: Layout,
-  redirect: '/task/infos',
+  redirect: '/task/index',
   children: [
     {
       path: 'index',

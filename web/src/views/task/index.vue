@@ -1,7 +1,7 @@
 <template>
   <div id="tasks">
     <TaskPanelHead
-      :query-list="queryList"
+      :query-map="queryMap"
       @searchTask="getTaskList"
       @createTask="createTask"
     />
@@ -10,8 +10,8 @@
     <pagination
       v-show="total>0"
       :total="total"
-      :page.sync="queryList.page"
-      :limit.sync="queryList.page_size"
+      :page.sync="queryMap.page"
+      :limit.sync="queryMap.page_size"
       @pagination="getTaskList"
     />
   </div>
@@ -31,7 +31,7 @@ export default {
       list: null,
       listLoading: true,
       total: 0,
-      queryList: {
+      queryMap: {
         page: 1,
         page_size: 20,
         task_id: undefined,
@@ -48,7 +48,8 @@ export default {
   methods: {
     getTaskList() {
       this.listLoading = true
-      getTaskList(this.queryList).then(response => {
+      console.log(this.queryMap.task_id)
+      getTaskList(this.queryMap).then(response => {
         this.list = response.data.list
         this.total = response.data.total
         setTimeout(() => {

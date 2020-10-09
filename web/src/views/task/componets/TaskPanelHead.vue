@@ -3,24 +3,25 @@
     <el-row :gutter="10">
       <el-col :span="6">
         <el-input
-          v-model="queryList.task_id"
+          v-model="queryMap.task_id"
           type="text"
           onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"
           placeholder="任务ID"
           style="width: auto;"
           class="filter-item"
           clearable
-          @keyup.enter.native="handleFilter"
+          @clear="queryMap.task_id=undefined"
         />
       </el-col>
       <el-col :span="6">
         <el-select
-          v-model="queryList.game_group"
+          v-model="queryMap.game_group"
           placeholder="游戏组名"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.game_group=undefined"
         >
           <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
         </el-select>
@@ -28,12 +29,13 @@
 
       <el-col :span="6">
         <el-select
-          v-model="queryList.channel_name"
+          v-model="queryMap.channel_name"
           placeholder="渠道"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.channel_name=undefined"
         >
           <el-option v-for="item in options.channelNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
@@ -44,24 +46,26 @@
     <el-row :gutter="10">
       <el-col :span="6">
         <el-select
-          v-model="queryList.plugin_name"
+          v-model="queryMap.plugin_name"
           placeholder="插件SDK"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.plugin_name=undefined"
         >
           <el-option v-for="item in options.pluginNameOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
       <el-col :span="6">
         <el-select
-          v-model="queryList.status"
+          v-model="queryMap.status"
           placeholder="状态"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
+          @clear="queryMap.status=undefined"
         >
           <el-option v-for="item in options.taskStatusOptions" :key="item" :label="item" :value="item" />
         </el-select>
@@ -72,7 +76,7 @@
         class="filter-item"
         type="primary"
         icon="el-icon-search"
-        @click="handleFilter"
+        @click="searchTask"
       >
         搜索任务
       </el-button>
@@ -102,7 +106,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'TaskPanelHead',
   props: {
-    queryList: {
+    queryMap: {
       type: Object,
       default: null
     }
@@ -113,16 +117,15 @@ export default {
     ])
   },
   methods: {
-    handleFilter() {
-      this.queryList.task_id = parseInt(this.queryList.task_id)
-      this.$emit('searchTask', this.queryList)
+    searchTask() {
+      this.$emit('searchTask', this.queryMap)
     },
     handleReset() {
-      this.queryList.task_id = undefined
-      this.queryList.game_group = undefined
-      this.queryList.channel_name = undefined
-      this.queryList.plugin_name = undefined
-      this.queryList.task_status = undefined
+      this.queryMap.task_id = undefined
+      this.queryMap.game_group = undefined
+      this.queryMap.channel_name = undefined
+      this.queryMap.plugin_name = undefined
+      this.queryMap.task_status = undefined
     },
     handleCreate() {
       this.$emit('createTask')

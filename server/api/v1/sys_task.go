@@ -9,6 +9,9 @@ package v1
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+
+	//"go.uber.org/zap"
 	"server/global"
 	"server/global/response"
 	"server/model"
@@ -28,7 +31,7 @@ import (
 func SearchTasks(c *gin.Context) {
 	var bean request.ReqListTaskBean
 	_ = c.ShouldBindQuery(&bean)
-	err, list, total := service.SearchTasks(bean)
+	err, list, total := service.SearchTasks(&bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
@@ -61,7 +64,8 @@ func DeleteTask(c *gin.Context) {
 
 func GetTaskInfo(c *gin.Context) {
 	var bean request.ReqTaskInfoBean
-	_ = c.ShouldBindJSON(&bean)
+	_ = c.ShouldBindQuery(&bean)
+	global.GvaLog.Info("bean : ", zap.Any("bean", bean))
 	verifyRules := utils.Rules{
 		"TaskId": {utils.NotEmpty()},
 	}

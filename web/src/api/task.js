@@ -24,11 +24,11 @@ export function modifyTask(data) {
   })
 }
 
-export function getTaskInfo(data) {
+export function getTaskInfo(param) {
   return request({
     url: '/task/getTaskInfo',
-    method: 'post',
-    data
+    method: 'get',
+    params: param
   })
 }
 

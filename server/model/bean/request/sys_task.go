@@ -8,11 +8,12 @@ package request
 
 type ReqTaskBean struct {
 	TaskId          uint   `json:"task_id" form:"task_id" gorm:"primary_key"`
-	IsFuseSdk       int    `json:"is_fuse_sdk" form:"is_fuse_sdk" gorm:"default:0;comment:'是否接入聚合SDK'"`
 	IsWhiteBag      int    `json:"is_white_bag" form:"is_white_bag" gorm:"default:0;comment:'是否白包'"`
 	IsPluginSdk     int    `json:"is_plugin_sdk" form:"is_plugin_sdk" gorm:"default:0;comment:'是否媒体包'"`
 	GameGroup       string `json:"game_group" form:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
 	Gid             string `json:"gid" form:"gid" gorm:"not null;comment:'游戏组ID'"`
+	Cid             string `json:"cid" form:"cid" gorm:"not null;comment:'渠道ID'"`
+	FormId          string `json:"form_id" form:"form_id" gorm:"not null;comment:'分发ID'"`
 	Aids            string `json:"aids" form:"aids" gorm:"not null;comment:'子包AID'"`
 	ChannelParams   string `json:"channel_params" form:"channel_params" gorm:"comment:'渠道参数'"`
 	PluginParams    string `json:"plugin_params" form:"plugin_params" gorm:"comment:'插件参数'"`

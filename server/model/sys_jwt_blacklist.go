@@ -6,7 +6,7 @@
 
 package model
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
 type JwtBlacklist struct {
 	gorm.Model

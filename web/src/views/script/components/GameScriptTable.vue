@@ -12,7 +12,7 @@
     >
       <el-table-column align="center" label="游戏组">
         <template slot-scope="scope">
-          {{ scope.row.game_group }}
+          {{ scope.row.game_site }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="脚本文件名">

@@ -10,7 +10,7 @@
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameSiteOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>

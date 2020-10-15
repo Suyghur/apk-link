@@ -8,7 +8,6 @@ package service
 
 import (
 	"errors"
-	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"server/global"
 	"server/model"
@@ -17,11 +16,8 @@ import (
 
 func CreateChannel(bean model.SysChannel) (err error) {
 	//根据版本去判断是否存在
-	isExit := errors.Is(global.GvaDb.Where("channel_name = ?", bean.ChannelName).First(&model.SysChannel{}).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("channel_name = ?", bean.ChannelName).First(&channel).RecordNotFound()
-	//isExit为true表明读到了，不能新建
-	global.GvaLog.Info("channel isExit", zap.Bool("is_exit", isExit))
-	if isExit {
+	isExist := !errors.Is(global.GvaDb.Where("cid = ?", bean.Cid, bean.ChannelName).First(&model.SysChannel{}).Error, gorm.ErrRecordNotFound)
+	if isExist {
 		return errors.New("该渠道已存在")
 	} else {
 		err = global.GvaDb.Create(&bean).Error

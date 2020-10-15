@@ -39,6 +39,7 @@ func CreateChannel(c *gin.Context) {
 	var bean request.ReqChannelBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
+		"Cid":          {utils.NotEmpty()},
 		"ChannelName":  {utils.NotEmpty()},
 		"ChannelAlias": {utils.NotEmpty()},
 	}
@@ -47,6 +48,7 @@ func CreateChannel(c *gin.Context) {
 		return
 	}
 	channel := &model.SysChannel{
+		Cid:          bean.Cid,
 		ChannelName:  bean.ChannelName,
 		ChannelAlias: bean.ChannelAlias,
 	}

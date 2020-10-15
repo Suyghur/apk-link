@@ -23,8 +23,8 @@ func SearchTasks(bean *request.ReqListTaskBean) (err error, list interface{}, to
 	if bean.TaskId > 0 {
 		db = db.Where("task_id = ?", bean.TaskId)
 	}
-	if bean.GameGroup != "" {
-		db = db.Where("game_group = ?", bean.GameGroup)
+	if bean.GameSite != "" {
+		db = db.Where("game_site = ?", bean.GameSite)
 	}
 	if bean.ChannelName != "" {
 		db = db.Where("channel_name = ?", bean.ChannelName)
@@ -64,8 +64,6 @@ func DeleteTask(taskId uint) (err error) {
 func CreateTask(bean model.SysTask) (err error) {
 	//判断任务是否存在
 	isExist := !errors.Is(global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysTask{}).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("task_id = ?", bean.TaskId).First(&task).RecordNotFound()
-	//isExit为true表明读到了，不能新建
 	if isExist {
 		return errors.New("该任务已存在")
 	} else {
@@ -80,7 +78,7 @@ func CreateTask(bean model.SysTask) (err error) {
 			ScriptFileUrl  string
 		}
 		var script scriptBean
-		if err = global.GvaDb.Model(&model.SysScript{}).Select("script_file_name , script_file_url").Where("game_group = ?", bean.GameGroup).Scan(&script).Error; err != nil {
+		if err = global.GvaDb.Model(&model.SysScript{}).Select("script_file_name , script_file_url").Where("game_site = ?", bean.GameSite).Scan(&script).Error; err != nil {
 			bean.ScriptFileName = ""
 			bean.ScriptFileUrl = ""
 		} else {
@@ -106,7 +104,7 @@ func ModifyTask(bean model.SysTask) (err error) {
 		err = global.GvaDb.Where("task_id = ?", bean.TaskId).First(&model.SysTask{}).Updates(map[string]interface{}{
 			"is_white_bag":            bean.IsWhiteBag,
 			"is_plugin_sdk":           bean.IsPluginSdk,
-			"game_group":              bean.GameGroup,
+			"game_site":               bean.GameSite,
 			"gid":                     bean.Gid,
 			"cid":                     bean.Cid,
 			"form_id":                 bean.FormId,

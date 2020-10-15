@@ -22,16 +22,14 @@ func ReportLink(c *gin.Context) {
 	var bean request.ReqLinkBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"TaskId":          {utils.NotEmpty()},
-		"GameGroup":       {utils.NotEmpty()},
-		"GameName":        {utils.NotEmpty()},
-		"GameVersionCode": {utils.NotEmpty()},
-		"GameVersionName": {utils.NotEmpty()},
-		"Aid":             {utils.NotEmpty()},
-		"FuseSdkVersion":  {utils.NotEmpty()},
-		"ChannelName":     {utils.NotEmpty()},
-		"PluginName":      {utils.NotEmpty()},
-		"LinkUrl":         {utils.NotEmpty()},
+		"TaskId":         {utils.NotEmpty()},
+		"GameSite":       {utils.NotEmpty()},
+		"GameName":       {utils.NotEmpty()},
+		"Aid":            {utils.NotEmpty()},
+		"FuseSdkVersion": {utils.NotEmpty()},
+		"ChannelName":    {utils.NotEmpty()},
+		"PluginName":     {utils.NotEmpty()},
+		"LinkUrl":        {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
 		global.GvaLog.Error(verifyErr.Error())
@@ -40,16 +38,14 @@ func ReportLink(c *gin.Context) {
 	}
 
 	link := &model.SysLink{
-		TaskId:          bean.TaskId,
-		GameGroup:       bean.GameGroup,
-		GameName:        bean.GameName,
-		GameVersionCode: bean.GameVersionCode,
-		GameVersionName: bean.GameVersionName,
-		Aid:             bean.Aid,
-		FuseSdkVersion:  bean.FuseSdkVersion,
-		ChannelName:     bean.ChannelName,
-		PluginName:      bean.PluginName,
-		LinkUrl:         bean.LinkUrl,
+		TaskId:         bean.TaskId,
+		GameSite:       bean.GameSite,
+		GameName:       bean.GameName,
+		Aid:            bean.Aid,
+		FuseSdkVersion: bean.FuseSdkVersion,
+		ChannelName:    bean.ChannelName,
+		PluginName:     bean.PluginName,
+		LinkUrl:        bean.LinkUrl,
 	}
 
 	err := service.ReportLink(*link)

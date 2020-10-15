@@ -18,10 +18,53 @@ import (
 	"server/utils"
 )
 
+func CreateGid(c *gin.Context) {
+	var bean request.ReqGidBean
+	_ = c.ShouldBindJSON(&bean)
+	verifyRules := utils.Rules{
+		"Gid":      {utils.NotEmpty()},
+		"GameSite": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	game := &model.SysGid{
+		Gid:      bean.Gid,
+		GameSite: bean.GameSite,
+	}
+	err := service.CreateGid(*game)
+	if err != nil {
+		global.GvaLog.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithMessage("创建游戏ID成功", c)
+	}
+}
+
+func GetGids(c *gin.Context) {
+	var bean request.ReqGameBean
+	_ = c.ShouldBindQuery(&bean)
+	verifyRules := utils.Rules{
+		"GameSite": {utils.NotEmpty()},
+	}
+	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err, gids := service.GetGids(bean.GameSite)
+	if err != nil {
+		global.GvaLog.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithData(gids, c)
+	}
+}
+
 func SearchGame(c *gin.Context) {
 	var bean request.ReqGameListBean
 	_ = c.ShouldBindJSON(&bean)
-	err, list, total := service.SearchGame(bean)
+	err, list, total := service.SearchGameSite(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
@@ -35,28 +78,30 @@ func SearchGame(c *gin.Context) {
 	}
 }
 
+func GetGameSites(c*gin.Context){
+
+}
+
 func CreateGame(c *gin.Context) {
-	var bean request.ReqGameBean
-	_ = c.ShouldBindJSON(&bean)
-	verifyRules := utils.Rules{
-		"GameGroup": {utils.NotEmpty()},
-		"Gid":       {utils.NotEmpty()},
-	}
-	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
-		response.FailWithMessage(verifyErr.Error(), c)
-		return
-	}
-	game := &model.SysGame{
-		GameGroup: bean.GameGroup,
-		Gid:       bean.Gid,
-	}
-	err := service.CreateGame(*game)
-	if err != nil {
-		global.GvaLog.Error(err.Error())
-		response.FailWithMessage(fmt.Sprintf("%v", err), c)
-	} else {
-		response.OkWithMessage("创建游戏成功", c)
-	}
+	//var bean request.ReqGameBean
+	//_ = c.ShouldBindJSON(&bean)
+	//verifyRules := utils.Rules{
+	//	"GameSite": {utils.NotEmpty()},
+	//}
+	//if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+	//	response.FailWithMessage(verifyErr.Error(), c)
+	//	return
+	//}
+	//game := &model.SysGame{
+	//	GameSite: bean.GameSite,
+	//}
+	//err := service.CreateGame(*game)
+	//if err != nil {
+	//	global.GvaLog.Error(err.Error())
+	//	response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	//} else {
+	//	response.OkWithMessage("创建游戏成功", c)
+	//}
 }
 
 func ModifyGame(c *gin.Context) {
@@ -65,27 +110,4 @@ func ModifyGame(c *gin.Context) {
 
 func DelGame(c *gin.Context) {
 
-}
-
-func GetGid(c *gin.Context) {
-	var bean request.ReqGameBean
-	_ = c.ShouldBindJSON(&bean)
-	verifyRules := utils.Rules{
-		"GameGroup": {utils.NotEmpty()},
-	}
-	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
-		response.FailWithMessage(verifyErr.Error(), c)
-		return
-	}
-	//game := &model.SysGame{
-	//	GameGroup: bean.GameGroup,
-	//	Gid:       bean.Gid,
-	//}
-	err, game := service.GetGid(bean.GameGroup)
-	if err != nil {
-		global.GvaLog.Error(err.Error())
-		response.FailWithMessage(fmt.Sprintf("%v", err), c)
-	} else {
-		response.OkWithData(gin.H{"gid": game.Gid}, c)
-	}
 }

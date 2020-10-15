@@ -39,6 +39,7 @@ func CreatePlugin(c *gin.Context) {
 	var bean request.ReqPluginBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
+		"FormId":      {utils.NotEmpty()},
 		"PluginName":  {utils.NotEmpty()},
 		"PluginAlias": {utils.NotEmpty()},
 	}
@@ -47,6 +48,7 @@ func CreatePlugin(c *gin.Context) {
 		return
 	}
 	plugin := &model.SysPlugin{
+		FormId:      bean.FormId,
 		PluginName:  bean.PluginName,
 		PluginAlias: bean.PluginAlias,
 	}

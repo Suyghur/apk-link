@@ -16,21 +16,13 @@ export function searchGame(param) {
   })
 }
 
-export function getGid(param) {
+export function getGids(param) {
   return request({
-    url: '/game/getGid',
+    url: '/gid/getGids',
     method: 'get',
     params: param
   })
 }
-
-// export function getGameKeystore(data) {
-//   return request({
-//     url: '/keystore/getKeystores',
-//     method: 'post',
-//     params
-//   })
-// }
 
 export function getAidList(params) {
   return request({

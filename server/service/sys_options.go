@@ -14,7 +14,7 @@ import (
 
 func GetOptions() (err error, options response.OptionsResponse) {
 	tx := global.GvaDb.Begin()
-	err = tx.Model(&model.SysGame{}).Pluck("game_group", &options.GameOptions).Error
+	err = tx.Model(&model.SysGid{}).Pluck("gid", &options.GameOptions).Error
 	if err != nil {
 		tx.Rollback()
 		return err, options
@@ -32,22 +32,3 @@ func GetOptions() (err error, options response.OptionsResponse) {
 	tx.Commit()
 	return err, options
 }
-
-//func GetAids(gid string) (err error, aids []response.AidsResponse) {
-//	resp, err := http.Get("http://192.168.1.169:8000/getGameAidByGid.shtml?gid=" + gid)
-//	if err != nil || resp.StatusCode != http.StatusOK {
-//		global.GvaLog.Error(err.Error())
-//		return err, aids
-//	}
-//	defer resp.Body.Close()
-//	s, err := ioutil.ReadAll(resp.Body)
-//	type DataBean struct {
-//		Data []response.AidsResponse `json:"data"`
-//	}
-//	var bean DataBean
-//	if err = json.Unmarshal(s, &bean); err != nil {
-//		return err, aids
-//	}
-//	global.GvaLog.Debug(bean.Data)
-//	return err, bean.Data
-//}

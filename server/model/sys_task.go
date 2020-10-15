@@ -15,8 +15,8 @@ type SysTask struct {
 	DeletedAt       *time.Time `sql:"index"`
 	IsWhiteBag      int        `json:"is_white_bag" gorm:"default:0;comment:'是否白包'"`
 	IsPluginSdk     int        `json:"is_plugin_sdk" gorm:"default:0;comment:'是否媒体包'"`
-	GameGroup       string     `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
 	Gid             string     `json:"gid" gorm:"not null;comment:'游戏组ID'"`
+	GameSite        string     `json:"game_site" gorm:"not null;index:idx_game_site;comment:'游戏标识'"`
 	Cid             string     `json:"cid" gorm:"not null;comment:'渠道ID'"`
 	FormId          string     `json:"form_id" gorm:"not null;comment:'分发ID'"`
 	Aids            string     `json:"aids" gorm:"not null;comment:'包AID'"`

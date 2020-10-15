@@ -23,7 +23,7 @@ func GetFuseSdks(c *gin.Context) {
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"fuse_sdks": fuseSdks}, c)
+		response.OkWithData(fuseSdks, c)
 	}
 }
 func SearchFuseSdk(c *gin.Context) {
@@ -43,7 +43,7 @@ func SearchFuseSdk(c *gin.Context) {
 }
 
 func ModifyFuseSdk(c *gin.Context) {
-	var bean request.ReqFuseSdkBean
+	var bean model.SysFuseSdk
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
 		"SdkName":     {utils.NotEmpty()},
@@ -55,13 +55,7 @@ func ModifyFuseSdk(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	fuseSdk := &model.SysFuseSdk{
-		SdkName:     bean.SdkName,
-		SdkVersion:  bean.SdkVersion,
-		SdkFileName: bean.SdkFileName,
-		SdkFileUrl:  bean.SdkFileUrl,
-	}
-	err := service.ModifyFuseSdk(*fuseSdk)
+	err := service.ModifyFuseSdk(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
@@ -71,10 +65,9 @@ func ModifyFuseSdk(c *gin.Context) {
 }
 
 func CreateFuseSdk(c *gin.Context) {
-	var bean request.ReqFuseSdkBean
+	var bean model.SysFuseSdk
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"SdkName":     {utils.NotEmpty()},
 		"SdkVersion":  {utils.NotEmpty()},
 		"SdkFileName": {utils.NotEmpty()},
 		"SdkFileUrl":  {utils.NotEmpty()},
@@ -83,13 +76,7 @@ func CreateFuseSdk(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	fuseSdk := &model.SysFuseSdk{
-		SdkName:     bean.SdkName,
-		SdkVersion:  bean.SdkVersion,
-		SdkFileName: bean.SdkFileName,
-		SdkFileUrl:  bean.SdkFileUrl,
-	}
-	err := service.CreateFuseSdk(*fuseSdk)
+	err := service.CreateFuseSdk(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
@@ -99,7 +86,7 @@ func CreateFuseSdk(c *gin.Context) {
 }
 
 func GetChannelSdks(c *gin.Context) {
-	var bean request.ReqChannelSdksBean
+	var bean model.SysChannelSdk
 	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"ChannelName": {utils.NotEmpty()},
@@ -112,7 +99,7 @@ func GetChannelSdks(c *gin.Context) {
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"channel_sdks": channelSdks}, c)
+		response.OkWithData(channelSdks, c)
 	}
 }
 
@@ -133,27 +120,21 @@ func SearchChannelSdk(c *gin.Context) {
 }
 
 func CreateChannelSdk(c *gin.Context) {
-	var bean request.ReqChannelSdkBean
+	var bean model.SysChannelSdk
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"ChannelName": {utils.NotEmpty()},
-		"SdkName":     {utils.NotEmpty()},
-		"SdkVersion":  {utils.NotEmpty()},
-		"SdkFileName": {utils.NotEmpty()},
-		"SdkFileUrl":  {utils.NotEmpty()},
+		"Cid":          {utils.NotEmpty()},
+		"ChannelName":  {utils.NotEmpty()},
+		"ChannelAlias": {utils.NotEmpty()},
+		"SdkVersion":   {utils.NotEmpty()},
+		"SdkFileName":  {utils.NotEmpty()},
+		"SdkFileUrl":   {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	channelSdk := &model.SysChannelSdk{
-		ChannelName: bean.ChannelName,
-		SdkName:     bean.SdkName,
-		SdkVersion:  bean.SdkVersion,
-		SdkFileName: bean.SdkFileName,
-		SdkFileUrl:  bean.SdkFileUrl,
-	}
-	err := service.CreateChannelSdk(*channelSdk)
+	err := service.CreateChannelSdk(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
@@ -163,9 +144,10 @@ func CreateChannelSdk(c *gin.Context) {
 }
 
 func ModifyChannelSdk(c *gin.Context) {
-	var bean request.ReqChannelSdkBean
+	var bean model.SysChannelSdk
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
+		"Cid":         {utils.NotEmpty()},
 		"ChannelName": {utils.NotEmpty()},
 		"SdkName":     {utils.NotEmpty()},
 		"SdkVersion":  {utils.NotEmpty()},
@@ -176,14 +158,7 @@ func ModifyChannelSdk(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	channelSdk := &model.SysChannelSdk{
-		ChannelName: bean.ChannelName,
-		SdkName:     bean.SdkName,
-		SdkVersion:  bean.SdkVersion,
-		SdkFileName: bean.SdkFileName,
-		SdkFileUrl:  bean.SdkFileUrl,
-	}
-	err := service.ModifyChannelSdk(*channelSdk)
+	err := service.ModifyChannelSdk(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
@@ -193,7 +168,7 @@ func ModifyChannelSdk(c *gin.Context) {
 }
 
 func GetPluginSdks(c *gin.Context) {
-	var bean request.ReqPluginSdksBean
+	var bean model.SysPluginSdk
 	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
 		"PluginName": {utils.NotEmpty()},
@@ -206,7 +181,7 @@ func GetPluginSdks(c *gin.Context) {
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"plugin_sdks": pluginSdks}, c)
+		response.OkWithData(pluginSdks, c)
 	}
 }
 
@@ -227,11 +202,12 @@ func SearchPluginSdk(c *gin.Context) {
 }
 
 func ModifyPluginSdk(c *gin.Context) {
-	var bean request.ReqPluginSdkBean
+	var bean model.SysPluginSdk
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
+		"FormId":      {utils.NotEmpty()},
 		"PluginName":  {utils.NotEmpty()},
-		"SdkName":     {utils.NotEmpty()},
+		"PluginAlias": {utils.NotEmpty()},
 		"SdkVersion":  {utils.NotEmpty()},
 		"SdkFileName": {utils.NotEmpty()},
 		"SdkFileUrl":  {utils.NotEmpty()},
@@ -240,14 +216,7 @@ func ModifyPluginSdk(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	pluginSdk := &model.SysPluginSdk{
-		PluginName:  bean.PluginName,
-		SdkName:     bean.SdkName,
-		SdkVersion:  bean.SdkVersion,
-		SdkFileName: bean.SdkFileName,
-		SdkFileUrl:  bean.SdkFileUrl,
-	}
-	err := service.ModifyPluginSdk(*pluginSdk)
+	err := service.ModifyPluginSdk(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
@@ -257,11 +226,12 @@ func ModifyPluginSdk(c *gin.Context) {
 }
 
 func CreatePluginSdk(c *gin.Context) {
-	var bean request.ReqPluginSdkBean
+	var bean model.SysPluginSdk
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
+		"FormId":      {utils.NotEmpty()},
 		"PluginName":  {utils.NotEmpty()},
-		"SdkName":     {utils.NotEmpty()},
+		"PluginAlias": {utils.NotEmpty()},
 		"SdkVersion":  {utils.NotEmpty()},
 		"SdkFileName": {utils.NotEmpty()},
 		"SdkFileUrl":  {utils.NotEmpty()},
@@ -270,14 +240,7 @@ func CreatePluginSdk(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	pluginSdk := &model.SysPluginSdk{
-		PluginName:  bean.PluginName,
-		SdkName:     bean.SdkName,
-		SdkVersion:  bean.SdkVersion,
-		SdkFileName: bean.SdkFileName,
-		SdkFileUrl:  bean.SdkFileUrl,
-	}
-	err := service.CreatePluginSdk(*pluginSdk)
+	err := service.CreatePluginSdk(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)

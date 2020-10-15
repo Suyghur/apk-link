@@ -38,7 +38,7 @@ func ModifyScript(c *gin.Context) {
 	var bean request.ReqScriptBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup":      {utils.NotEmpty()},
+		"GameSite":       {utils.NotEmpty()},
 		"ScriptFileName": {utils.NotEmpty()},
 		"ScriptFileUrl":  {utils.NotEmpty()},
 	}
@@ -47,7 +47,7 @@ func ModifyScript(c *gin.Context) {
 		return
 	}
 	script := &model.SysScript{
-		GameGroup:      bean.GameGroup,
+		GameSite:       bean.GameSite,
 		ScriptFileName: bean.ScriptFileName,
 		ScriptFileUrl:  bean.ScriptFileUrl,
 	}
@@ -64,7 +64,7 @@ func CreateScript(c *gin.Context) {
 	var bean request.ReqScriptBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup":      {utils.NotEmpty()},
+		"GameSite":       {utils.NotEmpty()},
 		"ScriptFileName": {utils.NotEmpty()},
 		"ScriptFileUrl":  {utils.NotEmpty()},
 	}
@@ -73,7 +73,7 @@ func CreateScript(c *gin.Context) {
 		return
 	}
 	script := &model.SysScript{
-		GameGroup:      bean.GameGroup,
+		GameSite:       bean.GameSite,
 		ScriptFileName: bean.ScriptFileName,
 		ScriptFileUrl:  bean.ScriptFileUrl,
 	}

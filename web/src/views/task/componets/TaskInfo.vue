@@ -4,29 +4,30 @@
       <el-form ref="taskForm" :model="taskForm" :rules="rules" class="form-container">
         <el-row>
           <el-col :span="10">
-            <el-form-item label-width="200px" label="游戏组：" prop="game_group" class="task-info-item">
+            <el-form-item label-width="200px" label="游戏组：" prop="game_site" class="task-info-item">
               <el-select
-                v-model="taskForm.game_group"
+                v-model="taskForm.game_site"
                 filterable
                 clearable
                 placeholder="请选择"
                 :disabled="disabled"
-                @change="fetchGameGroupInfo"
+                @change="fetchGameSiteInfo"
               >
-                <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
+                <el-option v-for="item in options.gameSiteOptions" :key="item" :label="item" :value="item" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label-width="200px" label="GID：" class="task-info-item">
-              <el-input
+            <el-form-item label-width="200px" label="Gid：" prop="gid" class="task-info-item">
+              <el-select
                 v-model="taskForm.gid"
-                type="text"
-                readonly
-                disabled
-                style="width: auto;"
-                class="filter-item"
-              />
+                filterable
+                clearable
+                placeholder="请选择"
+                :disabled="disabled"
+              >
+                <el-option v-for="item in gidOptions" :key="item" :label="item" :value="item" />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -41,23 +42,10 @@
                 placeholder="请选择"
                 @change="setOriginFileAttrs"
               >
-                <el-option v-for="item in originBagOptions" :key="item" :label="item" :value="item" />
+                <el-option v-for="item in originOptions" :key="item" :label="item" :value="item" />
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
-            <el-form-item label-width="200px" label="是否接入聚合SDK：" class="task-info-item">
-              <el-switch
-                v-model="taskForm.is_fuse_sdk"
-                :active-value="1"
-                :inactive-value="0"
-                disabled
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
           <el-col :span="10">
             <el-form-item label-width="200px" label="游戏包名：" prop="game_package_name" class="task-info-item">
               <el-input
@@ -69,22 +57,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="10">
-            <el-form-item label-width="200px" label="聚合SDK版本：" class="task-info-item">
-              <el-select
-                v-model="taskForm.fuse_sdk_version"
-                filterable
-                :disabled="disabled"
-                clearable
-                placeholder="请选择"
-                @change="setFuseSdkAttrs"
-              >
-                <el-option v-for="item in fuseVersionOptions" :key="item" :label="item" :value="item" />
-              </el-select>
-            </el-form-item>
-          </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="10">
             <el-form-item label-width="200px" label="游戏名：" prop="game_name" class="task-info-item">
@@ -98,13 +71,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="10">
-            <el-form-item label-width="200px" label="是否白包：" class="task-info-item">
-              <el-switch
-                v-model="taskForm.is_white_bag"
-                :active-value="1"
-                :inactive-value="0"
+            <el-form-item label-width="200px" label="签名文件：" prop="keystore_name" class="task-info-item">
+              <el-select
+                v-model="taskForm.keystore_name"
+                filterable
+                clearable
                 :disabled="disabled"
-              />
+                placeholder="请选择"
+                @change="setKeystoreAttrs"
+              >
+                <el-option v-for="item in keystoreOptions" :key="item" :label="item" :value="item" />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -121,7 +98,6 @@
               />
             </el-form-item>
           </el-col>
-
           <el-col :span="10">
             <el-form-item label-width="200px" label="游戏版本号：" prop="game_version_code" class="task-info-item">
               <el-input
@@ -131,6 +107,33 @@
                 style="width: auto;"
                 class="filter-item"
                 @input="setGameVersionCode"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="聚合SDK版本：" prop="fuse_sdk_version" class="task-info-item">
+              <el-select
+                v-model="taskForm.fuse_sdk_version"
+                filterable
+                :disabled="disabled"
+                clearable
+                placeholder="请选择"
+                @change="setFuseSdkAttrs"
+              >
+                <el-option v-for="item in fuseVersionOptions" :key="item" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label-width="200px" label="是否白包：" class="task-info-item">
+              <el-switch
+                v-model="taskForm.is_white_bag"
+                :active-value="1"
+                :inactive-value="0"
+                :disabled="disabled"
               />
             </el-form-item>
           </el-col>
@@ -236,24 +239,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="10">
-            <el-form-item label-width="200px" label="签名文件：" prop="keystore_name" class="task-info-item">
-              <el-select
-                v-model="taskForm.keystore_name"
-                filterable
-                clearable
-                :disabled="disabled"
-                placeholder="请选择"
-                @change="setKeystoreAttrs"
-              >
-                <el-option v-for="item in gameKeystoreOptions" :key="item" :label="item" :value="item" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
         <param-panel
-          :game-name="taskForm.game_group"
+          :game-name="taskForm.game_site"
           :channel-name="taskForm.channel_name"
           :plugin-name="taskForm.plugin_name"
         />
@@ -266,6 +253,7 @@
                 type="textarea"
                 :rows="3"
                 placeholder="请输入Aid，多个Aid以字母逗号','分隔"
+                width="auto"
               />
             </el-form-item>
           </el-col>
@@ -281,17 +269,16 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getGid } from '@/api/game'
+import { getGids } from '@/api/game'
 import ImgUploader from '@/components/ImgUploader'
 import ParamPanel from '@/views/task/componets/param/ParamPanel'
-import { getChannelSdks, getFuseSdks, getGameKeystores, getOriginBags, getPluginSdks } from '@/api/options'
+import { getChannelSdks, getFuseSdks, getGameKeystores, getOrigins, getPluginSdks } from '@/api/options'
 import { createTask, modifyTask } from '@/api/task'
 
 const defaultForm = {
-  is_fuse_sdk: 0,
   is_white_bag: 0,
   is_plugin_sdk: 0,
-  game_group: '',
+  game_site: '',
   gid: '',
   aids: '',
   channel_params: '',
@@ -352,11 +339,12 @@ export default {
   },
   data() {
     return {
-      originBagOptions: [],
+      originOptions: [],
       fuseVersionOptions: [],
       channelVersionOptions: [],
       pluginVersionOptions: [],
-      gameKeystoreOptions: [],
+      keystoreOptions: [],
+      gidOptions: [],
       originInfoMap: {},
       keystoreInfoMap: {},
       fuseSdkInfoMap: {},
@@ -365,11 +353,14 @@ export default {
       defaultImgSrc: 'https://sdkfile.hihoulang.com/logo.png',
       loading: false,
       rules: {
-        game_group: [{ required: true, message: '请选择游戏组', trigger: 'change' }],
+        game_site: [{ required: true, message: '请选择游戏组', trigger: 'change' }],
+        gid: [{ required: true, message: '请选择游戏ID', trigger: 'change' }],
         game_file_name: [{ required: true, message: '请选择母包', trigger: 'change' }],
         game_package_name: [{ required: true, message: '请输入游戏包名', trigger: 'blur' }],
+        game_name: [{ required: true, message: '请输入游戏名', trigger: 'blur' }],
         game_version_name: [{ required: true, message: '请输入游戏版本名', trigger: 'blur' }],
         game_version_code: [{ required: true, message: '请输入游戏版本号', trigger: 'blur' }],
+        fuse_sdk_version: [{ required: true, message: '请选择聚合SDK版本', trigger: 'change' }],
         channel_name: [{ required: true, message: '请选择渠道SDK', trigger: 'change' }],
         channel_sdk_version: [{ required: true, message: '请选择渠道SDK版本', trigger: 'change' }],
         keystore_name: [{ required: true, message: '请选择签名文件', trigger: 'change' }],
@@ -395,35 +386,38 @@ export default {
   },
 
   methods: {
-    fetchGameGroupInfo(gameGroup) {
-      this.fetchOriginBagList(gameGroup)
-      this.fetchKeystoreOptions(gameGroup)
+    fetchGameSiteInfo(gameSite) {
+      this.fetchGidOptions(gameSite)
+      this.fetchOrigins(gameSite)
+      this.fetchKeystoreOptions(gameSite)
+    },
+    fetchGidOptions(gameSite) {
+      this.taskForm.gid = ''
+      this.gidOptions = []
       return new Promise((resolve, reject) => {
-        getGid({ game_group: gameGroup }).then(response => {
+        getGids({ game_site: gameSite }).then(response => {
           if (!response) {
             return reject('数据加载异常')
           }
-          this.taskForm.gid = response.data.gid
-          this.fetchAids(response.data.gid)
+          this.gidOptions = response.data
           resolve(response)
         }).catch(error => {
           reject(error)
         })
       })
     },
-    fetchOriginBagList(gameGroup) {
+    fetchOrigins(gameSite) {
       this.taskForm.game_file_name = ''
-      this.originBagOptions = []
+      this.originOptions = []
       return new Promise((resolve, reject) => {
-        getOriginBags({ game_group: gameGroup }).then(response => {
+        getOrigins({ game_site: gameSite }).then(response => {
           if (!response) {
             return reject('数据加载异常')
           }
-          const origins = response.data.origins
+          const origins = response.data.list
           for (let i = 0; i < origins.length; i++) {
-            this.originBagOptions.push(origins[i].game_file_name)
+            this.originOptions.push(origins[i].game_file_name)
             this.originInfoMap[origins[i].game_file_name] = {
-              'is_fuse_sdk': origins[i].is_fuse_sdk,
               'game_orientation': origins[i].game_orientation,
               'apk_url': origins[i].apk_url
             }
@@ -435,25 +429,24 @@ export default {
       })
     },
     setOriginFileAttrs(item) {
-      this.taskForm.is_fuse_sdk = this.originInfoMap[item].is_fuse_sdk
       this.taskForm.game_orientation = this.originInfoMap[item].game_orientation
       this.taskForm.game_file_url = this.originInfoMap[item].apk_url
     },
     setGameVersionCode(code) {
       this.taskForm.game_version_code = parseInt(code)
     },
-    fetchKeystoreOptions(gameGroup) {
+    fetchKeystoreOptions(gameSite) {
       this.taskForm.keystore_name = ''
-      this.gameKeystoreOptions = []
-      if (gameGroup !== '') {
+      this.keystoreOptions = []
+      if (gameSite !== '') {
         return new Promise((resolve, reject) => {
-          getGameKeystores({ game_group: gameGroup }).then(response => {
+          getGameKeystores({ game_site: gameSite }).then(response => {
             if (!response) {
               return reject('数据加载异常')
             }
-            const keystores = response.data.keystores
+            const keystores = response.data
             for (let i = 0; i < keystores.length; i++) {
-              this.gameKeystoreOptions.push(keystores[i].keystore_name)
+              this.keystoreOptions.push(keystores[i].keystore_name)
               this.keystoreInfoMap[keystores[i].keystore_name] = {
                 'keystore_password': keystores[i].keystore_password,
                 'keystore_alias': keystores[i].keystore_alias,
@@ -482,7 +475,7 @@ export default {
           if (!response) {
             return reject('数据加载异常')
           }
-          const fuseSdks = response.data.fuse_sdks
+          const fuseSdks = response.data.list
           for (let i = 0; i < fuseSdks.length; i++) {
             this.fuseVersionOptions.push(fuseSdks[i].sdk_version)
             this.fuseSdkInfoMap[fuseSdks[i].sdk_version] = {
@@ -509,7 +502,7 @@ export default {
             if (!response) {
               return reject('数据加载异常')
             }
-            const channelSdks = response.data.channel_sdks
+            const channelSdks = response.data
             for (let i = 0; i < channelSdks.length; i++) {
               this.channelVersionOptions.push(channelSdks[i].sdk_version)
               this.channelSdkInfoMap[channelSdks[i].sdk_version] = {

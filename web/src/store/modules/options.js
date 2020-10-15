@@ -3,12 +3,10 @@ import { getOptions } from '@/api/options'
 
 const getDefaultSelectOptions = () => {
   return {
-    options: {
-      gameGroupOptions: [],
-      channelNameOptions: [],
-      pluginNameOptions: [],
-      taskStatusOptions: ['未执行', '执行中', '成功', '失败']
-    }
+    gameSiteOptions: [],
+    channelNameOptions: [],
+    pluginNameOptions: [],
+    taskStatusOptions: ['未执行', '执行中', '成功', '失败']
   }
 }
 
@@ -16,10 +14,10 @@ const state = getDefaultSelectOptions()
 
 const mutations = {
   SET_OPTIONS: (state, options) => {
-    state.options.gameGroupOptions = options.game_options
-    state.options.channelNameOptions = options.channel_options
-    state.options.pluginNameOptions = options.plugin_options
-    state.options.taskStatusOptions = ['未执行', '执行中', '成功', '失败']
+    state.gameSiteOptions = options.game_options
+    state.channelNameOptions = options.channel_options
+    state.pluginNameOptions = options.plugin_options
+    state.taskStatusOptions = ['未执行', '执行中', '成功', '失败']
   }
 }
 const actions = {

@@ -6,13 +6,14 @@
 
 package model
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
 type SysPluginSdk struct {
 	gorm.Model
-	PluginName  string `json:"plugin_name" gorm:"not null;comment:'插件名'"`
-	SdkName     string `json:"sdk_name" gorm:"not null;comment:'SDK名称'"`
-	SdkVersion  string `json:"sdk_version" gorm:"not null;comment:'SDK版本'"`
-	SdkFileName string `json:"sdk_file_name" gorm:"not null;comment:'SDK文件名'"`
-	SdkFileUrl  string `json:"sdk_file_url" gorm:"not null;comment:'SDK文件链接'"`
+	FormId      string `json:"form_id" form:"form_id" gorm:"not null;index:idx_form_id;comment:'分发ID'"`
+	PluginName  string `json:"plugin_name" form:"plugin_name" gorm:"not null;index:idx_plugin_name;comment:'插件名'"`
+	PluginAlias string `json:"plugin_alias" form:"plugin_alias" gorm:"not null;comment:'SDK名称'"`
+	SdkVersion  string `json:"sdk_version" form:"sdk_version" gorm:"not null;comment:'SDK版本'"`
+	SdkFileName string `json:"sdk_file_name" form:"sdk_file_name" gorm:"not null;comment:'SDK文件名'"`
+	SdkFileUrl  string `json:"sdk_file_url" form:"sdk_file_url" gorm:"not null;comment:'SDK文件链接'"`
 }

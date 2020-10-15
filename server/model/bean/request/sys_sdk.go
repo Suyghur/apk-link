@@ -6,6 +6,8 @@
 
 package request
 
+import "server/model"
+
 type ReqSdkBean struct {
 	SdkName     string `json:"sdk_name" form:"sdk_name" gorm:"not null;comment:'SDK名称'"`
 	SdkVersion  string `json:"sdk_version" form:"sdk_version" gorm:"not null;comment:'SDK版本'"`
@@ -31,7 +33,7 @@ type ReqChannelSdksBean struct {
 }
 
 type ReqListChannelSdkBean struct {
-	ReqChannelSdkBean
+	model.SysChannelSdk
 	PageInfo
 }
 
@@ -45,6 +47,6 @@ type ReqPluginSdksBean struct {
 }
 
 type ReqListPluginSdkBean struct {
-	ReqPluginSdkBean
+	model.SysPluginSdk
 	PageInfo
 }

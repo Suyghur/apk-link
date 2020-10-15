@@ -16,7 +16,6 @@ func InitScriptRouter(r *gin.RouterGroup) {
 	scriptRouter := r.Group("script").Use(middleware.JWTAuth())
 	{
 		scriptRouter.GET("searchScript", v1.SearchScript)
-		//scriptRouter.POST("search", v1.SearchScript)
 		scriptRouter.PUT("modifyScript", v1.ModifyScript)
 		scriptRouter.POST("createScript", v1.CreateScript)
 	}

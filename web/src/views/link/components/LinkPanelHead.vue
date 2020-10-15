@@ -11,7 +11,7 @@
           filterable
           @clear="queryMap.game_group=undefined"
         >
-          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameSiteOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
       <el-col :span="6">

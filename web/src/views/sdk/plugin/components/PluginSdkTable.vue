@@ -12,10 +12,10 @@
     >
       <el-table-column align="center" label="插件名">
         <template slot-scope="scope">
-          {{ scope.row.sdk_name }}
+          {{ scope.row.plugin_name }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="插件别名">
+      <el-table-column align="center" label="SDK版本">
         <template slot-scope="scope">
           {{ scope.row.sdk_version }}
         </template>

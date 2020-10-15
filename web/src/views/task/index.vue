@@ -35,7 +35,7 @@ export default {
         page: 1,
         page_size: 20,
         task_id: undefined,
-        game_group: undefined,
+        game_site: undefined,
         channel_name: undefined,
         plugin_name: undefined,
         status_code: -1

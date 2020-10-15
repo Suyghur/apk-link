@@ -71,7 +71,7 @@ export default {
           if (!response) {
             return reject('数据加载异常')
           }
-          const fuseSdks = response.data.fuse_sdks
+          const fuseSdks = response.data
           for (let i = 0; i < fuseSdks.length; i++) {
             this.fuseVersionOptions.push(fuseSdks[i].sdk_version)
             // this.fuseSdkInfoMap[fuseSdks[i].sdk_version] = {

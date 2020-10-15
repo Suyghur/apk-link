@@ -43,6 +43,7 @@ func Routers() *gin.Engine {
 	router.InitChannelRouter(apiGroup)
 	router.InitPluginRouter(apiGroup)
 	router.InitLinkRouter(apiGroup)
+	router.InitGidRouter(apiGroup)
 	global.GvaLog.Info("router register success")
 	return r
 }

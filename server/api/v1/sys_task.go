@@ -86,7 +86,7 @@ func CreateTask(c *gin.Context) {
 	var bean request.ReqCreateTaskBean
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup":         {utils.NotEmpty()},
+		"GameSite":          {utils.NotEmpty()},
 		"GamePackageName":   {utils.NotEmpty()},
 		"GameName":          {utils.NotEmpty()},
 		"GameVersionCode":   {utils.NotEmpty()},
@@ -102,8 +102,7 @@ func CreateTask(c *gin.Context) {
 	}
 	task := &model.SysTask{
 		IsWhiteBag:            bean.IsWhiteBag,
-		IsPluginSdk:           bean.IsPluginSdk,
-		GameGroup:             bean.GameGroup,
+		GameSite:              bean.GameSite,
 		Gid:                   bean.Gid,
 		Cid:                   bean.Cid,
 		FormId:                bean.FormId,
@@ -168,7 +167,7 @@ func ModifyTask(c *gin.Context) {
 		TaskId:                bean.TaskId,
 		IsWhiteBag:            bean.IsWhiteBag,
 		IsPluginSdk:           bean.IsPluginSdk,
-		GameGroup:             bean.GameGroup,
+		GameSite:              bean.GameSite,
 		Gid:                   bean.Gid,
 		Aids:                  bean.Aids,
 		ChannelParams:         bean.ChannelParams,
@@ -228,13 +227,10 @@ func ModifyTaskStatus(c *gin.Context) {
 	switch bean.StatusCode {
 	case 1000:
 		statusMsg = "未执行"
-		break
 	case 1001:
 		statusMsg = "执行中"
-		break
 	case 1002:
 		statusMsg = "成功"
-		break
 	case 1003:
 		statusMsg = "失败"
 	}

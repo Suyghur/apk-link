@@ -16,10 +16,8 @@ import (
 
 func CreatePlugin(bean model.SysPlugin) (err error) {
 	//根据版本去判断是否存在
-	isExit := !errors.Is(global.GvaDb.Where("plugin_name = ?", bean.PluginName).First(&model.SysPlugin{}).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("plugin_name = ?", bean.PluginName).First(&plugin).RecordNotFound()
-	//isExit为true表明读到了，不能新建
-	if isExit {
+	isExist := !errors.Is(global.GvaDb.Where("form_id = ?", bean.FormId).First(&model.SysPlugin{}).Error, gorm.ErrRecordNotFound)
+	if isExist {
 		return errors.New("该插件已存在")
 	} else {
 		err = global.GvaDb.Create(&bean).Error

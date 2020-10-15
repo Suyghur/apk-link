@@ -20,8 +20,8 @@ func SearchScript(bean request.ReqListScriptBean) (err error, list interface{}, 
 	//创建db
 	db := global.GvaDb.Model(&model.SysScript{})
 	var scripts []model.SysScript
-	if bean.GameGroup != "" {
-		db = db.Where("game_group = ?", bean.GameGroup)
+	if bean.GameSite != "" {
+		db = db.Where("game_site = ?", bean.GameSite)
 	}
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&scripts).Error
@@ -29,19 +29,12 @@ func SearchScript(bean request.ReqListScriptBean) (err error, list interface{}, 
 
 }
 
-//func SearchScript(gameGroup string) (err error, script model.SysScript) {
-//	err = global.GVA_DB.Where("game_group = ?", gameGroup).First(&script).Error
-//	return
-//}
-
 func ModifyScript(bean model.SysScript) (err error) {
 	//判断游戏脚本是否存在
-	isExit := !errors.Is(global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&model.SysScript{}).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&script).RecordNotFound()
-	//isExit为true表明读到了，不能新建
-	if isExit {
-		err = global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&model.SysScript{}).Updates(map[string]interface{}{
-			"game_group":       bean.GameGroup,
+	isExist := !errors.Is(global.GvaDb.Where("game_site = ?", bean.GameSite).First(&model.SysScript{}).Error, gorm.ErrRecordNotFound)
+	if isExist {
+		err = global.GvaDb.Where("game_site = ?", bean.GameSite).First(&model.SysScript{}).Updates(map[string]interface{}{
+			"game_site":        bean.GameSite,
 			"script_file_name": bean.ScriptFileName,
 			"script_file_url":  bean.ScriptFileUrl,
 		}).Error
@@ -53,10 +46,8 @@ func ModifyScript(bean model.SysScript) (err error) {
 
 func CreateScript(bean model.SysScript) (err error) {
 	//判断游戏脚本是否存在
-	isExit := !errors.Is(global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&model.SysScript{}).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("game_group = ?", bean.GameGroup).First(&script).RecordNotFound()
-	//isExit为true表明读到了，不能新建
-	if isExit {
+	isExist := !errors.Is(global.GvaDb.Where("game_site = ?", bean.GameSite).First(&model.SysScript{}).Error, gorm.ErrRecordNotFound)
+	if isExist {
 		return errors.New("该游戏已存在脚本文件")
 	} else {
 		err = global.GvaDb.Create(&bean).Error

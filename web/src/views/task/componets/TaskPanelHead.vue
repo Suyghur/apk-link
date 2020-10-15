@@ -15,15 +15,15 @@
       </el-col>
       <el-col :span="6">
         <el-select
-          v-model="queryMap.game_group"
-          placeholder="游戏组名"
+          v-model="queryMap.game_site"
+          placeholder="游戏组"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
-          @clear="queryMap.game_group=undefined"
+          @clear="queryMap.game_site=undefined"
         >
-          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameSiteOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
 

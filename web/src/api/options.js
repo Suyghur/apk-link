@@ -8,7 +8,7 @@ export function getOptions(param) {
   })
 }
 
-export function getOriginBags(param) {
+export function getOrigins(param) {
   return request({
     url: '/origin/getOrigins',
     method: 'get',

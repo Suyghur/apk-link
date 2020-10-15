@@ -34,7 +34,7 @@ export default {
       queryMap: {
         page: 1,
         page_size: 20,
-        game_group: undefined
+        game_site: undefined
       }
     }
   },

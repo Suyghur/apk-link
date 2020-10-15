@@ -19,6 +19,5 @@ func InitGameRouter(r *gin.RouterGroup) {
 		gameRouter.DELETE("deleteGame", v1.DelGame)
 		gameRouter.PUT("modifyGame", v1.ModifyGame)
 		gameRouter.GET("searchGame", v1.SearchGame)
-		gameRouter.GET("getGid", v1.GetGid)
 	}
 }

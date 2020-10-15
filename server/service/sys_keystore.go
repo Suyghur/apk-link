@@ -13,9 +13,6 @@ import (
 	"server/model"
 	"server/model/bean/request"
 	"server/model/bean/response"
-	"server/utils"
-	"server/utils/aliyun"
-	"os"
 )
 
 func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface{}, total int64) {
@@ -24,8 +21,8 @@ func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface
 	//创建db
 	db := global.GvaDb.Model(&model.SysKeystore{})
 	var keystores []model.SysKeystore
-	if bean.GameGroup != "" {
-		db = db.Where("game_group = ?", bean.GameGroup)
+	if bean.GameSite != "" {
+		db = db.Where("game_site = ?", bean.GameSite)
 	}
 	if bean.KeystoreName != "" {
 		db = db.Where("keystore_name = ?", bean.KeystoreName)
@@ -35,50 +32,60 @@ func SearchKeystore(bean request.ReqKeystoreListBean) (err error, list interface
 	return err, keystores, total
 }
 
-func GetKeystores(gameGroup string) (err error, keystores []response.KeystoresResponse) {
-	err = global.GvaDb.Model(&model.SysKeystore{}).Select("keystore_name , keystore_password , keystore_alias , keystore_alias_password , keystore_file_url").Where("game_group = ?", gameGroup).Scan(&keystores).Error
+func GetKeystores(gameSite string) (err error, keystores []response.KeystoresResponse) {
+	err = global.GvaDb.Model(&model.SysKeystore{}).Select("keystore_name , keystore_password , keystore_alias , keystore_alias_password , keystore_file_url").Where("game_site = ?", gameSite).Scan(&keystores).Error
 	return err, keystores
 
 }
 
-func CreateKeystore(gameGroup string) (err error) {
-	var keystore model.SysKeystore
-	pyGroupName := utils.GetLowerPinYinInitials(gameGroup)
-	keystoreName := pyGroupName + "_" + "hl.keystore"
-	//判断签名文件是否已经存在
-	isExit := !errors.Is(global.GvaDb.Where("keystore_name = ?", keystoreName).First(&model.SysKeystore{}).Error, gorm.ErrRecordNotFound)
-	//isExit := !global.GvaDb.Where("keystore_name = ?", keystoreName).First(&keystore).RecordNotFound()
-	//isExit为true表明读到了，不能新建
-	if isExit {
-		return errors.New("该游戏已存在签名文件")
+func CreateKeystore(bean model.SysKeystore) (err error) {
+	isExist := !errors.Is(global.GvaDb.Where("game_site = ? AND keystore_name = ?", bean.GameSite, bean.KeystoreName).First(&model.SysKeystore{}).Error, gorm.ErrRecordNotFound)
+	if isExist {
+		return errors.New("该游戏已存在相同的签名文件")
 	} else {
-		newKeystore, err := utils.CreateKeystore(gameGroup)
-		if err != nil {
-			return err
-		}
-		fingerprints, err := utils.GetKeystoreFingerprints(&newKeystore)
-		if err != nil {
-			return err
-		}
-		//TODO 上传
-		aliyun.Upload("linking/keystore/"+keystoreName, keystoreName)
-		//TODO 删除
-		err = os.Remove(keystoreName)
-		if err != nil {
-			return err
-		}
-		keystore.GameGroup = gameGroup
-		keystore.KeystoreName = newKeystore.KeystoreName
-		keystore.KeystorePassword = newKeystore.KeystorePassword
-		keystore.KeystoreAlias = newKeystore.KeystoreAlias
-		keystore.KeystoreAliasPassword = newKeystore.KeystoreAliasPassword
-		keystore.FingerprintsMD5 = fingerprints.FingerprintsMD5
-		keystore.FingerprintsSHA1 = fingerprints.FingerprintsSHA1
-		keystore.FingerprintsSHA256 = fingerprints.FingerprintsSHA256
-		keystore.KeystoreFileUrl = global.GvaConfig.Aliyun.Endpoint + "/linking/keystore/" + keystoreName
-		err = global.GvaDb.Create(&keystore).Error
-
+		err = global.GvaDb.Create(&bean).Error
 	}
 	return err
 
 }
+
+//func CreateKeystore(gameSite string) (err error) {
+//	var keystore model.SysKeystore
+//	pyGroupName := utils.GetLowerPinYinInitials(gameSite)
+//	keystoreName := pyGroupName + "_" + "hl.keystore"
+//	//判断签名文件是否已经存在
+//	isExist := !errors.Is(global.GvaDb.Where("keystore_name = ?", keystoreName).First(&model.SysKeystore{}).Error, gorm.ErrRecordNotFound)
+//	//isExist := !global.GvaDb.Where("keystore_name = ?", keystoreName).First(&keystore).RecordNotFound()
+//	//isExist为true表明读到了，不能新建
+//	if isExist {
+//		return errors.New("该游戏已存在签名文件")
+//	} else {
+//		newKeystore, err := utils.CreateKeystore(gameSite)
+//		if err != nil {
+//			return err
+//		}
+//		fingerprints, err := utils.GetKeystoreFingerprints(&newKeystore)
+//		if err != nil {
+//			return err
+//		}
+//		//TODO 上传
+//		aliyun.Upload("linking/keystore/"+keystoreName, keystoreName)
+//		//TODO 删除
+//		err = os.Remove(keystoreName)
+//		if err != nil {
+//			return err
+//		}
+//		keystore.GameSite = gameSite
+//		keystore.KeystoreName = newKeystore.KeystoreName
+//		keystore.KeystorePassword = newKeystore.KeystorePassword
+//		keystore.KeystoreAlias = newKeystore.KeystoreAlias
+//		keystore.KeystoreAliasPassword = newKeystore.KeystoreAliasPassword
+//		keystore.FingerprintsMD5 = fingerprints.FingerprintsMD5
+//		keystore.FingerprintsSHA1 = fingerprints.FingerprintsSHA1
+//		keystore.FingerprintsSHA256 = fingerprints.FingerprintsSHA256
+//		keystore.KeystoreFileUrl = global.GvaConfig.Aliyun.Endpoint + "/linking/keystore/" + keystoreName
+//		err = global.GvaDb.Create(&keystore).Error
+//
+//	}
+//	return err
+//}

@@ -6,10 +6,10 @@
 
 package model
 
-import "github.com/jinzhu/gorm"
+import "gorm.io/gorm"
 
 type SysGame struct {
 	gorm.Model
-	GameGroup string `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
-	Gid       string `json:"gid" gorm:"not null;index:idx_gid;comment:'游戏组ID'"`
+	Gid      string `json:"gid" form:"gid" gorm:"not null;index:idx_gid;comment:'游戏ID'"`
+	GameSite string `json:"game_site" gorm:"not null;index:idx_game_site;comment:'游戏组标识'"`
 }

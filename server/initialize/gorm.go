@@ -22,6 +22,8 @@ func Gorm() {
 	switch global.GvaConfig.System.DbType {
 	case "mysql":
 		GormMysql()
+	case "postgresql":
+		GormPostgreSql()
 	}
 }
 
@@ -40,6 +42,7 @@ func GormDBTables(db *gorm.DB) {
 		model.SysPlugin{},
 		model.SysChannel{},
 		model.SysLink{},
+		model.SysGid{},
 	)
 	if err != nil {
 		global.GvaLog.Error("register table failed", zap.Any("err", err))
@@ -65,7 +68,13 @@ func GormMysql() {
 		os.Exit(0)
 	} else {
 		GormDBTables(global.GvaDb)
+		sqlDB, _ := global.GvaDb.DB()
+		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
+		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
 	}
+}
+
+func GormPostgreSql() {
 }
 
 func config(mode bool) (c *gorm.Config) {

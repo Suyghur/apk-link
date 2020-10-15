@@ -10,11 +10,11 @@ type ReqTaskBean struct {
 	TaskId          uint   `json:"task_id" form:"task_id" gorm:"primary_key"`
 	IsWhiteBag      int    `json:"is_white_bag" form:"is_white_bag" gorm:"default:0;comment:'是否白包'"`
 	IsPluginSdk     int    `json:"is_plugin_sdk" form:"is_plugin_sdk" gorm:"default:0;comment:'是否媒体包'"`
-	GameGroup       string `json:"game_group" form:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
+	GameSite        string `json:"game_site" form:"game_site" gorm:"not null;index:idx_game_site;comment:'游戏组标识'"`
 	Gid             string `json:"gid" form:"gid" gorm:"not null;comment:'游戏组ID'"`
 	Cid             string `json:"cid" form:"cid" gorm:"not null;comment:'渠道ID'"`
 	FormId          string `json:"form_id" form:"form_id" gorm:"not null;comment:'分发ID'"`
-	Aids            string `json:"aids" form:"aids" gorm:"not null;comment:'子包AID'"`
+	Aids            string `json:"aids" form:"aids" gorm:"not null;comment:'包ID'"`
 	ChannelParams   string `json:"channel_params" form:"channel_params" gorm:"comment:'渠道参数'"`
 	PluginParams    string `json:"plugin_params" form:"plugin_params" gorm:"comment:'插件参数'"`
 	GamePackageName string `json:"game_package_name" form:"game_package_name" gorm:"not null;comment:'游戏包名'"`
@@ -74,7 +74,7 @@ type ReqTaskInfoBean struct {
 
 type ReqListTaskBean struct {
 	TaskId      uint   `json:"task_id" form:"task_id" gorm:"primary_key"`
-	GameGroup   string `json:"game_group" form:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
+	GameSite   string `json:"game_site" form:"game_site" gorm:"not null;index:idx_game_site;comment:'游戏组标识'"`
 	ChannelName string `json:"channel_name" form:"channel_name" gorm:"not null;index:idx_channel_name;comment:'渠道名'"`
 	PluginName  string `json:"plugin_name" form:"plugin_name" gorm:"index:idx_plugin_name;comment:'插件名'"`
 	StatusCode  int    `json:"status_code" form:"status_code" gorm:"default:1000;index:idx_status_code;gorm:'打包状态'"`
@@ -84,8 +84,8 @@ type ReqListTaskBean struct {
 type ReqCreateTaskBean struct {
 	IsWhiteBag      int    `json:"is_white_bag" gorm:"default:0;comment:'是否白包'"`
 	IsPluginSdk     int    `json:"is_plugin_sdk" gorm:"default:0;comment:'是否媒体包'"`
-	GameGroup       string `json:"game_group" gorm:"not null;index:idx_game_group;comment:'游戏组'"`
-	Gid             string `json:"gid" gorm:"not null;comment:'游戏组ID'"`
+	GameSite        string `json:"game_site" gorm:"not null;index:idx_game_site;comment:'游戏组标识'"`
+	Gid             string `json:"gid" gorm:"not null;comment:'游戏ID'"`
 	Cid             string `json:"cid" gorm:"not null;comment:'渠道ID'"`
 	FormId          string `json:"form_id" gorm:"not null;comment:'分发ID'"`
 	Aids            string `json:"aids" gorm:"not null;comment:'包AID'"`

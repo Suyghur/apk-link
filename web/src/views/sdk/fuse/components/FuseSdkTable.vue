@@ -10,11 +10,6 @@
       element-loading-text="Loading"
       empty-text="暂无数据"
     >
-      <el-table-column align="center" label="SDK名">
-        <template slot-scope="scope">
-          {{ scope.row.sdk_name }}
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="SDK版本">
         <template slot-scope="scope">
           {{ scope.row.sdk_version }}

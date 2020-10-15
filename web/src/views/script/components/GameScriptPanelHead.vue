@@ -3,14 +3,14 @@
     <el-row :gutter="10">
       <el-col :span="6">
         <el-select
-          v-model="queryMap.game_group"
-          placeholder="游戏组名"
+          v-model="queryMap.game_site"
+          placeholder="游戏组"
           clearable
           style="width: auto"
           class="filter-item"
           filterable
         >
-          <el-option v-for="item in options.gameGroupOptions" :key="item" :label="item" :value="item" />
+          <el-option v-for="item in options.gameSiteOptions" :key="item" :label="item" :value="item" />
         </el-select>
       </el-col>
     </el-row>
@@ -68,7 +68,7 @@ export default {
       this.$emit('searchScript', this.queryMap)
     },
     handleReset() {
-      this.queryMap.game_group = ''
+      this.queryMap.game_site = ''
     },
     createKeystore() {
       this.$emit('createScript')

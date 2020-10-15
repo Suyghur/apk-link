@@ -15,11 +15,6 @@
           {{ scope.row.channel_name }}
         </template>
       </el-table-column>
-      <el-table-column align="center" label="渠道别名">
-        <template slot-scope="scope">
-          {{ scope.row.sdk_name }}
-        </template>
-      </el-table-column>
       <el-table-column align="center" label="SDK版本">
         <template slot-scope="scope">
           {{ scope.row.sdk_version }}

@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"server/global"
 	"server/global/response"
+	"server/model"
 	"server/model/bean/request"
 	resp "server/model/bean/response"
 	"server/service"
@@ -34,40 +35,67 @@ func SearchKeystore(c *gin.Context) {
 }
 
 func GetKeystores(c *gin.Context) {
-	var bean request.ReqKeystoreBean
-	_ = c.ShouldBindJSON(&bean)
+	var bean model.SysKeystore
+	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup": {utils.NotEmpty()},
+		"GameSite": {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
 		global.GvaLog.Error(verifyErr.Error())
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	err, keystores := service.GetKeystores(bean.GameGroup)
+	err, keystores := service.GetKeystores(bean.GameSite)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"keystores": keystores}, c)
+		response.OkWithData(keystores, c)
 	}
 }
 
 func CreateKeystore(c *gin.Context) {
-	//TODO 生成签名
-	var bean request.ReqKeystoreBean
+	var bean model.SysKeystore
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup": {utils.NotEmpty()},
+		"GameSite":              {utils.NotEmpty()},
+		"KeystoreName":          {utils.NotEmpty()},
+		"KeystorePassword":      {utils.NotEmpty()},
+		"KeystoreAlias":         {utils.NotEmpty()},
+		"KeystoreAliasPassword": {utils.NotEmpty()},
+		"FingerprintsMD5":       {utils.NotEmpty()},
+		"FingerprintsSHA1":      {utils.NotEmpty()},
+		"FingerprintsSHA256":    {utils.NotEmpty()},
+		"KeystoreFileUrl":       {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
 		global.GvaLog.Error(verifyErr.Error())
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	err := service.CreateKeystore(bean.GameGroup)
+	err := service.CreateKeystore(bean)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
 	} else {
 		response.OkWithMessage("创建签名文件成功", c)
 	}
 }
+
+//func CreateKeystore(c *gin.Context) {
+//	//TODO 生成签名
+//	var bean request.ReqKeystoreBean
+//	_ = c.ShouldBindJSON(&bean)
+//	verifyRules := utils.Rules{
+//		"GameGroup": {utils.NotEmpty()},
+//	}
+//	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
+//		global.GvaLog.Error(verifyErr.Error())
+//		response.FailWithMessage(verifyErr.Error(), c)
+//		return
+//	}
+//	err := service.CreateKeystore(bean.GameSite)
+//	if err != nil {
+//		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+//	} else {
+//		response.OkWithMessage("创建签名文件成功", c)
+//	}
+//}

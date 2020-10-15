@@ -19,21 +19,21 @@ import (
 )
 
 func GetOrigins(c *gin.Context) {
-	var bean request.ReqGetOriginListBean
+	var bean model.SysOrigin
 	_ = c.ShouldBindQuery(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup": {utils.NotEmpty()},
+		"GameSite": {utils.NotEmpty()},
 	}
 	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
 		global.GvaLog.Error(verifyErr.Error())
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	err, origins := service.GetOrigins(bean.GameGroup)
+	err, origins := service.GetOrigins(bean.GameSite)
 	if err != nil {
 		response.FailWithMessage(fmt.Sprintf("获取数据失败，%v", err), c)
 	} else {
-		response.OkWithData(gin.H{"origins": origins}, c)
+		response.OkWithData(gin.H{"list": origins}, c)
 	}
 }
 
@@ -54,12 +54,36 @@ func SearchOrigin(c *gin.Context) {
 }
 
 func CreateOrigin(c *gin.Context) {
-	var bean request.ReqOriginBean
+	var origin model.SysOrigin
+	_ = c.ShouldBindJSON(&origin)
+	verifyRules := utils.Rules{
+		"GameSite":        {utils.NotEmpty()},
+		"SdkVersion":      {utils.NotEmpty()},
+		"GameFileName":    {utils.NotEmpty()},
+		"GameVersionCode": {utils.NotEmpty()},
+		"GameVersionName": {utils.NotEmpty()},
+		"KeystoreName":    {utils.NotEmpty()},
+		"ApkUrl":          {utils.NotEmpty()},
+	}
+
+	if verifyErr := utils.Verify(origin, verifyRules); verifyErr != nil {
+		response.FailWithMessage(verifyErr.Error(), c)
+		return
+	}
+	err := service.CreateOrigin(origin)
+	if err != nil {
+		global.GvaLog.Error(err.Error())
+		response.FailWithMessage(fmt.Sprintf("%v", err), c)
+	} else {
+		response.OkWithMessage("创建游戏母包成功", c)
+	}
+}
+
+func ModifyOrigin(c *gin.Context) {
+	var bean model.SysOrigin
 	_ = c.ShouldBindJSON(&bean)
 	verifyRules := utils.Rules{
-		"GameGroup":       {utils.NotEmpty()},
-		"Gid":             {utils.NotEmpty()},
-		"IsFuseSdk":       {utils.NotEmpty()},
+		"GameSite":        {utils.NotEmpty()},
 		"SdkVersion":      {utils.NotEmpty()},
 		"GameFileName":    {utils.NotEmpty()},
 		"GameVersionCode": {utils.NotEmpty()},
@@ -72,58 +96,7 @@ func CreateOrigin(c *gin.Context) {
 		response.FailWithMessage(verifyErr.Error(), c)
 		return
 	}
-	origin := &model.SysOrigin{
-		GameGroup:       bean.GameGroup,
-		Gid:             bean.Gid,
-		IsFuseSdk:       bean.IsFuseSdk,
-		SdkVersion:      bean.SdkVersion,
-		GameFileName:    bean.GameFileName,
-		GameVersionCode: bean.GameVersionCode,
-		GameVersionName: bean.GameVersionName,
-		GameOrientation: bean.GameOrientation,
-		KeystoreName:    bean.KeystoreName,
-		IconUrl:         bean.IconUrl,
-		ApkUrl:          bean.ApkUrl,
-	}
-	err := service.CreateOrigin(*origin)
-	if err != nil {
-		global.GvaLog.Error(err.Error())
-		response.FailWithMessage(fmt.Sprintf("%v", err), c)
-	} else {
-		response.OkWithMessage("创建游戏母包成功", c)
-	}
-}
-
-func ModifyOrigin(c *gin.Context) {
-	var bean request.ReqOriginBean
-	_ = c.ShouldBindJSON(&bean)
-	verifyRules := utils.Rules{
-		"GameGroup":       {utils.NotEmpty()},
-		"Gid":             {utils.NotEmpty()},
-		"IsFuseSdk":       {utils.NotEmpty()},
-		"SdkVersion":      {utils.NotEmpty()},
-		"GameVersionCode": {utils.NotEmpty()},
-		"GameVersionName": {utils.NotEmpty()},
-		"KeystoreName":    {utils.NotEmpty()},
-		"ApkUrl":          {utils.NotEmpty()},
-	}
-	if verifyErr := utils.Verify(bean, verifyRules); verifyErr != nil {
-		response.FailWithMessage(verifyErr.Error(), c)
-		return
-	}
-	origin := &model.SysOrigin{
-		GameGroup:       bean.GameGroup,
-		Gid:             bean.Gid,
-		IsFuseSdk:       bean.IsFuseSdk,
-		SdkVersion:      bean.SdkVersion,
-		GameVersionCode: bean.GameVersionCode,
-		GameVersionName: bean.GameVersionName,
-		GameOrientation: bean.GameOrientation,
-		KeystoreName:    bean.KeystoreName,
-		IconUrl:         bean.IconUrl,
-		ApkUrl:          bean.ApkUrl,
-	}
-	err := service.ModifyOrigin(*origin)
+	err := service.ModifyOrigin(bean)
 	if err != nil {
 		global.GvaLog.Error(err.Error())
 		response.FailWithMessage(fmt.Sprintf("%v", err), c)
